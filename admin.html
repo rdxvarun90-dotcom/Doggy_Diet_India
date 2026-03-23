@@ -803,33 +803,61 @@ let allCategories = [];
 
 async function loadProducts() {
   try {
-    // Categories load karo
-  const catRes = await fetch(
-  `${BASE_URL}/api/public/categories`,
-  {
-    headers: authHeaders(),
-    credentials: "include"
-  }
-);
-    if (catRes.ok) {
-      allCategories = await catRes.json();
-      const select  = document.getElementById("prodCategoryId");
-      select.innerHTML = `<option value="">Select Category</option>` +
-        allCategories.map(c => `
-          <option value="${c.categoryId}">
-            ${c.categoryName}
-          </option>`).join('');
+    // 🔹 Categories load
+    const catRes = await fetch(
+      `${BASE_URL}/api/public/categories`,
+      {
+        headers: authHeaders(),
+        credentials: "include"
+      }
+    );
+
+    console.log("Category response:", catRes);
+
+    if (!catRes.ok) {
+      console.error("❌ Category API failed");
+      showToast("❌ Failed to load categories");
+      return;
     }
 
-    // Products load karo
-    const res  = await fetch(
+    const data = await catRes.json();
+    console.log("Categories:", data);
+
+    allCategories = data;
+
+    const select = document.getElementById("prodCategoryId");
+
+    if (!select) {
+      console.error("❌ Dropdown not found");
+      return;
+    }
+
+    select.innerHTML =
+      `<option value="">Select Category</option>` +
+      allCategories.map(c => `
+        <option value="${c.categoryId}">
+          ${c.categoryName}
+        </option>
+      `).join('');
+
+    // 🔹 Products load
+    const res = await fetch(
       `${BASE_URL}/api/public/products?page=0&size=100`,
       { credentials: "include" }
     );
-    const data = await res.json();
-    allProducts  = data.products || [];
+
+    if (!res.ok) {
+      showToast("❌ Failed to load products");
+      return;
+    }
+
+    const pdata = await res.json();
+    allProducts = pdata.products || [];
+
     renderProductsTable(allProducts);
-  } catch(e) {
+
+  } catch (e) {
+    console.error("❌ Error:", e);
     showToast("❌ Could not load products");
   }
 }

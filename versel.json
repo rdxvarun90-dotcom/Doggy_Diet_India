@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://doggydietindia-env.eba-zkgnz2tr.eu-north-1.elasticbeanstalk.com/api/:path*"
+    }
+  ]
+}

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order — Doggy Diet India</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: #FDF8F3; font-family: 'DM Sans', sans-serif; }
+    .page-hero {
+      background: linear-gradient(135deg, #4A2C17, #8B4513);
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      color: white;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+    }
+    .page-hero p { opacity: .85; margin-top: .5rem; }
+    .content {
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+    .search-box {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      margin-bottom: 2rem;
+    }
+    .search-box h2 {
+      font-family: 'Playfair Display', serif;
+      color: #4A2C17;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+    .input-row {
+      display: flex;
+      gap: .8rem;
+    }
+    .input-row input {
+      flex: 1;
+      padding: .8rem 1.2rem;
+      border: 1.5px solid #e0d5cc;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      outline: none;
+    }
+    .input-row input:focus { border-color: #F4823A; }
+    .btn-track {
+      padding: .8rem 1.5rem;
+      background: #F4823A;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background .2s;
+    }
+    .btn-track:hover { background: #D96A22; }
+    .result-box {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      display: none;
+    }
+    .result-box.show { display: block; }
+    .order-status {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .status-icon { font-size: 3rem; }
+    .status-text h3 {
+      font-family: 'Playfair Display', serif;
+      color: #4A2C17;
+      font-size: 1.3rem;
+    }
+    .badge {
+      padding: .3rem .8rem;
+      border-radius: 20px;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+    .badge-confirmed  { background: #e8f5e9; color: #2e7d32; }
+    .badge-shipped    { background: #e3f2fd; color: #1565c0; }
+    .badge-delivered  { background: #e8f5e9; color: #2e7d32; }
+    .badge-cancelled  { background: #ffebee; color: #c62828; }
+    .badge-pending    { background: #fff8e1; color: #f57f17; }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .info-item label {
+      font-size: .75rem;
+      font-weight: 700;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .info-item p {
+      color: #4A2C17;
+      font-weight: 600;
+      margin-top: .2rem;
+    }
+    .tracking-section {
+      background: #FDF8F3;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-top: 1rem;
+    }
+    .tracking-section h4 {
+      color: #4A2C17;
+      margin-bottom: .8rem;
+    }
+    .tracking-id {
+      font-family: monospace;
+      font-size: 1rem;
+      color: #F4823A;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .btn-track-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: #F4823A;
+      color: white;
+      padding: .7rem 1.5rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: background .2s;
+    }
+    .btn-track-link:hover { background: #D96A22; }
+    .no-tracking {
+      color: #999;
+      font-size: .9rem;
+      font-style: italic;
+    }
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      margin: 1.5rem 0;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: #e0d5cc;
+      z-index: 0;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+      z-index: 1;
+    }
+    .step-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e0d5cc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .step.active .step-dot { background: #F4823A; }
+    .step.done .step-dot   { background: #4CAF50; }
+    .step-label {
+      font-size: .72rem;
+      color: #999;
+      text-align: center;
+      font-weight: 600;
+    }
+    .step.active .step-label { color: #F4823A; }
+    .step.done .step-label   { color: #4CAF50; }
+    .error-msg {
+      color: #e53935;
+      font-size: .85rem;
+      margin-top: .5rem;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: #F4823A;
+      color: white;
+      padding: .6rem 1.2rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      font-size: .9rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-hero">
+  <h1>📦 Track Your Order</h1>
+  <p>Enter your Order ID to get real-time updates</p>
+</div>
+
+<div class="content">
+  <a href="index.html" class="back-btn">← Back to Home</a>
+
+  <!-- Search Box -->
+  <div class="search-box">
+    <h2>🔍 Enter Order Details</h2>
+    <div class="input-row">
+      <input type="number" id="orderIdInput"
+             placeholder="Enter Order ID (e.g. 12)"/>
+      <button class="btn-track" onclick="trackOrder()">
+        Track →
+      </button>
+    </div>
+    <div class="error-msg" id="trackError"></div>
+    <div style="font-size:.8rem;color:#999;margin-top:.6rem;">
+      💡 Your Order ID is in your confirmation email
+    </div>
+  </div>
+
+  <!-- Result Box -->
+  <div class="result-box" id="resultBox">
+
+    <!-- Status Header -->
+    <div class="order-status">
+      <div class="status-icon" id="statusIcon">📦</div>
+      <div class="status-text">
+        <h3>Order #<span id="resultOrderId"></span></h3>
+        <span class="badge" id="statusBadge"></span>
+      </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="steps" id="stepsContainer">
+      <div class="step" id="step-confirmed">
+        <div class="step-dot">✓</div>
+        <div class="step-label">Confirmed</div>
+      </div>
+      <div class="step" id="step-shipped">
+        <div class="step-dot">🚚</div>
+        <div class="step-label">Shipped</div>
+      </div>
+      <div class="step" id="step-delivered">
+        <div class="step-dot">🎉</div>
+        <div class="step-label">Delivered</div>
+      </div>
+    </div>
+
+    <!-- Info Grid -->
+    <div class="info-grid">
+      <div class="info-item">
+        <label>Order Date</label>
+        <p id="resultDate">—</p>
+      </div>
+      <div class="info-item">
+        <label>Delivery To</label>
+        <p id="resultCity">—</p>
+      </div>
+    </div>
+
+    <!-- Tracking Section -->
+    <div class="tracking-section">
+      <h4>📍 Shipment Tracking</h4>
+      <div id="trackingContent">
+        <div class="no-tracking">
+          ⏳ Tracking details will appear once your order is shipped.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const BASE_URL = "";
+
+async function trackOrder() {
+  const orderId  = document.getElementById("orderIdInput").value.trim();
+  const errorEl  = document.getElementById("trackError");
+  const resultBox = document.getElementById("resultBox");
+
+  errorEl.textContent = "";
+  resultBox.classList.remove("show");
+
+  if (!orderId) {
+    errorEl.textContent = "Please enter an Order ID!";
+    return;
+  }
+
+  try {
+    const res  = await fetch(
+      `${BASE_URL}/api/public/orders/track/${orderId}`
+    );
+
+    if (!res.ok) {
+      errorEl.textContent = "❌ Order not found! Check your Order ID.";
+      return;
+    }
+
+    const data = await res.json();
+    showResult(data);
+
+  } catch(e) {
+    errorEl.textContent = "❌ Server error! Try again.";
+  }
+}
+
+function showResult(data) {
+  const resultBox = document.getElementById("resultBox");
+  resultBox.classList.add("show");
+
+  // Order ID
+  document.getElementById("resultOrderId").textContent =
+    data.orderId;
+
+  // Date
+  document.getElementById("resultDate").textContent =
+    data.orderDate
+      ? new Date(data.orderDate).toLocaleDateString('en-IN', {
+          day: 'numeric', month: 'long', year: 'numeric'
+        })
+      : '—';
+
+  // City
+  document.getElementById("resultCity").textContent =
+    data.deliveryCity || '—';
+
+  // Status Badge + Icon
+  const statusMap = {
+    CONFIRMED: { badge: 'badge-confirmed', icon: '✅', text: 'Confirmed' },
+    SHIPPED:   { badge: 'badge-shipped',   icon: '🚚', text: 'Shipped' },
+    DELIVERED: { badge: 'badge-delivered', icon: '🎉', text: 'Delivered' },
+    CANCELLED: { badge: 'badge-cancelled', icon: '❌', text: 'Cancelled' },
+    PENDING:   { badge: 'badge-pending',   icon: '⏳', text: 'Pending' },
+  };
+
+  const s = statusMap[data.orderStatus] || statusMap['PENDING'];
+  document.getElementById("statusIcon").textContent    = s.icon;
+  document.getElementById("statusBadge").textContent   = s.text;
+  document.getElementById("statusBadge").className     =
+    `badge ${s.badge}`;
+
+  // Progress Steps
+  const steps = ['confirmed', 'shipped', 'delivered'];
+  const currentIdx = {
+    CONFIRMED: 0,
+    SHIPPED:   1,
+    DELIVERED: 2,
+    CANCELLED: -1
+  }[data.orderStatus] ?? 0;
+
+  steps.forEach((step, idx) => {
+    const el = document.getElementById(`step-${step}`);
+    el.className = 'step';
+    if (idx < currentIdx)  el.classList.add('done');
+    if (idx === currentIdx) el.classList.add('active');
+  });
+
+  // Tracking Section
+  const trackingContent =
+    document.getElementById("trackingContent");
+
+  if (data.trackingId) {
+    trackingContent.innerHTML = `
+      <div style="margin-bottom:.5rem;">
+        <label style="font-size:.75rem;color:#999;
+                      font-weight:700;text-transform:uppercase;">
+          Courier
+        </label>
+        <p style="color:#4A2C17;font-weight:600;margin-top:.2rem;">
+          ${data.trackingCompany || 'Courier Partner'}
+        </p>
+      </div>
+      <div>
+        <label style="font-size:.75rem;color:#999;
+                      font-weight:700;text-transform:uppercase;">
+          Tracking ID
+        </label>
+        <p class="tracking-id">${data.trackingId}</p>
+      </div>
+      ${data.trackingUrl ? `
+        <a href="${data.trackingUrl}" target="_blank"
+           class="btn-track-link">
+          🔍 Track on ${data.trackingCompany || 'Website'} →
+        </a>
+      ` : ''}
+    `;
+  } else {
+    trackingContent.innerHTML = `
+      <div class="no-tracking">
+        ⏳ Tracking details will appear once your order is shipped.
+        <br><br>
+        <span style="color:#4A2C17;font-weight:600;">
+          Current Status: ${data.orderStatus}
+        </span>
+      </div>
+    `;
+  }
+}
+
+// Enter key support
+document.getElementById("orderIdInput")
+  .addEventListener("keydown", e => {
+    if (e.key === "Enter") trackOrder();
+  });
+</script>
+
+</body>
+</html>

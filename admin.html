@@ -804,10 +804,13 @@ let allCategories = [];
 async function loadProducts() {
   try {
     // Categories load karo
-    const catRes = await fetch(
-      `${BASE_URL}/api/public/categories`,
-      { credentials: "include" }
-    );
+  const catRes = await fetch(
+  `${BASE_URL}/api/public/categories`,
+  {
+    headers: authHeaders(),
+    credentials: "include"
+  }
+);
     if (catRes.ok) {
       allCategories = await catRes.json();
       const select  = document.getElementById("prodCategoryId");

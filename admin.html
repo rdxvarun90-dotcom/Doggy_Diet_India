@@ -7,22 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      min-height: 100vh;
-    }
-    .sidebar {
-      width: 240px;
-      background: #1a1a2e;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      height: 100vh;
-      z-index: 100;
-    }
+    body { font-family: 'DM Sans', sans-serif; background: #f5f5f5; display: flex; min-height: 100vh; }
+    .sidebar { width: 240px; background: #1a1a2e; color: white; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; }
     .sidebar-logo { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,.1); }
     .sidebar-logo .brand { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #F4823A; }
     .sidebar-logo .sub { font-size: .75rem; color: rgba(255,255,255,.5); margin-top: .2rem; }
@@ -221,9 +207,9 @@
             <input type="number" id="prodQty" placeholder="e.g. 100"/>
           </div>
           <div class="form-group">
-            <label>Category ID *</label>
+            <label>Category *</label>
             <select id="prodCategoryId">
-              <option value="">Select Category</option>
+              <option value="">🔄 Loading categories...</option>
             </select>
           </div>
           <div class="form-group">
@@ -374,15 +360,17 @@ async function loadDashboard() {
     const res = await fetch(`${BASE_URL}/api/admin/dashboard`, {
       headers: authHeaders(), credentials: "include"
     });
-    if (!res.ok) throw new Error("Dashboard failed");
+    if (!res.ok) throw new Error("Dashboard API failed");
     const data = await res.json();
+    console.log("Dashboard response:", data);
+    
     document.getElementById("statOrders").textContent = data.totalOrders || 0;
     document.getElementById("statRevenue").textContent = "₹" + (data.totalRevenue || 0).toFixed(0);
     document.getElementById("statUsers").textContent = data.totalUsers || 0;
     document.getElementById("statProducts").textContent = data.totalProducts || 0;
     loadRecentOrders();
   } catch(e) {
-    console.error(e);
+    console.error("Dashboard error:", e);
     showToast("❌ Could not load dashboard");
   }
 }
@@ -392,13 +380,16 @@ async function loadRecentOrders() {
     const res = await fetch(`${BASE_URL}/api/admin/orders`, {
       headers: authHeaders(), credentials: "include"
     });
-    if (!res.ok) throw new Error("Orders failed");
+    if (!res.ok) throw new Error("Orders API failed");
     const orders = await res.json();
+    console.log("Orders response:", orders);
+    
     const tbody = document.getElementById("recentOrdersTable");
-    if (!orders || orders.length === 0) {
+    if (!Array.isArray(orders) || orders.length === 0) {
       tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state">No orders yet</div></td></tr>`;
       return;
     }
+    
     tbody.innerHTML = orders.slice(-5).reverse().map(o => `
       <tr>
         <td><b>#${o.orderId}</b></td>
@@ -408,7 +399,8 @@ async function loadRecentOrders() {
       </tr>
     `).join('');
   } catch(e) {
-    console.error(e);
+    console.error("Recent orders error:", e);
+    document.getElementById("recentOrdersTable").innerHTML = `<tr><td colspan="4"><div class="empty-state">❌ Failed to load</div></td></tr>`;
   }
 }
 
@@ -417,35 +409,60 @@ let allCategories = [];
 
 async function loadProducts() {
   try {
-    try {
-      const catRes = await fetch(`${BASE_URL}/api/public/categories`, {
-        headers: authHeaders(), credentials: "include"
-      });
-      if (catRes.ok) {
-        const data = await catRes.json();
-        allCategories = data || [];
-        const select = document.getElementById("prodCategoryId");
-        if (select) {
-          select.innerHTML = `<option value="">Select Category</option>` +
-            allCategories.map(c => `<option value="${c.categoryId}">${c.categoryName}</option>`).join('');
-        }
+    // Load categories FIRST
+    const catRes = await fetch(`${BASE_URL}/api/public/categories`, {
+      headers: authHeaders(), credentials: "include"
+    });
+    
+    console.log("Categories API status:", catRes.status);
+    
+    if (catRes.ok) {
+      const catData = await catRes.json();
+      console.log("Categories response:", catData);
+      
+      // Handle both array and wrapped response
+      allCategories = Array.isArray(catData) ? catData : (catData.data || catData.categories || []);
+      console.log("Parsed categories:", allCategories);
+      
+      const select = document.getElementById("prodCategoryId");
+      if (select && allCategories.length > 0) {
+        select.innerHTML = `<option value="">Select Category</option>` +
+          allCategories.map(c => `<option value="${c.categoryId}">${c.categoryName}</option>`).join('');
+        showToast(`✅ ${allCategories.length} categories loaded`);
+      } else {
+        console.warn("No categories to display or selector not found");
+        select.innerHTML = `<option value="">No categories found</option>`;
       }
-    } catch(e) { console.warn("Categories load failed", e); }
+    } else {
+      console.warn("Categories API returned non-OK:", catRes.status);
+      document.getElementById("prodCategoryId").innerHTML = `<option value="">⚠️ Failed to load</option>`;
+    }
+  } catch(catErr) {
+    console.error("Category load error:", catErr);
+    document.getElementById("prodCategoryId").innerHTML = `<option value="">❌ Error loading</option>`;
+  }
 
-    const res = await fetch(`${BASE_URL}/api/public/products?page=0&size=100`, { credentials: "include" });
-    if (!res.ok) throw new Error("Products failed");
+  // Load products (separately from categories)
+  try {
+    const res = await fetch(`${BASE_URL}/api/public/products?page=0&size=100`, { 
+      credentials: "include" 
+    });
+    if (!res.ok) throw new Error("Products API failed");
     const pdata = await res.json();
-    allProducts = pdata.products || [];
+    console.log("Products response:", pdata);
+    
+    allProducts = (pdata.products || pdata.content || pdata);
+    console.log("Parsed products:", allProducts);
     renderProductsTable(allProducts);
   } catch(e) {
-    console.error(e);
+    console.error("Products load error:", e);
     showToast("❌ Could not load products");
   }
 }
 
 function renderProductsTable(products) {
   const tbody = document.getElementById("productsTable");
-  if (!products || products.length === 0) {
+  if (!Array.isArray(products) || products.length === 0) {
     tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="icon">🛍</div>No products found</div></td></tr>`;
     return;
   }
@@ -461,7 +478,7 @@ function renderProductsTable(products) {
       <td><span class="${p.quantity > 0 ? 'badge badge-success' : 'badge badge-danger'}">${p.quantity} units</span></td>
       <td>
         <div style="display:flex;gap:.4rem;">
-          <button class="btn btn-secondary btn-sm" onclick="editProduct(${p.productId})">✏️ Edit</button>
+          <button class="btn btn-secondary btn-sm" onclick="editProduct(${p.productId})">✏️</button>
           <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.productId}, '${p.name}')">🗑️</button>
         </div>
       </td>
@@ -581,6 +598,7 @@ async function loadOrders() {
     });
     if (!res.ok) throw new Error("Orders failed");
     allOrders = await res.json();
+    console.log("All orders response:", allOrders);
     renderOrdersTable(allOrders);
   } catch(e) {
     console.error(e);
@@ -590,14 +608,14 @@ async function loadOrders() {
 
 function renderOrdersTable(orders) {
   const tbody = document.getElementById("ordersTable");
-  if (!orders || orders.length === 0) {
+  if (!Array.isArray(orders) || orders.length === 0) {
     tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="icon">📦</div>No orders yet</div></td></tr>`;
     return;
   }
   tbody.innerHTML = orders.reverse().map(o => `
     <tr>
       <td><b>#${o.orderId}</b></td>
-      <td style="color:#666;">${o.userEmail || '—'}</td>
+      <td style="color:#666;">${o.userEmail || o.username || '—'}</td>
       <td style="font-weight:700;color:#F4823A;">₹${(o.totalAmount || 0).toFixed(2)}</td>
       <td>${getStatusBadge(o.orderStatus)}</td>
       <td>${getPaymentBadge(o.paymentStatus)}</td>
@@ -609,7 +627,7 @@ function renderOrdersTable(orders) {
 function filterOrdersTable(keyword) {
   const filtered = allOrders.filter(o =>
     String(o.orderId).includes(keyword) ||
-    (o.userEmail || '').toLowerCase().includes(keyword.toLowerCase())
+    (o.userEmail || o.username || '').toLowerCase().includes(keyword.toLowerCase())
   );
   renderOrdersTable(filtered);
 }
@@ -623,6 +641,7 @@ async function loadUsers() {
     });
     if (!res.ok) throw new Error("Users failed");
     allUsers = await res.json();
+    console.log("Users response:", allUsers);
     renderUsersTable(allUsers);
   } catch(e) {
     console.error(e);
@@ -632,7 +651,7 @@ async function loadUsers() {
 
 function renderUsersTable(users) {
   const tbody = document.getElementById("usersTable");
-  if (!users || users.length === 0) {
+  if (!Array.isArray(users) || users.length === 0) {
     tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><div class="icon">👥</div>No users found</div></td></tr>`;
     return;
   }
@@ -658,24 +677,25 @@ function filterUsersTable(keyword) {
 
 function getStatusBadge(status) {
   const map = {
-    CONFIRMED: 'badge-success',
-    PENDING: 'badge-warning',
-    CANCELLED: 'badge-danger',
-    SHIPPED: 'badge-info',
-    DELIVERED: 'badge-success',
+    'CONFIRMED': 'badge-success',
+    'PENDING': 'badge-warning',
+    'CANCELLED': 'badge-danger',
+    'SHIPPED': 'badge-info',
+    'DELIVERED': 'badge-success',
   };
   return `<span class="badge ${map[status] || 'badge-info'}">${status || '—'}</span>`;
 }
 
 function getPaymentBadge(status) {
   const map = {
-    SUCCESS: 'badge-success',
-    FAILED: 'badge-danger',
-    PENDING: 'badge-warning',
+    'SUCCESS': 'badge-success',
+    'FAILED': 'badge-danger',
+    'PENDING': 'badge-warning',
   };
   return `<span class="badge ${map[status] || 'badge-info'}">${status || '—'}</span>`;
 }
 
+// Initialize
 if (checkAdminAccess()) {
   loadDashboard();
 }

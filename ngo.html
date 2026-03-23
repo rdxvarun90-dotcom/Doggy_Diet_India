@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Our NGO — Doggy Diet India</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    body { background: #FDF8F3; font-family: 'DM Sans', sans-serif; }
+    .page-hero {
+      background: linear-gradient(135deg, #1a3c34 0%, #2d6a4f 100%);
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      color: white;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      margin-bottom: .5rem;
+    }
+    .page-hero p { font-size: 1.1rem; opacity: .85; }
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: #2d6a4f;
+      color: white;
+      padding: .6rem 1.2rem;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+    .back-btn:hover { background: #1a3c34; }
+    .ngo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-bottom: 3rem;
+    }
+    @media(max-width:768px) {
+      .ngo-grid { grid-template-columns: 1fr; }
+      .page-hero h1 { font-size: 2rem; }
+    }
+    .ngo-info h2 {
+      font-family: 'Playfair Display', serif;
+      color: #1a3c34;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .ngo-info p {
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem;
+      margin-top: 1.5rem;
+    }
+    .impact-card {
+      background: #f0faf5;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .impact-card .num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2d6a4f;
+    }
+    .impact-card .lbl {
+      font-size: .8rem;
+      color: #555;
+      margin-top: .2rem;
+    }
+    .donation-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+    .donation-card h3 {
+      font-family: 'Playfair Display', serif;
+      color: #1a3c34;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .preset-amounts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .5rem;
+      margin-bottom: 1rem;
+    }
+    .preset-btn {
+      padding: .6rem;
+      border: 2px solid #e0d5cc;
+      border-radius: 10px;
+      background: white;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      color: #4A2C17;
+      transition: all .2s;
+      font-size: .9rem;
+    }
+    .preset-btn:hover,
+    .preset-btn.active {
+      border-color: #2d6a4f;
+      background: #f0faf5;
+      color: #2d6a4f;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      font-size: .82rem;
+      font-weight: 700;
+      color: #555;
+      display: block;
+      margin-bottom: .3rem;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: 1.5px solid #e0d5cc;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      outline: none;
+      box-sizing: border-box;
+      transition: border .2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: #2d6a4f; }
+    .amount-input {
+      position: relative;
+    }
+    .amount-input .rupee {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 700;
+      color: #555;
+    }
+    .amount-input input { padding-left: 2rem; }
+    .btn-donate {
+      width: 100%;
+      padding: 1rem;
+      background: #2d6a4f;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background .2s;
+      margin-top: .5rem;
+    }
+    .btn-donate:hover  { background: #1a3c34; }
+    .btn-donate:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .secure-note {
+      text-align: center;
+      font-size: .78rem;
+      color: #999;
+      margin-top: .8rem;
+    }
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    .success-box.show { display: block; }
+    .success-box .icon { font-size: 4rem; margin-bottom: 1rem; }
+    .success-box h3 {
+      font-family: 'Playfair Display', serif;
+      color: #2d6a4f;
+      font-size: 1.5rem;
+    }
+    .how-we-use {
+      margin-top: 3rem;
+    }
+    .how-we-use h2 {
+      font-family: 'Playfair Display', serif;
+      color: #1a3c34;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .use-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media(max-width:768px) {
+      .use-grid { grid-template-columns: 1fr; }
+      .preset-amounts { grid-template-columns: repeat(2,1fr); }
+    }
+    .use-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    }
+    .use-card .icon { font-size: 2.5rem; margin-bottom: .5rem; }
+    .use-card h4 { color: #1a3c34; margin-bottom: .3rem; }
+    .use-card p { color: #888; font-size: .85rem; }
+  </style>
+</head>
+<body>
+
+<div class="page-hero">
+  <h1>🐾 Support Our NGO</h1>
+  <p>Help us feed and care for stray dogs across India</p>
+</div>
+
+<div class="content">
+  <a href="index.html" class="back-btn">← Back to Home</a>
+
+  <div class="ngo-grid">
+
+    <!-- NGO Info -->
+    <div class="ngo-info">
+      <h2>Paws for a Cause 🐕</h2>
+      <p>Every day, thousands of stray dogs in India go hungry. At Doggy Diet India, we believe every dog — pet or stray — deserves proper nutrition and care.</p>
+      <p>Our NGO wing, <strong>Paws for a Cause</strong>, works with local volunteers to feed, vaccinate, and rehabilitate stray dogs across Punjab, Haryana, and Delhi NCR.</p>
+      <p>Your donation — however small — makes a real difference. ₹100 feeds a stray dog for a week. ₹500 covers a vaccination. ₹1000 supports a rescue operation.</p>
+
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="num">2,400+</div>
+          <div class="lbl">Dogs Fed Monthly</div>
+        </div>
+        <div class="impact-card">
+          <div class="num">850+</div>
+          <div class="lbl">Vaccinations Done</div>
+        </div>
+        <div class="impact-card">
+          <div class="num">120+</div>
+          <div class="lbl">Dogs Rescued</div>
+        </div>
+        <div class="impact-card">
+          <div class="num">15+</div>
+          <div class="lbl">Cities Covered</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donation Form -->
+    <div class="donation-card">
+
+      <div id="donationForm">
+        <h3>💚 Make a Donation</h3>
+
+        <!-- Preset Amounts -->
+        <div style="margin-bottom:1rem;">
+          <label style="font-size:.82rem;font-weight:700;
+                        color:#555;display:block;margin-bottom:.5rem;">
+            Select Amount
+          </label>
+          <div class="preset-amounts">
+            <button class="preset-btn"
+                    onclick="setAmount(100, this)">₹100</button>
+            <button class="preset-btn"
+                    onclick="setAmount(500, this)">₹500</button>
+            <button class="preset-btn"
+                    onclick="setAmount(1000, this)">₹1000</button>
+            <button class="preset-btn"
+                    onclick="setAmount(2000, this)">₹2000</button>
+          </div>
+        </div>
+
+        <!-- Custom Amount -->
+        <div class="form-group">
+          <label>Or Enter Custom Amount *</label>
+          <div class="amount-input">
+            <span class="rupee">₹</span>
+            <input type="number" id="donationAmount"
+                   placeholder="Enter amount"
+                   min="10" oninput="clearPreset()"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Your Name *</label>
+          <input type="text" id="donorName"
+                 placeholder="Your full name"/>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="donorEmail"
+                 placeholder="you@example.com"/>
+        </div>
+
+        <div class="form-group">
+          <label>Message (Optional)</label>
+          <textarea id="donorMessage"
+                    placeholder="A message for our furry friends..."
+                    rows="2"></textarea>
+        </div>
+
+        <div style="color:#e53935;font-size:.82rem;
+                    margin-bottom:.5rem;" id="donateError">
+        </div>
+
+        <button class="btn-donate" id="donateBtn"
+                onclick="processDonation()">
+          💚 Donate Now
+        </button>
+        <div class="secure-note">
+          🔒 Secure payment powered by Razorpay
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div class="success-box" id="successBox">
+        <div class="icon">🎉</div>
+        <h3>Thank You!</h3>
+        <p style="color:#555;margin:.5rem 0;">
+          Your donation of
+          <strong id="successAmount"></strong>
+          has been received.
+        </p>
+        <p style="color:#888;font-size:.85rem;">
+          A confirmation has been sent to your email.
+          Together we're making a difference! 🐾
+        </p>
+        <button onclick="resetDonation()"
+                style="margin-top:1rem;padding:.7rem 1.5rem;
+                       background:#2d6a4f;color:white;border:none;
+                       border-radius:20px;cursor:pointer;
+                       font-weight:700;">
+          Donate Again
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- How We Use Donations -->
+  <div class="how-we-use">
+    <h2>How Your Donation Helps 🐕</h2>
+    <div class="use-grid">
+      <div class="use-card">
+        <div class="icon">🍗</div>
+        <h4>Feeding Program</h4>
+        <p>₹100 feeds a stray dog nutritious meals for an entire week.</p>
+      </div>
+      <div class="use-card">
+        <div class="icon">💉</div>
+        <h4>Vaccination Drive</h4>
+        <p>₹500 covers rabies and other essential vaccinations for one dog.</p>
+      </div>
+      <div class="use-card">
+        <div class="icon">🏠</div>
+        <h4>Shelter & Rescue</h4>
+        <p>₹1000 supports emergency rescue and temporary shelter operations.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BASE_URL = "http://doggydietindia-env.eba-zkgnz2tr.eu-north-1.elasticbeanstalk.com";
+// ✅ Apni Razorpay Key ID daalo
+const RAZORPAY_KEY = "rzp_live_STOZUFBqZWYlgd";
+
+function setAmount(amount, btn) {
+  document.getElementById("donationAmount").value = amount;
+  document.querySelectorAll('.preset-btn')
+    .forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function clearPreset() {
+  document.querySelectorAll('.preset-btn')
+    .forEach(b => b.classList.remove('active'));
+}
+
+async function processDonation() {
+  const amount  = document.getElementById("donationAmount").value;
+  const name    = document.getElementById("donorName").value.trim();
+  const email   = document.getElementById("donorEmail").value.trim();
+  const message = document.getElementById("donorMessage").value.trim();
+  const errorEl = document.getElementById("donateError");
+  const btn     = document.getElementById("donateBtn");
+
+  errorEl.textContent = "";
+
+  if (!amount || amount < 10) {
+    errorEl.textContent = "⚠️ Minimum donation is ₹10!";
+    return;
+  }
+  if (!name) {
+    errorEl.textContent = "⚠️ Please enter your name!";
+    return;
+  }
+  if (!email || !email.includes("@")) {
+    errorEl.textContent = "⚠️ Please enter valid email!";
+    return;
+  }
+
+  btn.disabled    = true;
+  btn.textContent = "Processing...";
+
+  // ✅ Razorpay Checkout open karo
+  const options = {
+    key:         RAZORPAY_KEY,
+    amount:      amount * 100, // paise mein
+    currency:    "INR",
+    name:        "Doggy Diet India NGO",
+    description: "Donation for Paws for a Cause 🐾",
+    prefill:     { name, email },
+    theme:       { color: "#2d6a4f" },
+
+    handler: async function(response) {
+      // ✅ Backend mein save karo
+      try {
+        const res = await fetch(
+          `${BASE_URL}/api/public/donate`,
+          {
+            method:  "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              donorName:     name,
+              donorEmail:    email,
+              amount:        parseFloat(amount),
+              message:       message,
+              paymentMethod: "RAZORPAY",
+              paymentId:     response.razorpay_payment_id
+            })
+          }
+        );
+
+        if (res.ok) {
+          // ✅ Success dikhao
+          document.getElementById("donationForm")
+            .style.display = "none";
+          document.getElementById("successAmount")
+            .textContent = "₹" + amount;
+          document.getElementById("successBox")
+            .classList.add("show");
+        }
+      } catch(e) {
+        errorEl.textContent = "❌ Error saving donation!";
+      }
+    },
+
+    modal: {
+      ondismiss: function() {
+        btn.disabled    = false;
+        btn.textContent = "💚 Donate Now";
+      }
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.open();
+
+  btn.disabled    = false;
+  btn.textContent = "💚 Donate Now";
+}
+
+function resetDonation() {
+  document.getElementById("donationForm").style.display = "block";
+  document.getElementById("successBox").classList.remove("show");
+  document.getElementById("donationAmount").value = "";
+  document.getElementById("donorName").value      = "";
+  document.getElementById("donorEmail").value     = "";
+  document.getElementById("donorMessage").value   = "";
+  document.querySelectorAll('.preset-btn')
+    .forEach(b => b.classList.remove('active'));
+}
+</script>
+
+</body>
+</html>

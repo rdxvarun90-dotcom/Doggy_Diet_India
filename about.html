@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Doggy Diet India</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-hero {
+      background: linear-gradient(135deg, #4A2C17 0%, #8B4513 100%);
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      color: white;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      margin-bottom: .5rem;
+    }
+    .page-hero p {
+      font-size: 1.1rem;
+      opacity: .85;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .page-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 4rem;
+    }
+    @media(max-width:768px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .page-hero h1 { font-size: 2rem; }
+    }
+    .about-emoji {
+      font-size: 8rem;
+      text-align: center;
+      line-height: 1;
+    }
+    .about-text h2 {
+      font-family: 'Playfair Display', serif;
+      color: #4A2C17;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .about-text p {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    @media(max-width:768px) {
+      .values-grid { grid-template-columns: 1fr; }
+    }
+    .value-card {
+      background: #FDF8F3;
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .value-card .icon { font-size: 2.5rem; margin-bottom: .5rem; }
+    .value-card h3 { color: #4A2C17; margin-bottom: .5rem; }
+    .value-card p { color: #888; font-size: .9rem; }
+    .team-section {
+      margin-top: 4rem;
+      text-align: center;
+    }
+    .team-section h2 {
+      font-family: 'Playfair Display', serif;
+      color: #4A2C17;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media(max-width:768px) {
+      .team-grid { grid-template-columns: 1fr; }
+    }
+    .team-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.06);
+      text-align: center;
+    }
+    .team-avatar { font-size: 3.5rem; margin-bottom: .5rem; }
+    .team-name { font-weight: 700; color: #4A2C17; }
+    .team-role { font-size: .85rem; color: #F4823A; margin-top: .2rem; }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      background: #F4823A;
+      color: white;
+      padding: .7rem 1.5rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      transition: background .2s;
+    }
+    .back-btn:hover { background: #D96A22; }
+  </style>
+</head>
+<body>
+
+<div class="page-hero">
+  <h1>🐾 About Us</h1>
+  <p>We believe every dog deserves the best nutrition — crafted with love.</p>
+</div>
+
+<div class="page-content">
+  <a href="index.html" class="back-btn">← Back to Home</a>
+
+  <div class="about-grid">
+    <div class="about-emoji">🐕</div>
+    <div class="about-text">
+      <h2>Our Story</h2>
+      <p>Doggy Diet India was born out of love for dogs and frustration with low-quality pet food in the Indian market. We started in 2022 with one simple mission — give Indian dogs the nutrition they truly deserve.</p>
+      <p>Based in Zirakpur, Mohali, we work with veterinary nutritionists to craft every recipe. No fillers, no artificial preservatives — just real, wholesome ingredients your dog will love.</p>
+      <p>Today, we're proud to serve 50,000+ happy dogs across India! 🎉</p>
+    </div>
+  </div>
+
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="icon">🌿</div>
+      <h3>Natural Ingredients</h3>
+      <p>Only real, whole ingredients — no artificial fillers or preservatives.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🔬</div>
+      <h3>Vet Approved</h3>
+      <p>Every recipe is formulated by certified veterinary nutritionists.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">❤️</div>
+      <h3>Made with Love</h3>
+      <p>We treat every dog like our own — because your pet deserves the best.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🇮🇳</div>
+      <h3>Made in India</h3>
+      <p>Proudly Indian — sourcing local ingredients for quality you can trust.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">♻️</div>
+      <h3>Eco Friendly</h3>
+      <p>Sustainable packaging that's good for dogs and the planet.</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🚚</div>
+      <h3>Fast Delivery</h3>
+      <p>Pan-India delivery so your pup never runs out of their favorites.</p>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <h2>Meet Our Team</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">👨‍💼</div>
+        <div class="team-name">Varun Sharma</div>
+        <div class="team-role">Founder & CEO</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👩‍⚕️</div>
+        <div class="team-name">Dr. Priya Mehta</div>
+        <div class="team-role">Head Veterinary Nutritionist</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👨‍🍳</div>
+        <div class="team-name">Yash gaur </div>
+        <div class="team-role"> Product Supplier</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

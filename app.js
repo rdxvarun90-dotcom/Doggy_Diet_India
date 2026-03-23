@@ -1,7 +1,7 @@
 /* ════════════════════════════════════════════════
    CONFIG & STATE
 ═══════════════════════════════════════════════ */
-const BASE_URL   = "";
+const BASE_URL   = "http://doggydietindia-env.eba-zkgnz2tr.eu-north-1.elasticbeanstalk.com";
 let activeFilter = 'all';
 let currentPage  = 0;
 let wished       = new Set();
@@ -141,6 +141,38 @@ async function searchProducts(keyword) {
   }
 }
 
+// ✅ NEW FUNCTION: Filter by category ID
+async function fetchProductsByCategory(categoryId, categoryName) {
+  if (!categoryId) {
+    fetchProducts(0);
+    return;
+  }
+  
+  showProductsLoading(true);
+  try {
+    const res = await fetch(
+      `${BASE_URL}/api/public/products/search?keyword=${categoryName}&page=0&size=8`,
+      { credentials: "include" }
+    );
+    
+    if (!res.ok) {
+      showToast("⚠️ Failed to load category products!");
+      fetchProducts(0);
+      return;
+    }
+    
+    const data = await res.json();
+    renderProducts(data.products);
+    renderPagination(data.totalPages, 0);
+  } catch(e) {
+    console.error("Category filter error:", e);
+    showToast("⚠️ Could not load category products!");
+    fetchProducts(0);
+  } finally {
+    showProductsLoading(false);
+  }
+}
+
 function showProductsLoading(show) {
   document.getElementById("productsLoading").style.display =
     show ? "block" : "none";
@@ -252,6 +284,7 @@ function filterProducts(filter, btn) {
   if (filter === 'all') {
     fetchProducts(0);
   } else {
+    // ✅ FIXED: Use search instead of category filter
     searchProducts(filter);
   }
 

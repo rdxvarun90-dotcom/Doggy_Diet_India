@@ -8,6 +8,186 @@
   <title>Doggy Diet India — Premium Dog Food</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── NGO SECTION ─────────────────────────────── */
+    .ngo-section {
+      background: linear-gradient(135deg, #1a3c34 0%, #2d6a4f 60%, #1a3c34 100%);
+      padding: 5rem 5%;
+      position: relative;
+      overflow: hidden;
+    }
+    .ngo-section::before {
+      content: '🐾';
+      position: absolute;
+      font-size: 18rem;
+      opacity: .04;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .ngo-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .ngo-left .ngo-tag {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      color: #a8d5b5;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .35rem .9rem;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+      border: 1px solid rgba(255,255,255,.2);
+    }
+    .ngo-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .ngo-left h2 .ngo-highlight { color: #6fcf97; }
+    .ngo-left p {
+      color: rgba(255,255,255,.75);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+    .ngo-stats {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .ngo-stat .n {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: #6fcf97;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .ngo-stat .l {
+      font-size: .75rem;
+      color: rgba(255,255,255,.55);
+      margin-top: .2rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .btn-ngo {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: #6fcf97;
+      color: #1a3c34;
+      padding: .9rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: .95rem;
+      box-shadow: 0 6px 20px rgba(111,207,151,.35);
+      transition: all .25s;
+    }
+    .btn-ngo:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(111,207,151,.4);
+    }
+    .ngo-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .ngo-card {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      padding: 1.5rem;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      transition: all .3s;
+    }
+    .ngo-card:hover {
+      background: rgba(255,255,255,.14);
+      transform: translateY(-4px);
+    }
+    .ngo-card .icon { font-size: 2.4rem; margin-bottom: .6rem; }
+    .ngo-card h4 {
+      color: #fff;
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+    .ngo-card p {
+      color: rgba(255,255,255,.6);
+      font-size: .8rem;
+      line-height: 1.55;
+    }
+    .ngo-card.featured {
+      grid-column: 1 / -1;
+      background: rgba(111,207,151,.15);
+      border-color: rgba(111,207,151,.3);
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      text-align: left;
+      padding: 1.2rem 1.5rem;
+    }
+    .ngo-card.featured .icon { font-size: 2.8rem; margin: 0; flex-shrink: 0; }
+    .ngo-card.featured h4 { color: #6fcf97; font-size: 1rem; }
+
+    @media (max-width: 768px) {
+      .ngo-inner {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .ngo-section::before { display: none; }
+      .ngo-stats { gap: 1.2rem; }
+    }
+
+    /* ── MOBILE MENU LOGIN FIX ───────────────────── */
+    .mobile-menu-divider {
+      height: 1px;
+      background: rgba(196,154,108,.2);
+      margin: .5rem 0;
+    }
+    .mobile-auth-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: #F4823A;
+      color: white !important;
+      padding: .75rem 1.5rem;
+      border-radius: 50px;
+      font-size: 1rem !important;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600 !important;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: .5rem;
+      transition: background .2s;
+      border-bottom: none !important;
+      width: fit-content;
+    }
+    .mobile-auth-btn:hover {
+      background: #D96A22 !important;
+      color: white !important;
+    }
+    .mobile-username {
+      font-size: .9rem;
+      color: #7B4B2A;
+      padding: .3rem 0;
+      font-weight: 600;
+      border-bottom: none !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -30,7 +210,6 @@
     <li><a href="#reviews">Reviews</a></li>
   </ul>
   <div class="nav-actions">
-    <!-- ✅ Username show hoga agar logged in -->
     <span id="navUsername" style="
       font-size:.85rem;
       font-weight:600;
@@ -49,13 +228,20 @@
   </div>
 </nav>
 
-<!-- MOBILE MENU -->
+<!-- ✅ MOBILE MENU — Login button added -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" id="mobileClose">✕</button>
   <a href="#home"       onclick="closeMobile()">Home</a>
   <a href="#shop"       onclick="closeMobile()">Shop</a>
   <a href="#categories" onclick="closeMobile()">Categories</a>
   <a href="#reviews"    onclick="closeMobile()">Reviews</a>
+  <div class="mobile-menu-divider"></div>
+  <!-- Username shown when logged in -->
+  <div id="mobileUsername" class="mobile-username" style="display:none;"></div>
+  <!-- Auth button — login or logout -->
+  <button class="mobile-auth-btn" id="mobileAuthBtn" onclick="mobileAuthAction()">
+    🔑 Login
+  </button>
 </div>
 
 <!-- HERO -->
@@ -181,7 +367,6 @@
             onclick="filterProducts('treats', this)">Treats</button>
   </div>
 
-  <!-- Loading state -->
   <div id="productsLoading" style="text-align:center;padding:2rem;display:none;">
     <div style="font-size:2rem;">🐾</div>
     <div style="color:#999;margin-top:.5rem;">Loading products...</div>
@@ -189,30 +374,83 @@
 
   <div class="products-grid" id="productsGrid"></div>
 
-  <!-- Pagination -->
   <div id="pagination"
        style="display:flex;justify-content:center;
               gap:.5rem;margin-top:2rem;">
   </div>
 </section>
 
-<!-- PROMO BANNER -->
-<div class="promo-banner">
-  <div>
-    <div class="promo-tag">🎉 Limited Time Offer</div>
-    <div class="promo-title">
-      Subscribe & Save <span class="highlight">10% Off</span><br>Every Order
+<!-- ✅ NGO SECTION — Subscription replace kar diya -->
+<section class="ngo-section" id="ngo">
+  <div class="ngo-inner">
+
+    <!-- Left: Info -->
+    <div class="ngo-left">
+      <span class="ngo-tag">💚 Paws for a Cause</span>
+      <h2>
+        Help Us Feed<br>
+        <span class="ngo-highlight">Stray Dogs</span> Across India
+      </h2>
+      <p>
+        Every day, thousands of stray dogs go hungry. Our NGO wing works with
+        local volunteers to feed, vaccinate, and rehabilitate strays across
+        Punjab, Haryana, and Delhi NCR. Your donation — however small —
+        changes lives. ₹100 feeds a dog for a week.
+      </p>
+
+      <div class="ngo-stats">
+        <div class="ngo-stat">
+          <div class="n">2,400+</div>
+          <div class="l">Dogs Fed Monthly</div>
+        </div>
+        <div class="ngo-stat">
+          <div class="n">850+</div>
+          <div class="l">Vaccinations</div>
+        </div>
+        <div class="ngo-stat">
+          <div class="n">15+</div>
+          <div class="l">Cities Covered</div>
+        </div>
+      </div>
+
+      <a href="ngo.html" class="btn-ngo">
+        💚 Donate Now & Make a Difference
+      </a>
     </div>
-    <div class="promo-sub">
-      Never run out of your pup's favorite food.<br>
-      Flexible delivery. Cancel anytime.
+
+    <!-- Right: Cards -->
+    <div class="ngo-right">
+      <div class="ngo-card featured">
+        <div class="icon">🍗</div>
+        <div>
+          <h4>₹100 — Feed for a Week</h4>
+          <p>Provides nutritious meals to one stray dog for an entire week.</p>
+        </div>
+      </div>
+      <div class="ngo-card">
+        <div class="icon">💉</div>
+        <h4>Vaccination Drive</h4>
+        <p>₹500 covers rabies & essential vaccines for one dog.</p>
+      </div>
+      <div class="ngo-card">
+        <div class="icon">🏠</div>
+        <h4>Shelter & Rescue</h4>
+        <p>₹1000 supports emergency rescue operations.</p>
+      </div>
+      <div class="ngo-card">
+        <div class="icon">🐶</div>
+        <h4>120+ Rescued</h4>
+        <p>Dogs rescued and rehabilitated into loving homes.</p>
+      </div>
+      <div class="ngo-card">
+        <div class="icon">🤝</div>
+        <h4>Volunteer Network</h4>
+        <p>500+ volunteers across India making a difference daily.</p>
+      </div>
     </div>
+
   </div>
-  <button class="btn-promo"
-          onclick="showToast('🎉 Subscription plan coming soon!')">
-    Start Saving →
-  </button>
-</div>
+</section>
 
 <!-- TRUST STRIP -->
 <div class="trust-strip">
@@ -261,129 +499,62 @@
 <!-- PAYMENT MODAL -->
 <div class="modal-overlay" id="paymentOverlay">
   <div class="modal-box" id="paymentModal">
-
     <div class="modal-head">
       <h3>🛒 Complete Your Order</h3>
-      <button class="modal-close"
-              onclick="closePaymentModal()">✕</button>
+      <button class="modal-close" onclick="closePaymentModal()">✕</button>
     </div>
-
-    <!-- Order Summary -->
     <div class="modal-summary" id="modalSummary"></div>
-
-    <!-- ✅ Delivery Address -->
     <div class="modal-section">
       <div class="modal-label">📍 Delivery Address</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;
-                  gap:.6rem;">
-        <input type="text" id="delName"
-               placeholder="Full Name *"
-               style="padding:.6rem .8rem;
-                      border:1.5px solid #e0d5cc;
-                      border-radius:8px;
-                      font-family:'DM Sans',sans-serif;
-                      outline:none;font-size:.88rem;"
-               onfocus="this.style.borderColor='#F4823A'"
-               onblur="this.style.borderColor='#e0d5cc'"/>
-
-        <input type="text" id="delPhone"
-               placeholder="Phone Number *"
-               style="padding:.6rem .8rem;
-                      border:1.5px solid #e0d5cc;
-                      border-radius:8px;
-                      font-family:'DM Sans',sans-serif;
-                      outline:none;font-size:.88rem;"
-               onfocus="this.style.borderColor='#F4823A'"
-               onblur="this.style.borderColor='#e0d5cc'"/>
-
-        <input type="text" id="delAddress"
-               placeholder="House No, Street, Area *"
-               style="padding:.6rem .8rem;
-                      border:1.5px solid #e0d5cc;
-                      border-radius:8px;
-                      font-family:'DM Sans',sans-serif;
-                      outline:none;font-size:.88rem;
-                      grid-column:1/-1;"
-               onfocus="this.style.borderColor='#F4823A'"
-               onblur="this.style.borderColor='#e0d5cc'"/>
-
-        <input type="text" id="delCity"
-               placeholder="City *"
-               style="padding:.6rem .8rem;
-                      border:1.5px solid #e0d5cc;
-                      border-radius:8px;
-                      font-family:'DM Sans',sans-serif;
-                      outline:none;font-size:.88rem;"
-               onfocus="this.style.borderColor='#F4823A'"
-               onblur="this.style.borderColor='#e0d5cc'"/>
-
-        <input type="text" id="delState"
-               placeholder="State *"
-               style="padding:.6rem .8rem;
-                      border:1.5px solid #e0d5cc;
-                      border-radius:8px;
-                      font-family:'DM Sans',sans-serif;
-                      outline:none;font-size:.88rem;"
-               onfocus="this.style.borderColor='#F4823A'"
-               onblur="this.style.borderColor='#e0d5cc'"/>
-
-        <input type="text" id="delPincode"
-               placeholder="Pincode *"
-               maxlength="6"
-               style="padding:.6rem .8rem;
-                      border:1.5px solid #e0d5cc;
-                      border-radius:8px;
-                      font-family:'DM Sans',sans-serif;
-                      outline:none;font-size:.88rem;"
-               onfocus="this.style.borderColor='#F4823A'"
-               onblur="this.style.borderColor='#e0d5cc'"/>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">
+        <input type="text" id="delName" placeholder="Full Name *"
+               style="padding:.6rem .8rem;border:1.5px solid #e0d5cc;border-radius:8px;font-family:'DM Sans',sans-serif;outline:none;font-size:.88rem;"
+               onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0d5cc'"/>
+        <input type="text" id="delPhone" placeholder="Phone Number *"
+               style="padding:.6rem .8rem;border:1.5px solid #e0d5cc;border-radius:8px;font-family:'DM Sans',sans-serif;outline:none;font-size:.88rem;"
+               onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0d5cc'"/>
+        <input type="text" id="delAddress" placeholder="House No, Street, Area *"
+               style="padding:.6rem .8rem;border:1.5px solid #e0d5cc;border-radius:8px;font-family:'DM Sans',sans-serif;outline:none;font-size:.88rem;grid-column:1/-1;"
+               onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0d5cc'"/>
+        <input type="text" id="delCity" placeholder="City *"
+               style="padding:.6rem .8rem;border:1.5px solid #e0d5cc;border-radius:8px;font-family:'DM Sans',sans-serif;outline:none;font-size:.88rem;"
+               onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0d5cc'"/>
+        <input type="text" id="delState" placeholder="State *"
+               style="padding:.6rem .8rem;border:1.5px solid #e0d5cc;border-radius:8px;font-family:'DM Sans',sans-serif;outline:none;font-size:.88rem;"
+               onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0d5cc'"/>
+        <input type="text" id="delPincode" placeholder="Pincode *" maxlength="6"
+               style="padding:.6rem .8rem;border:1.5px solid #e0d5cc;border-radius:8px;font-family:'DM Sans',sans-serif;outline:none;font-size:.88rem;"
+               onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0d5cc'"/>
       </div>
-
-      <!-- Address Error -->
-      <div style="color:#e53935;font-size:.78rem;
-                  margin-top:.4rem;min-height:1rem;"
-           id="addressError">
-      </div>
+      <div style="color:#e53935;font-size:.78rem;margin-top:.4rem;min-height:1rem;" id="addressError"></div>
     </div>
-
-    <!-- ✅ Payment Method -->
     <div class="modal-section">
       <div class="modal-label">💳 Select Payment Method</div>
       <div class="payment-options">
         <label class="pay-option">
-          <input type="radio" name="payMethod"
-                 value="UPI" checked/>
+          <input type="radio" name="payMethod" value="UPI" checked/>
           <span>📱 UPI</span>
         </label>
         <label class="pay-option">
-          <input type="radio" name="payMethod"
-                 value="CARD"/>
+          <input type="radio" name="payMethod" value="CARD"/>
           <span>💳 Card</span>
         </label>
         <label class="pay-option">
-          <input type="radio" name="payMethod"
-                 value="COD"/>
+          <input type="radio" name="payMethod" value="COD"/>
           <span>💵 Cash on Delivery</span>
         </label>
         <label class="pay-option">
-          <input type="radio" name="payMethod"
-                 value="NETBANKING"/>
+          <input type="radio" name="payMethod" value="NETBANKING"/>
           <span>🏦 Net Banking</span>
         </label>
       </div>
     </div>
-
-    <!-- ✅ Place Order Button -->
-    <button class="btn-place-order" id="placeOrderBtn"
-            onclick="confirmOrder()">
+    <button class="btn-place-order" id="placeOrderBtn" onclick="confirmOrder()">
       🎉 Place Order
     </button>
-
-    <div style="font-size:.78rem;color:#999;
-                text-align:center;margin-top:.8rem;">
+    <div style="font-size:.78rem;color:#999;text-align:center;margin-top:.8rem;">
       🔒 Secure & Encrypted Payment
     </div>
-
   </div>
 </div>
 
@@ -392,37 +563,26 @@
   <div class="modal-box" style="text-align:center;">
     <div style="font-size:4rem;">🎉</div>
     <h2 style="color:#4A2C17;margin:.5rem 0;">Order Placed!</h2>
-    <div id="successMsg"
-         style="color:#666;font-size:.95rem;margin:.5rem 0;">
-    </div>
-    <div id="successOrderId"
-         style="font-size:1.1rem;font-weight:700;
-                color:#F4823A;margin:1rem 0;
-                white-space:pre-line;">
-    </div>
-    <button class="btn-place-order"
-            onclick="closeSuccessModal()">
+    <div id="successMsg" style="color:#666;font-size:.95rem;margin:.5rem 0;"></div>
+    <div id="successOrderId" style="font-size:1.1rem;font-weight:700;color:#F4823A;margin:1rem 0;white-space:pre-line;"></div>
+    <button class="btn-place-order" onclick="closeSuccessModal()">
       Continue Shopping 🐾
     </button>
   </div>
 </div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
-
-    <!-- BRAND -->
     <div class="footer-brand">
       <div class="brand-name">🐾 Doggy Diet India</div>
       <p>Premium nutrition crafted with love for your four-legged family.</p>
-
       <div class="social-links">
         <a class="social-btn" href="#" title="Facebook">𝐟</a>
         <a class="social-btn" href="https://www.instagram.com/doggydietindia?igsh=Z2Q3N3h2NjV0aTZ6" title="Instagram">📸</a>
         <a class="social-btn" href="#" title="Twitter">𝕏</a>
         <a class="social-btn" href="https://youtube.com/@varunshamra-u6k?si=izHk07iB0OcBzfzO" title="YouTube">▶</a>
       </div>
-
-      <!-- ✅ NGO BUTTON -->
       <div style="margin-top:1rem;">
         <a href="ngo.html"
            style="display:inline-flex;align-items:center;gap:.4rem;
@@ -433,57 +593,44 @@
         </a>
       </div>
     </div>
-
-    <!-- QUICK LINKS -->
     <div class="footer-col">
       <h4>Quick Links</h4>
       <ul>
         <li><a href="about.html">About Us</a></li>
-        <li><a href="products.html">Our Products</a></li>
+        <li><a href="product.html">Our Products</a></li>
         <li><a href="blog.html">Blog & Tips</a></li>
         <li><a href="affiliate.html">Affiliate Program</a></li>
       </ul>
     </div>
-
-    <!-- CUSTOMER CARE -->
     <div class="footer-col">
       <h4>Customer Care</h4>
       <ul>
         <li><a href="#">FAQ</a></li>
         <li><a href="#">Shipping Policy</a></li>
         <li><a href="#">Returns</a></li>
-        <li><a href="track-order.html">Track Order</a></li> <!-- ✅ FIXED -->
+        <li><a href="track-order.html">Track Order</a></li>
         <li><a href="#">Contact Us</a></li>
       </ul>
     </div>
-
-    <!-- CONTACT -->
     <div class="footer-col footer-contact">
       <h4>Contact Us</h4>
       <p><span class="ic">📍</span>241/A Shiwalik Vihar, Zirakpur, Mohali</p>
       <p><span class="ic">📞</span>9465840017</p>
       <p><span class="ic">✉️</span>doggydietindia.com</p>
       <p><span class="ic">🕐</span>Mon–Fri, 9am–6pm IST</p>
-
-      <!-- NEWSLETTER -->
       <div class="newsletter">
         <div style="font-size:.82rem;font-weight:600;color:#fff;margin-bottom:.3rem;">
           Get 10% off your first order!
         </div>
-
         <div class="newsletter-form">
           <input type="email" placeholder="Your email address" id="emailInput" />
           <button onclick="subscribeEmail()">→</button>
         </div>
       </div>
     </div>
-
   </div>
-
-  <!-- BOTTOM -->
   <div class="footer-bottom">
     <div>© 2026 Doggy Diet India. All rights reserved. Made with ❤️</div>
-
     <div class="pay-icons">
       <span class="pay-icon">VISA</span>
       <span class="pay-icon">MC</span>
@@ -492,6 +639,7 @@
     </div>
   </div>
 </footer>
+
 <!-- CART OVERLAY & PANEL -->
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
 <div class="cart-panel" id="cartPanel">
@@ -505,15 +653,58 @@
       <span>Subtotal</span>
       <span id="cartTotal">₹0.00</span>
     </div>
-    <!-- ✅ Sirf yeh change kiya -->
     <button class="btn-checkout" onclick="openPaymentModal()">
       Checkout →
     </button>
   </div>
 </div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script src="app.js"></script>
+<script>
+  // ✅ Mobile auth action
+  function mobileAuthAction() {
+    if (localStorage.getItem("username")) {
+      logout();
+    } else {
+      window.location.href = "login.html";
+    }
+  }
+
+  // ✅ Override checkAuth to also update mobile button
+  const _originalCheckAuth = checkAuth;
+  function checkAuth() {
+    const username    = localStorage.getItem("username");
+    const authBtn     = document.getElementById("authBtn");
+    const nameEl      = document.getElementById("navUsername");
+    const mobileBtn   = document.getElementById("mobileAuthBtn");
+    const mobileUser  = document.getElementById("mobileUsername");
+
+    if (username) {
+      authBtn.textContent  = "Logout";
+      nameEl.textContent   = "👋 " + username;
+      nameEl.style.display = "inline";
+
+      // Mobile
+      if (mobileBtn)  mobileBtn.textContent  = "🚪 Logout";
+      if (mobileUser) {
+        mobileUser.textContent  = "👋 " + username;
+        mobileUser.style.display = "block";
+      }
+    } else {
+      authBtn.textContent  = "Login";
+      nameEl.style.display = "none";
+
+      // Mobile
+      if (mobileBtn)  mobileBtn.textContent  = "🔑 Login";
+      if (mobileUser) mobileUser.style.display = "none";
+    }
+  }
+
+  // Re-run on load so mobile button is correct from the start
+  document.addEventListener("DOMContentLoaded", checkAuth);
+</script>
 </body>
 </html>

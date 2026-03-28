@@ -951,10 +951,27 @@
       }
 
       try {
-        const res = await fetch(
-          `${BASE_URL_PD}/api/cart/add/${currentProduct.productId}`,
-          { method:'POST', headers: authHeaders(), credentials:'include' }
-        );
+        // ✅ Get currently selected variant price
+        const activeVariantBtn = document.querySelector('.pd-variant-btn.active');
+        let url = `${BASE_URL_PD}/api/carts/products/${currentProduct.productId}/quantity/1`;
+
+        if (activeVariantBtn) {
+          // Extract variant special price from the active button's v-price element
+          const vPriceEl = activeVariantBtn.querySelector('.v-price');
+          if (vPriceEl) {
+            const priceText = vPriceEl.textContent.replace('₹', '').replace(',', '').trim();
+            const variantPrice = parseFloat(priceText);
+            if (!isNaN(variantPrice) && variantPrice > 0) {
+              url += `/variant?variantPrice=${variantPrice}`;
+            }
+          }
+        }
+
+        const res = await fetch(url, {
+          method:'POST',
+          headers: authHeaders(),
+          credentials:'include'
+        });
         if (res.ok) {
           const cart = await res.json();
           updateCartUI(cart);
@@ -968,7 +985,8 @@
           showToast('⚠️ Please login first!');
           window.location.href = 'login.html';
         } else {
-          showToast('❌ Could not add to cart');
+          const errText = await res.text();
+          showToast('❌ ' + (errText || 'Could not add to cart'));
           btn.disabled    = false;
           btn.textContent = '🛒 Add to Cart';
         }
@@ -989,7 +1007,7 @@
       btn.textContent = 'Adding...';
       try {
         const res = await fetch(
-          `${BASE_URL_PD}/api/cart/add/${productId}`,
+          `${BASE_URL_PD}/api/carts/products/${productId}/quantity/1`,
           { method:'POST', headers: authHeaders(), credentials:'include' }
         );
         if (res.ok) {

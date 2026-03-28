@@ -962,7 +962,7 @@
             const priceText = vPriceEl.textContent.replace('₹', '').replace(',', '').trim();
             const variantPrice = parseFloat(priceText);
             if (!isNaN(variantPrice) && variantPrice > 0) {
-              url += `/variant?variantPrice=${variantPrice}`;
+              url += `?variantPrice=${variantPrice}`;
             }
           }
         }

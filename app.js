@@ -344,11 +344,11 @@ async function fetchCart() {
   } catch(e) {}
 }
 
-async function removeFromCart(productId) {
+async function removeFromCart(cartItemId) {
   try {
-    // ✅ Correct: DELETE /api/cart/remove/{productId}
+    // ✅ Correct: DELETE /api/cart/remove/{cartItemId}
     const res = await fetch(
-      `${BASE_URL}/api/cart/remove/${productId}`,
+      `${BASE_URL}/api/cart/remove/${cartItemId}`,
       {
         method:      "DELETE",
         headers:     authHeaders(),
@@ -365,15 +365,15 @@ async function removeFromCart(productId) {
   }
 }
 
-async function updateQuantity(productId, newQty) {
+async function updateQuantity(cartItemId, newQty) {
   if (newQty <= 0) {
-    removeFromCart(productId);
+    removeFromCart(cartItemId);
     return;
   }
   try {
-    // ✅ Correct: PUT /api/cart/update/{productId}?quantity=N
+    // ✅ Correct: PUT /api/cart/update/{cartItemId}?quantity=N
     const res = await fetch(
-      `${BASE_URL}/api/cart/update/${productId}?quantity=${newQty}`,
+      `${BASE_URL}/api/cart/update/${cartItemId}?quantity=${newQty}`,
       {
         method:      "PUT",
         headers:     authHeaders(),
@@ -451,7 +451,7 @@ function updateCartUI(cart) {
         <!-- +- Quantity Controls -->
         <div style="display:flex;align-items:center;gap:.5rem;">
           <button
-            onclick="updateQuantity(${i.productId},
+            onclick="updateQuantity(${i.cartItemId},
                      ${qty - 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
@@ -473,7 +473,7 @@ function updateCartUI(cart) {
           </span>
 
           <button
-            onclick="updateQuantity(${i.productId},
+            onclick="updateQuantity(${i.cartItemId},
                      ${qty + 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
@@ -491,7 +491,7 @@ function updateCartUI(cart) {
       </div>
 
       <button class="cart-item-remove"
-              onclick="removeFromCart(${i.productId})"
+              onclick="removeFromCart(${i.cartItemId})"
               title="Remove item">✕</button>
     </div>
   `;

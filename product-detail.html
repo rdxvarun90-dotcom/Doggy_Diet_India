@@ -951,9 +951,9 @@
       }
 
       try {
-        // ✅ Get currently selected variant price
+        // ✅ Use OLD working endpoint: /api/cart/add/{productId}
         const activeVariantBtn = document.querySelector('.pd-variant-btn.active');
-        let url = `${BASE_URL_PD}/api/carts/products/${currentProduct.productId}/quantity/1`;
+        let url = `${BASE_URL_PD}/api/cart/add/${currentProduct.productId}`;
 
         if (activeVariantBtn) {
           // Extract variant special price from the active button's v-price element
@@ -1007,7 +1007,7 @@
       btn.textContent = 'Adding...';
       try {
         const res = await fetch(
-          `${BASE_URL_PD}/api/carts/products/${productId}/quantity/1`,
+          `${BASE_URL_PD}/api/cart/add/${productId}`,
           { method:'POST', headers: authHeaders(), credentials:'include' }
         );
         if (res.ok) {

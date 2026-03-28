@@ -555,6 +555,18 @@
                       placeholder="Product description...">
             </textarea>
           </div>
+          <div class="form-group full" id="variantsSection" style="background:#f8f9ff;border:1.5px solid #e8eaf6;border-radius:10px;padding:1rem 1.2rem;">
+            <label style="color:#1a1a2e;font-size:.88rem;">📦 Size / Quantity Variants <span style="color:#999;font-weight:400;">(optional — e.g. 3kg, 5kg, 10kg)</span></label>
+            <div id="variantsList" style="margin-top:.8rem;display:flex;flex-direction:column;gap:.6rem;"></div>
+            <button type="button" onclick="addVariantRow()"
+                    style="margin-top:.7rem;padding:.4rem 1rem;background:#1a1a2e;color:white;border:none;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:'DM Sans',sans-serif;font-weight:600;">
+              ➕ Add Variant
+            </button>
+            <input type="hidden" id="prodVariants"/>
+            <div style="font-size:.72rem;color:#999;margin-top:.5rem;">
+              Each variant has its own Size label, MRP and Special Price. Leave empty if no variants needed.
+            </div>
+          </div>
         </div>
         <div class="form-actions">
           <button class="btn btn-primary"
@@ -939,8 +951,11 @@ async function saveProduct() {
   }
 
   const disc = getDiscount(parseFloat(mrp), parseFloat(sp));
+  // Collect variants
+  const variants = getVariantsFromForm();
   const body = { name, price: sp, mrp, specialPrice: sp, discount: disc,
-                 quantity: qty, imageUrl: image, description: desc };
+                 quantity: qty, imageUrl: image,
+                 description: desc + (variants.length ? '||VARIANTS||' + JSON.stringify(variants) : '') };
 
   try {
     let res;
@@ -996,6 +1011,16 @@ function editProduct(productId) {
   document.getElementById("prodCategoryId").value  =
     allCategories.find(c =>
       c.categoryName === p.categoryName)?.categoryId || '';
+  // Load variants if stored
+  const rawDesc = p.description || '';
+  if (rawDesc.includes('||VARIANTS||')) {
+    const parts = rawDesc.split('||VARIANTS||');
+    document.getElementById('prodDesc').value = parts[0];
+    try { loadVariantsToForm(JSON.parse(parts[1])); } catch(e) {}
+  } else {
+    document.getElementById('prodDesc').value = rawDesc;
+  }
+
   updateAdminDiscount();
 
   document.getElementById("productFormTitle").textContent =
@@ -1046,12 +1071,69 @@ function resetProductForm() {
   document.getElementById("prodDesc").value          = '';
   document.getElementById("prodCategoryId").value    = '';
   document.getElementById("admDiscDisplay").innerHTML = 'Enter MRP &amp; Special Price above to see discount';
+  document.getElementById("variantsList").innerHTML  = '';
   document.getElementById("productFormTitle").textContent =
     "➕ Add New Product";
   document.getElementById("saveProductBtn").textContent =
     "➕ Add Product";
   document.getElementById("cancelEditBtn").style.display =
     "none";
+}
+
+/* ════════════════════════════════════════════════
+   VARIANTS
+═════════════════════════════════════════════ */
+let variantCount = 0;
+
+function addVariantRow(label='', mrp='', sp='') {
+  variantCount++;
+  const id = 'var_' + variantCount;
+  const row = document.createElement('div');
+  row.id = id;
+  row.style.cssText = 'display:grid;grid-template-columns:2fr 2fr 2fr auto;gap:.5rem;align-items:center;';
+  row.innerHTML = `
+    <input type="text"   placeholder="Size (e.g. 3 kg)"
+           value="${label}"
+           style="padding:.5rem .7rem;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;"
+           onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0e0e0'" class="var-label"/>
+    <input type="number" placeholder="MRP (₹)"
+           value="${mrp}"
+           style="padding:.5rem .7rem;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;"
+           onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0e0e0'" class="var-mrp"/>
+    <input type="number" placeholder="Special Price (₹)"
+           value="${sp}"
+           style="padding:.5rem .7rem;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;"
+           onfocus="this.style.borderColor='#F4823A'" onblur="this.style.borderColor='#e0e0e0'" class="var-sp"/>
+    <button onclick="removeVariantRow('${id}')"
+            style="padding:.45rem .7rem;background:#ffebee;color:#c62828;border:none;border-radius:8px;cursor:pointer;font-weight:700;">✕</button>
+  `;
+  document.getElementById('variantsList').appendChild(row);
+}
+
+function removeVariantRow(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function getVariantsFromForm() {
+  const rows = document.getElementById('variantsList').querySelectorAll('div');
+  const variants = [];
+  rows.forEach(row => {
+    const label = row.querySelector('.var-label')?.value.trim();
+    const mrp   = parseFloat(row.querySelector('.var-mrp')?.value);
+    const sp    = parseFloat(row.querySelector('.var-sp')?.value);
+    if (label && !isNaN(mrp) && !isNaN(sp)) {
+      const disc = getDiscount(mrp, sp);
+      variants.push({ label, mrp, sp, discount: disc });
+    }
+  });
+  return variants;
+}
+
+function loadVariantsToForm(variants) {
+  document.getElementById('variantsList').innerHTML = '';
+  variantCount = 0;
+  variants.forEach(v => addVariantRow(v.label, v.mrp, v.sp));
 }
 
 /* ════════════════════════════════════════════════

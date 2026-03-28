@@ -31,54 +31,24 @@ function showToast(msg) {
 
 /* ── HARDCODED REVIEWS ───────────────────────── */
 const reviews = [
-  {
-    name: "Rohit Sharma",
-    dog: "Golden Retriever, 3 saal",
-    text: "Mera golden ab bowl dekhte hi excited ho jata hai. Bilkul game changer!",
-    product: "Maxi Adult Dry Food",
-    stars: 5,
-    avatar: "👨"
-  },
-  {
-    name: "Anjali Verma",
-    dog: "German Shepherd, 5 saal",
-    text: "Mere lab ki digestion ek hafte mein improve ho gayi. Ab har meal enjoy karta hai.",
-    product: "Royal canin Adult dry food",
-    stars: 5,
-    avatar: "👩"
-  },
-  {
-    name: "Priya Mehta",
-    dog: "French Bulldog, 2 saal",
-    text: "Switch karne ke baad se allergy ka koi issue nahi hua. Bahut badhiya product hai!",
-    product: "Maxi adult dry food",
-    stars: 5,
-    avatar: "👩🏽"
-  },
-  {
-    name: "Aman Singh",
-    dog: "Border Collie Puppy, 4 mahine",
-    text: "Vet bhi bol rahe the growth bahut achi hai. Healthy aur active hai.",
-    product: "Drools Puppy Nutrition",
-    stars: 5,
-    avatar: "👨🏻"
-  },
-  {
-    name: "Neha Gupta",
-    dog: "Dachshund, 8 saal",
-    text: "Senior Vitality Blend se mobility mein clear difference dikha. Kaafi helpful hai.",
-    product: "Senior Vitality Blend",
-    stars: 4,
-    avatar: "👩🏻"
-  },
-  {
-    name: "Vikram Malhotra",
-    dog: "Siberian Husky, 2 saal",
-    text: "Mera husky har baar pura bowl finish karta hai. Delivery bhi fast thi.",
-    product: "Turkey & Quinoa Bowl",
-    stars: 5,
-    avatar: "🧔"
-  }
+  { name:"Sarah M.",  dog:"Golden Retriever, 3 yrs",
+    text:"My golden literally runs to her bowl now. Total game changer!",
+    product:"Salmon & Sweet Potato",  stars:5, avatar:"👩" },
+  { name:"James K.",  dog:"Labrador, 5 yrs",
+    text:"Our lab's digestion improved within a week. He loves every bite.",
+    product:"Chicken & Brown Rice",   stars:5, avatar:"👨" },
+  { name:"Priya L.",  dog:"French Bulldog, 2 yrs",
+    text:"Not a single allergy flare-up since switching. Miracle formula!",
+    product:"Wagyu Beef Gourmet",     stars:5, avatar:"👩🏽" },
+  { name:"Tom H.",    dog:"Border Collie Pup, 4 mo",
+    text:"Vet is amazed at his development. Healthy weight, sharp eyes!",
+    product:"Puppy Power Bites",      stars:5, avatar:"👨🏻" },
+  { name:"Maria G.",  dog:"Dachshund, 8 yrs",
+    text:"Senior Vitality Blend made a visible difference in mobility.",
+    product:"Senior Vitality Blend",  stars:4, avatar:"👩🏻" },
+  { name:"Derek W.",  dog:"Siberian Husky, 2 yrs",
+    text:"Our husky finishes every single time. Fast shipping too!",
+    product:"Turkey & Quinoa Bowl",   stars:5, avatar:"🧔" },
 ];
 
 /* ════════════════════════════════════════════════
@@ -179,6 +149,11 @@ function showProductsLoading(show) {
 }
 
 /* ── Render Products ─────────────────────────── */
+function getDiscount(mrp, sp) {
+  if (!mrp || !sp || mrp <= sp) return 0;
+  return Math.round(((mrp - sp) / mrp) * 100);
+}
+
 function renderProducts(products) {
   const grid = document.getElementById("productsGrid");
 
@@ -192,14 +167,23 @@ function renderProducts(products) {
     return;
   }
 
-  grid.innerHTML = products.map(p => `
-    <div class="product-card" data-id="${p.productId}">
-      <div class="product-img">
+  grid.innerHTML = products.map(p => {
+    const mrp  = p.mrp  || p.price || 0;
+    const sp   = p.specialPrice || p.price || 0;
+    const disc = getDiscount(mrp, sp);
+    return `
+    <div class="product-card" data-id="${p.productId}"
+         style="cursor:pointer;"
+         onclick="window.location.href='product-detail.html?id=${p.productId}'">
+      <div class="product-img" style="position:relative;">
         <button class="product-wishlist
           ${wished.has(p.productId) ? 'loved' : ''}"
-                onclick="toggleWish(${p.productId}, this)">
+                onclick="event.stopPropagation();toggleWish(${p.productId}, this)">
           ${wished.has(p.productId) ? '❤️' : '🤍'}
         </button>
+        ${disc > 0
+          ? `<span style="position:absolute;top:10px;left:10px;background:#e53935;color:white;font-size:.7rem;font-weight:700;padding:.25rem .6rem;border-radius:20px;z-index:2;">${disc}% OFF</span>`
+          : ''}
         ${p.imageUrl
           ? `<img
                src="${p.imageUrl}"
@@ -229,15 +213,20 @@ function renderProducts(products) {
         </div>
         <div class="product-name">${p.name}</div>
         <div style="font-size:.82rem;color:#999;margin:.3rem 0;">
-          ${p.description || ''}
+          ${p.description ? p.description.substring(0,60) + '...' : ''}
         </div>
         <div class="product-price-row">
-          <div class="product-price">
-            ₹${p.price.toFixed(2)}
+          <div>
+            ${disc > 0 ? `
+              <div style="font-size:.78rem;color:#999;text-decoration:line-through;">MRP: ₹${mrp.toFixed(2)}</div>
+              <div class="product-price" style="color:#F4823A;font-size:1.1rem;font-weight:700;">₹${sp.toFixed(2)}</div>
+            ` : `
+              <div class="product-price">₹${sp.toFixed(2)}</div>
+            `}
           </div>
           <button class="btn-add-cart"
                   id="btn-${p.productId}"
-                  onclick="addToCart(${p.productId}, this)"
+                  onclick="event.stopPropagation();addToCart(${p.productId}, this)"
                   ${p.quantity <= 0
                     ? 'disabled style="opacity:.5;cursor:not-allowed"'
                     : ''}>
@@ -246,7 +235,7 @@ function renderProducts(products) {
         </div>
       </div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 /* ── Pagination ──────────────────────────────── */

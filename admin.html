@@ -518,9 +518,20 @@
                    placeholder="e.g. Chicken & Brown Rice"/>
           </div>
           <div class="form-group">
-            <label>Price (₹) *</label>
-            <input type="number" id="prodPrice"
-                   placeholder="e.g. 599" step="0.01"/>
+            <label>MRP (₹) *</label>
+            <input type="number" id="prodMRP"
+                   placeholder="e.g. 699" step="0.01"
+                   oninput="updateAdminDiscount()"/>
+          </div>
+          <div class="form-group">
+            <label>Special Price (₹) *</label>
+            <input type="number" id="prodSpecialPrice"
+                   placeholder="e.g. 499" step="0.01"
+                   oninput="updateAdminDiscount()"/>
+          </div>
+          <div class="form-group full" style="background:#fff8f3;border:1.5px dashed #F4823A;border-radius:10px;padding:.8rem 1rem;">
+            <label style="color:#F4823A;">🏷️ Discount Preview</label>
+            <div id="admDiscDisplay" style="margin-top:.4rem;font-size:.9rem;">Enter MRP &amp; Special Price above to see discount</div>
           </div>
           <div class="form-group">
             <label>Quantity/Stock *</label>
@@ -573,13 +584,15 @@
               <th>ID</th>
               <th>Name</th>
               <th>Category</th>
-              <th>Price</th>
+              <th>MRP</th>
+              <th>Special Price</th>
+              <th>Discount</th>
               <th>Stock</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody id="productsTable">
-            <tr><td colspan="6">
+            <tr><td colspan="8">
               <div class="empty-state">
                 <div class="icon">🛍</div>
                 Loading products...
@@ -831,10 +844,15 @@ async function loadProducts() {
   }
 }
 
+function getDiscount(mrp, sp) {
+  if (!mrp || !sp || mrp <= sp) return 0;
+  return Math.round(((mrp - sp) / mrp) * 100);
+}
+
 function renderProductsTable(products) {
   const tbody = document.getElementById("productsTable");
   if (!products.length) {
-    tbody.innerHTML = `<tr><td colspan="6">
+    tbody.innerHTML = `<tr><td colspan="8">
       <div class="empty-state">
         <div class="icon">🛍</div>No products found
       </div>
@@ -842,25 +860,26 @@ function renderProductsTable(products) {
     return;
   }
 
-  tbody.innerHTML = products.map(p => `
+  tbody.innerHTML = products.map(p => {
+    const mrp  = p.mrp || p.price || 0;
+    const sp   = p.specialPrice || p.price || 0;
+    const disc = getDiscount(mrp, sp);
+    return `
     <tr>
       <td>#${p.productId}</td>
       <td>
-        <div style="font-weight:600;color:#1a1a2e;">
-          ${p.name}
-        </div>
-        <div style="font-size:.78rem;color:#999;">
-          ${p.description?.substring(0, 40) || ''}...
-        </div>
+        <div style="font-weight:600;color:#1a1a2e;">${p.name}</div>
+        <div style="font-size:.78rem;color:#999;">${p.description?.substring(0, 40) || ''}...</div>
       </td>
       <td>${p.categoryName || '—'}</td>
-      <td style="font-weight:700;color:#F4823A;">
-        ₹${p.price?.toFixed(2)}
+      <td><span style="text-decoration:line-through;color:#999;">₹${mrp.toFixed(2)}</span></td>
+      <td><span style="font-weight:700;color:#F4823A;">₹${sp.toFixed(2)}</span></td>
+      <td>${disc > 0
+        ? `<span class="badge badge-warning">${disc}% OFF</span>`
+        : `<span style="color:#ccc;">—</span>`}
       </td>
       <td>
-        <span class="${p.quantity > 0
-          ? 'badge badge-success'
-          : 'badge badge-danger'}">
+        <span class="${p.quantity > 0 ? 'badge badge-success' : 'badge badge-danger'}">
           ${p.quantity} units
         </span>
       </td>
@@ -876,8 +895,8 @@ function renderProductsTable(products) {
           </button>
         </div>
       </td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
 }
 
 function filterProductsTable(keyword) {
@@ -889,22 +908,39 @@ function filterProductsTable(keyword) {
   renderProductsTable(filtered);
 }
 
+function updateAdminDiscount() {
+  const mrp = parseFloat(document.getElementById('prodMRP').value) || 0;
+  const sp  = parseFloat(document.getElementById('prodSpecialPrice').value) || 0;
+  const disc = getDiscount(mrp, sp);
+  const saved = mrp > sp ? (mrp - sp).toFixed(2) : '0.00';
+  document.getElementById('admDiscDisplay').innerHTML = disc > 0
+    ? `<span class="badge badge-warning">${disc}% OFF</span>&nbsp;&nbsp;<span style="font-size:.8rem;color:#666;">Customer saves ₹${saved}</span>`
+    : (mrp > 0 ? `<span style="color:#999;font-size:.85rem;">No discount — price equals MRP</span>` : 'Enter MRP &amp; Special Price above to see discount');
+}
+
 async function saveProduct() {
   const editId = document.getElementById("editProductId").value;
   const name   = document.getElementById("prodName").value.trim();
-  const price  = document.getElementById("prodPrice").value;
+  const mrp    = document.getElementById("prodMRP").value;
+  const sp     = document.getElementById("prodSpecialPrice").value;
   const qty    = document.getElementById("prodQty").value;
   const catId  = document.getElementById("prodCategoryId").value;
   const image  = document.getElementById("prodImage").value.trim();
   const desc   = document.getElementById("prodDesc").value.trim();
 
-  if (!name || !price || !qty || !catId) {
+  if (!name || !mrp || !sp || !qty || !catId) {
     showToast("⚠️ Please fill all required fields!");
     return;
   }
 
-  const body = { name, price, quantity: qty,
-                 imageUrl: image, description: desc };
+  if (parseFloat(sp) > parseFloat(mrp)) {
+    showToast("⚠️ Special Price cannot exceed MRP!");
+    return;
+  }
+
+  const disc = getDiscount(parseFloat(mrp), parseFloat(sp));
+  const body = { name, price: sp, mrp, specialPrice: sp, discount: disc,
+                 quantity: qty, imageUrl: image, description: desc };
 
   try {
     let res;
@@ -952,13 +988,15 @@ function editProduct(productId) {
 
   document.getElementById("editProductId").value = p.productId;
   document.getElementById("prodName").value        = p.name;
-  document.getElementById("prodPrice").value       = p.price;
+  document.getElementById("prodMRP").value         = p.mrp || p.price || '';
+  document.getElementById("prodSpecialPrice").value = p.specialPrice || p.price || '';
   document.getElementById("prodQty").value         = p.quantity;
   document.getElementById("prodImage").value       = p.imageUrl || '';
   document.getElementById("prodDesc").value        = p.description || '';
   document.getElementById("prodCategoryId").value  =
     allCategories.find(c =>
       c.categoryName === p.categoryName)?.categoryId || '';
+  updateAdminDiscount();
 
   document.getElementById("productFormTitle").textContent =
     `✏️ Edit Product — ${p.name}`;
@@ -999,13 +1037,15 @@ async function deleteProduct(productId, name) {
 }
 
 function resetProductForm() {
-  document.getElementById("editProductId").value = '';
-  document.getElementById("prodName").value       = '';
-  document.getElementById("prodPrice").value      = '';
-  document.getElementById("prodQty").value        = '';
-  document.getElementById("prodImage").value      = '';
-  document.getElementById("prodDesc").value       = '';
-  document.getElementById("prodCategoryId").value = '';
+  document.getElementById("editProductId").value    = '';
+  document.getElementById("prodName").value          = '';
+  document.getElementById("prodMRP").value           = '';
+  document.getElementById("prodSpecialPrice").value  = '';
+  document.getElementById("prodQty").value           = '';
+  document.getElementById("prodImage").value         = '';
+  document.getElementById("prodDesc").value          = '';
+  document.getElementById("prodCategoryId").value    = '';
+  document.getElementById("admDiscDisplay").innerHTML = 'Enter MRP &amp; Special Price above to see discount';
   document.getElementById("productFormTitle").textContent =
     "➕ Add New Product";
   document.getElementById("saveProductBtn").textContent =

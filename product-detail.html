@@ -431,6 +431,59 @@
     @media (max-width: 480px) {
       .pd-related-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── VARIANT SELECTOR ─────────────────────────────── */
+    .pd-variants-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .7rem;
+    }
+    .pd-variant-btn {
+      border: 2px solid #e0d5cc;
+      background: white;
+      border-radius: 12px;
+      padding: .6rem 1.1rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      transition: all .2s;
+      text-align: center;
+      min-width: 80px;
+    }
+    .pd-variant-btn .v-label {
+      font-weight: 700;
+      color: #1a1a2e;
+      font-size: .88rem;
+      display: block;
+    }
+    .pd-variant-btn .v-price {
+      font-weight: 700;
+      color: #F4823A;
+      font-size: .82rem;
+      display: block;
+      margin-top: .15rem;
+    }
+    .pd-variant-btn .v-mrp {
+      font-size: .7rem;
+      color: #bbb;
+      text-decoration: line-through;
+      display: block;
+    }
+    .pd-variant-btn .v-disc {
+      font-size: .68rem;
+      color: #e53935;
+      font-weight: 700;
+      display: block;
+    }
+    .pd-variant-btn:hover {
+      border-color: #F4823A;
+      background: #fff8f3;
+    }
+    .pd-variant-btn.active {
+      border-color: #F4823A;
+      background: #fff3ea;
+      box-shadow: 0 0 0 3px rgba(244,130,58,.15);
+    }
   </style>
 </head>
 <body>
@@ -716,26 +769,39 @@
         imgContent.innerHTML = `<div class="pd-emoji">🐾</div>`;
       }
 
-      // Pricing
-      const priceBox = document.getElementById('pdPriceBox');
-      if (disc > 0) {
-        priceBox.innerHTML = `
-          <div class="pd-mrp-row">
-            <span class="pd-mrp-label">MRP:</span>
-            <span class="pd-mrp">₹${mrp.toFixed(2)}</span>
-          </div>
-          <div class="pd-sp-row">
-            <span class="pd-sp">₹${sp.toFixed(2)}</span>
-            <span class="pd-off-badge">${disc}% OFF</span>
-          </div>
-          <div class="pd-you-save">🎉 You save ₹${savings} on this order!</div>
-          <div class="pd-tax-note">Incl. of all taxes. Shipping calculated at checkout.</div>`;
-      } else {
-        priceBox.innerHTML = `
-          <div class="pd-sp-row">
-            <span class="pd-sp">₹${sp.toFixed(2)}</span>
-          </div>
-          <div class="pd-tax-note">Incl. of all taxes. Shipping calculated at checkout.</div>`;
+      // Pricing — will be re-rendered by updatePriceBox()
+      // placeholder, actual rendering in updatePriceBox()
+
+      // helper — update price box (called on load + variant select)
+      function updatePriceBox(aMrp, aSp) {
+        const aDisc = getDiscountPD(aMrp, aSp);
+        const aSavings = aMrp > aSp ? (aMrp - aSp).toFixed(2) : '0';
+        const priceBox = document.getElementById('pdPriceBox');
+        if (aDisc > 0) {
+          priceBox.innerHTML = `
+            <div class="pd-mrp-row">
+              <span class="pd-mrp-label">MRP:</span>
+              <span class="pd-mrp">₹${aMrp.toFixed(2)}</span>
+            </div>
+            <div class="pd-sp-row">
+              <span class="pd-sp">₹${aSp.toFixed(2)}</span>
+              <span class="pd-off-badge">${aDisc}% OFF</span>
+            </div>
+            <div class="pd-you-save">🎉 You save ₹${aSavings} on this order!</div>
+            <div class="pd-tax-note">Incl. of all taxes. Shipping calculated at checkout.</div>`;
+        } else {
+          priceBox.innerHTML = `
+            <div class="pd-sp-row">
+              <span class="pd-sp">₹${aSp.toFixed(2)}</span>
+            </div>
+            <div class="pd-tax-note">Incl. of all taxes. Shipping calculated at checkout.</div>`;
+        }
+        // Update disc badge on image
+        const badge = document.getElementById('pdDiscBadge');
+        if (badge) {
+          if (aDisc > 0) { badge.textContent = aDisc + '% OFF'; badge.style.display = 'block'; }
+          else badge.style.display = 'none';
+        }
       }
 
       // Stock
@@ -762,9 +828,51 @@
       document.getElementById('pdTags').innerHTML =
         tags.map(t => `<span class="pd-tag">${t}</span>`).join('');
 
-      // Description
+      // Description — strip variants data
+      let rawDesc = p.description || '';
+      let variants = [];
+      if (rawDesc.includes('||VARIANTS||')) {
+        const parts = rawDesc.split('||VARIANTS||');
+        rawDesc = parts[0];
+        try { variants = JSON.parse(parts[1]); } catch(e) { variants = []; }
+      }
       document.getElementById('pdDesc').textContent =
-        p.description || 'Premium quality product carefully curated for your dog\'s health and happiness.';
+        rawDesc || "Premium quality product carefully curated for your dog's health and happiness.";
+
+      // ── Variant selector ───────────────────────────
+      const variantWrap = document.createElement('div');
+      if (variants.length > 0) {
+        variantWrap.innerHTML = `<div style="font-size:.82rem;font-weight:700;color:#1a1a2e;margin-bottom:.5rem;">📦 Select Size / Quantity</div>`;
+        const wrap = document.createElement('div');
+        wrap.className = 'pd-variants-wrap';
+        variants.forEach((v, i) => {
+          const vDisc = getDiscountPD(v.mrp, v.sp);
+          const btn = document.createElement('button');
+          btn.className = 'pd-variant-btn' + (i === 0 ? ' active' : '');
+          btn.innerHTML = `
+            <span class="v-label">${v.label}</span>
+            <span class="v-price">₹${v.sp.toFixed(2)}</span>
+            ${vDisc > 0 ? `
+              <span class="v-mrp">₹${v.mrp.toFixed(2)}</span>
+              <span class="v-disc">${vDisc}% OFF</span>` : ''}
+          `;
+          btn.onclick = () => {
+            document.querySelectorAll('.pd-variant-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updatePriceBox(v.mrp, v.sp);
+          };
+          wrap.appendChild(btn);
+        });
+        variantWrap.appendChild(wrap);
+        // Insert after title, before price box
+        const priceBoxEl = document.getElementById('pdPriceBox');
+        priceBoxEl.parentNode.insertBefore(variantWrap, priceBoxEl);
+        // Auto-select first variant pricing
+        updatePriceBox(variants[0].mrp, variants[0].sp);
+      } else {
+        // No variants — show default pricing
+        updatePriceBox(mrp, sp);
+      }
 
       // Show main content
       document.getElementById('pdLoading').style.display = 'none';

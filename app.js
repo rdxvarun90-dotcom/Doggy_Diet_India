@@ -142,10 +142,10 @@ async function searchProducts(keyword) {
 }
 
 function showProductsLoading(show) {
-  document.getElementById("productsLoading").style.display =
-    show ? "block" : "none";
-  document.getElementById("productsGrid").style.display =
-    show ? "none" : "grid";
+  const loading = document.getElementById("productsLoading");
+  const grid    = document.getElementById("productsGrid");
+  if (loading) loading.style.display = show ? "block" : "none";
+  if (grid)    grid.style.display    = show ? "none"  : "grid";
 }
 
 /* ── Render Products ─────────────────────────── */
@@ -293,6 +293,7 @@ async function addToCart(productId, btn) {
 
   try {
     const res = await fetch(
+      // ✅ Correct backend URL: /api/cart/add/{productId}
       `${BASE_URL}/api/cart/add/${productId}`,
       {
         method:      "POST",
@@ -331,6 +332,7 @@ async function addToCart(productId, btn) {
 async function fetchCart() {
   if (!localStorage.getItem("username")) return;
   try {
+    // ✅ Correct backend URL: /api/cart
     const res = await fetch(`${BASE_URL}/api/cart`, {
       headers:     authHeaders(),
       credentials: "include"
@@ -344,6 +346,7 @@ async function fetchCart() {
 
 async function removeFromCart(productId) {
   try {
+    // ✅ Correct: DELETE /api/cart/remove/{productId}
     const res = await fetch(
       `${BASE_URL}/api/cart/remove/${productId}`,
       {
@@ -363,10 +366,14 @@ async function removeFromCart(productId) {
 }
 
 async function updateQuantity(productId, newQty) {
+  if (newQty <= 0) {
+    removeFromCart(productId);
+    return;
+  }
   try {
+    // ✅ Correct: PUT /api/cart/update/{productId}?quantity=N
     const res = await fetch(
-      `${BASE_URL}/api/cart/update/${productId}` +
-      `?quantity=${newQty}`,
+      `${BASE_URL}/api/cart/update/${productId}?quantity=${newQty}`,
       {
         method:      "PUT",
         headers:     authHeaders(),
@@ -393,13 +400,13 @@ function updateCartUI(cart) {
   const footer = document.getElementById("cartFooter");
   const badge  = document.getElementById("cartCount");
 
-  const totalItems = cart.items
-    ? cart.items.reduce((s, i) => s + i.quantity, 0)
-    : 0;
-
+  // ✅ Backend returns {cartId, products:[...], totalPrice}
+  // products field mein each item: {productId, productName, image, quantity, price}
+  const items = cart.products || cart.items || [];
+  const totalItems = items.reduce((s, i) => s + (i.quantity || 0), 0);
   badge.textContent = totalItems;
 
-  if (!cart.items || cart.items.length === 0) {
+  if (items.length === 0) {
     list.innerHTML = `
       <div class="cart-empty">
         <div class="empty-icon">🛒</div>
@@ -412,11 +419,17 @@ function updateCartUI(cart) {
     return;
   }
 
-  list.innerHTML = cart.items.map(i => `
+  // ✅ Use items[] from above, backend uses 'image' field (not imageUrl)
+  list.innerHTML = items.map(i => {
+    const imgSrc  = i.image || i.imageUrl;
+    const price   = i.price  || 0;
+    const qty     = i.quantity || 1;
+    const subtotal = price * qty;
+    return `
     <div class="cart-item">
       <div class="cart-item-img">
-        ${i.imageUrl
-          ? `<img src="${i.imageUrl}"
+        ${imgSrc
+          ? `<img src="${imgSrc}"
                   alt="${i.productName}"
                   style="width:50px;height:50px;
                          object-fit:cover;border-radius:8px;"
@@ -428,18 +441,18 @@ function updateCartUI(cart) {
       <div style="flex:1;">
         <div class="cart-item-name">${i.productName}</div>
         <div class="cart-item-price">
-          ₹${i.subtotal.toFixed(2)}
+          ₹${subtotal.toFixed(2)}
         </div>
         <div style="font-size:.8rem;color:#999;
                     margin-bottom:.4rem;">
-          ₹${i.price.toFixed(2)} each
+          ₹${price.toFixed(2)} each
         </div>
 
         <!-- +- Quantity Controls -->
         <div style="display:flex;align-items:center;gap:.5rem;">
           <button
             onclick="updateQuantity(${i.productId},
-                     ${i.quantity - 1})"
+                     ${qty - 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
                    font-size:1rem;cursor:pointer;display:flex;
@@ -456,12 +469,12 @@ function updateCartUI(cart) {
           <span style="font-weight:700;font-size:1rem;
                        color:#4A2C17;min-width:24px;
                        text-align:center;">
-            ${i.quantity}
+            ${qty}
           </span>
 
           <button
             onclick="updateQuantity(${i.productId},
-                     ${i.quantity + 1})"
+                     ${qty + 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
                    font-size:1rem;cursor:pointer;display:flex;
@@ -481,10 +494,11 @@ function updateCartUI(cart) {
               onclick="removeFromCart(${i.productId})"
               title="Remove item">✕</button>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   document.getElementById("cartTotal").textContent =
-    `₹${cart.totalPrice.toFixed(2)}`;
+    `₹${(cart.totalPrice || 0).toFixed(2)}`;
   footer.style.display = "block";
 }
 
@@ -498,8 +512,8 @@ function openPaymentModal() {
     return;
   }
 
-  if (!currentCart || !currentCart.items
-      || currentCart.items.length === 0) {
+  if (!currentCart || !(currentCart.products || currentCart.items)
+      || (currentCart.products || currentCart.items || []).length === 0) {
     showToast("⚠️ Your cart is empty!");
     return;
   }
@@ -734,8 +748,9 @@ function toggleWish(id, btn) {
    REVIEWS
 ═══════════════════════════════════════════════ */
 function renderReviews() {
-  document.getElementById('reviewsGrid').innerHTML =
-    reviews.map(r => `
+  const el = document.getElementById('reviewsGrid');
+  if (!el) return; // not on this page
+  el.innerHTML = reviews.map(r => `
       <div class="review-card">
         <div class="reviewer">
           <div class="reviewer-avatar">${r.avatar}</div>
@@ -808,9 +823,9 @@ window.addEventListener('scroll', () => {
 });
 
 /* ════════════════════════════════════════════════
-   INIT
+   INIT — only run on pages where elements exist
 ═══════════════════════════════════════════════ */
 checkAuth();
-fetchProducts();
 fetchCart();
-renderReviews();
+if (document.getElementById('productsGrid')) fetchProducts();
+if (document.getElementById('reviewsGrid'))  renderReviews();

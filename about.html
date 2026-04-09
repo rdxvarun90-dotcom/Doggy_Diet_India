@@ -1,197 +1,1055 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us — Doggy Diet India</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css">
+  <meta name="description"
+    content="Discover the story behind Doggy Diet India — premium, natural dog food crafted with love and veterinary science.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
   <style>
-    .page-hero {
-      background: linear-gradient(135deg, #4A2C17 0%, #8B4513 100%);
-      padding: 5rem 2rem 3rem;
-      text-align: center;
-      color: white;
+    /* ── RESET & VARS ─────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .page-hero h1 {
+
+    :root {
+      --primary: #9c4500;
+      --primary-light: #f4823a;
+      --brown: #4A2C17;
+      --brown-md: #7b563e;
+      --brown-lt: #C49A6C;
+      --orange: #F4823A;
+      --orange-dk: #D96A22;
+      --cream: #FDF8F3;
+      --surface: #fef8f3;
+      --surface-low: #f8f3ee;
+      --surface-container: #f2ede8;
+      --white: #ffffff;
+      --text: #1d1b19;
+      --secondary: #7b563e;
+      --gray: #888;
+      --outline: #ddc1b3;
+      --shadow: 0 4px 20px rgba(74, 44, 23, .06);
+      --shadow-lg: 0 32px 64px -12px rgba(29, 27, 25, .04);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ── NAV ──────────────────────────────────────── */
+    .about-nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+      background: rgba(254, 248, 243, .85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(221, 193, 179, .15);
+    }
+
+    .about-nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
+
+    .about-nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      margin-bottom: .5rem;
+      font-style: italic;
+      font-size: 1.5rem;
+      color: var(--primary);
     }
-    .page-hero p {
+
+    .about-nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .about-nav-links a {
+      font-size: .78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--brown-md);
+      transition: color .3s;
+    }
+
+    .about-nav-links a:hover,
+    .about-nav-links a.active {
+      color: var(--primary);
+    }
+
+    .about-nav-links a.active {
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 4px;
+      font-weight: 700;
+    }
+
+    /* ── HERO ─────────────────────────────────────── */
+    .about-hero {
+      padding: 10rem 2rem 6rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .about-hero-text {
+      flex: 1;
+      z-index: 2;
+    }
+
+    .about-hero-label {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+
+    .about-hero-title em {
+      font-style: italic;
+    }
+
+    .about-hero-desc {
       font-size: 1.1rem;
-      opacity: .85;
+      color: var(--secondary);
+      max-width: 420px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .about-hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .about-hero-link .line {
+      display: inline-block;
+      width: 48px;
+      height: 1px;
+      background: var(--primary);
+      transition: transform .3s;
+      transform-origin: left;
+    }
+
+    .about-hero-link:hover .line {
+      transform: scaleX(1.5);
+    }
+
+    .about-hero-img {
+      flex: 1.2;
+      position: relative;
+    }
+
+    .about-hero-img .img-main {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .about-hero-float {
+      position: absolute;
+      bottom: -3rem;
+      left: -3rem;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1.5rem 1.8rem;
+      box-shadow: var(--shadow-lg);
+      max-width: 300px;
+    }
+
+    .about-hero-float p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: .5rem;
+      line-height: 1.5;
+    }
+
+    .about-hero-float span {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--secondary);
+    }
+
+    /* ── FOUNDER / PHILOSOPHY ─────────────────────── */
+    .philosophy-section {
+      background: var(--surface-low);
+      padding: 6rem 2rem;
+      overflow: hidden;
+    }
+
+    .philosophy-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .philosophy-img-wrap {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 12px solid var(--white);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .philosophy-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .philosophy-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.2;
+      letter-spacing: -.02em;
+      margin-bottom: 2rem;
+    }
+
+    .philosophy-text h2 em {
+      color: var(--primary);
+      font-style: italic;
+    }
+
+    .philosophy-text p {
+      font-size: 1.05rem;
+      color: var(--secondary);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .philosophy-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-top: 2.5rem;
+    }
+
+    .philosophy-tag {
+      padding: .5rem 1.2rem;
+      border-radius: 50px;
+      background: #edbd9f;
+      color: var(--brown);
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    /* ── COMMUNITY STORIES / BENTO GRID ───────────── */
+    .stories-section {
+      padding: 6rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .stories-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .stories-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: .8rem;
+    }
+
+    .stories-header h2 em {
+      font-style: italic;
+    }
+
+    .stories-header p {
+      color: var(--secondary);
       max-width: 500px;
       margin: 0 auto;
     }
-    .page-content {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 4rem 2rem;
-    }
-    .about-grid {
+
+    .bento-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-      margin-bottom: 4rem;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
     }
-    @media(max-width:768px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .page-hero h1 { font-size: 2rem; }
+
+    /* Story 1 — small card */
+    .story-card-1 {
+      grid-column: span 4;
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      transition: transform .3s;
     }
-    .about-emoji {
-      font-size: 8rem;
-      text-align: center;
-      line-height: 1;
+
+    .story-card-1:hover {
+      transform: translateY(-4px);
     }
-    .about-text h2 {
+
+    .story-card-1 .story-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      transition: transform .7s;
+    }
+
+    .story-card-1:hover .story-img {
+      transform: scale(1.03);
+    }
+
+    .story-card-1 h3 {
       font-family: 'Playfair Display', serif;
-      color: #4A2C17;
-      font-size: 2rem;
+      font-size: 1.4rem;
+      margin-bottom: .8rem;
+      color: var(--text);
+    }
+
+    .story-card-1 .story-quote {
+      font-size: .9rem;
+      color: var(--secondary);
+      line-height: 1.7;
+      font-style: italic;
       margin-bottom: 1rem;
     }
-    .about-text p {
-      color: #666;
+
+    .story-card-1 .story-author {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Story 2 — wide highlight card */
+    .story-card-2 {
+      grid-column: span 8;
+      background: var(--surface-low);
+      padding: 2.5rem;
+      border-radius: 16px;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      border: 1px solid rgba(221, 193, 179, .1);
+    }
+
+    .story-card-2 .story-text {
+      flex: 1;
+    }
+
+    .story-card-2 h3 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .story-card-2 .story-body {
+      color: var(--secondary);
       line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .story-card-2 .story-avatar {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .story-card-2 .avatar-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .story-card-2 .avatar-name {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: 600;
+    }
+
+    .story-card-2 .avatar-sub {
+      font-size: .62rem;
+      color: var(--secondary);
+    }
+
+    .story-card-2 .story-image {
+      flex: 1;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .1);
+    }
+
+    /* Story 3 — quote card */
+    .story-card-3 {
+      grid-column: span 5;
+      background: var(--white);
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-card-3 .quote-icon {
+      font-size: 3rem;
+      color: var(--primary-light);
+      margin-bottom: 1rem;
+      opacity: .8;
+    }
+
+    .story-card-3 h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
       margin-bottom: 1rem;
     }
-    .values-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
+
+    .story-card-3 .story-quote {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 1.5rem;
     }
-    @media(max-width:768px) {
-      .values-grid { grid-template-columns: 1fr; }
-    }
-    .value-card {
-      background: #FDF8F3;
-      border-radius: 16px;
-      padding: 1.5rem;
-      text-align: center;
-    }
-    .value-card .icon { font-size: 2.5rem; margin-bottom: .5rem; }
-    .value-card h3 { color: #4A2C17; margin-bottom: .5rem; }
-    .value-card p { color: #888; font-size: .9rem; }
-    .team-section {
-      margin-top: 4rem;
-      text-align: center;
-    }
-    .team-section h2 {
-      font-family: 'Playfair Display', serif;
-      color: #4A2C17;
-      font-size: 2rem;
-      margin-bottom: 2rem;
-    }
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-    @media(max-width:768px) {
-      .team-grid { grid-template-columns: 1fr; }
-    }
-    .team-card {
-      background: white;
-      border-radius: 16px;
-      padding: 2rem 1.5rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,.06);
-      text-align: center;
-    }
-    .team-avatar { font-size: 3.5rem; margin-bottom: .5rem; }
-    .team-name { font-weight: 700; color: #4A2C17; }
-    .team-role { font-size: .85rem; color: #F4823A; margin-top: .2rem; }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      background: #F4823A;
-      color: white;
-      padding: .7rem 1.5rem;
-      border-radius: 25px;
-      text-decoration: none;
+
+    .story-card-3 .story-author {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--secondary);
       font-weight: 600;
-      margin-bottom: 2rem;
-      transition: background .2s;
     }
-    .back-btn:hover { background: #D96A22; }
+
+    .story-card-3 .bg-paw {
+      position: absolute;
+      top: -2rem;
+      right: -3rem;
+      font-size: 12rem;
+      opacity: .03;
+      pointer-events: none;
+    }
+
+    /* Story 4 — image with text overlay */
+    .story-card-4 {
+      grid-column: span 7;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      min-height: 380px;
+    }
+
+    .story-card-4 img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-card-4 .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(29, 27, 25, .75) 0%, transparent 60%);
+    }
+
+    .story-card-4 .overlay-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 2.5rem;
+    }
+
+    .story-card-4 h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--white);
+      margin-bottom: .5rem;
+    }
+
+    .story-card-4 p {
+      color: rgba(255, 255, 255, .8);
+      max-width: 360px;
+    }
+
+    /* ── IMPACT / DONATION SECTION ────────────────── */
+    .impact-section {
+      padding: 6rem 2rem;
+      background: rgba(255, 255, 255, .5);
+      border-top: 1px solid rgba(221, 193, 179, .1);
+      border-bottom: 1px solid rgba(221, 193, 179, .1);
+    }
+
+    .impact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .impact-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .impact-top-text {
+      max-width: 600px;
+    }
+
+    .impact-label {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .impact-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+    }
+
+    .impact-title em {
+      font-style: italic;
+    }
+
+    .impact-desc {
+      font-size: 1.05rem;
+      color: var(--secondary);
+      line-height: 1.8;
+    }
+
+    .impact-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: var(--white);
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(156, 69, 0, .25);
+      transition: opacity .3s, transform .3s;
+    }
+
+    .impact-btn:hover {
+      opacity: .9;
+      transform: translateY(-2px);
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .impact-card .impact-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+      filter: grayscale(100%);
+      transition: filter .7s, transform .3s;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+    }
+
+    .impact-card .impact-img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.02);
+    }
+
+    .impact-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: .5rem;
+    }
+
+    .impact-card p {
+      font-size: .88rem;
+      color: var(--secondary);
+      line-height: 1.7;
+    }
+
+    /* ── CTA SECTION ──────────────────────────────── */
+    .about-cta {
+      padding: 8rem 2rem;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .about-cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin-bottom: 1.2rem;
+    }
+
+    .about-cta p {
+      font-size: 1.08rem;
+      color: var(--secondary);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .about-cta-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: var(--white);
+      padding: 1.1rem 2.5rem;
+      border-radius: 50px;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(156, 69, 0, .25);
+      transition: all .3s;
+    }
+
+    .cta-btn-primary:hover {
+      transform: translateY(-2px);
+      opacity: .95;
+    }
+
+    .cta-btn-secondary {
+      background: var(--surface-container);
+      color: var(--text);
+      padding: 1.1rem 2.5rem;
+      border-radius: 50px;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all .3s;
+    }
+
+    .cta-btn-secondary:hover {
+      background: #e6e2dd;
+      transform: translateY(-2px);
+    }
+
+    /* ── FOOTER ───────────────────────────────────── */
+    .about-footer {
+      background: var(--surface);
+      padding: 3rem 2rem;
+      border-top: 1px solid rgba(221, 193, 179, .2);
+    }
+
+    .about-footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: .5rem;
+    }
+
+    .footer-copy {
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--brown-md);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--brown-md);
+      opacity: .7;
+      transition: opacity .3s, color .3s;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+      color: var(--primary);
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 1024px) {
+      .about-hero {
+        flex-direction: column;
+        gap: 3rem;
+        padding-top: 8rem;
+      }
+
+      .about-hero-float {
+        display: none;
+      }
+
+      .philosophy-inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .philosophy-img-wrap {
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      .story-card-2 {
+        flex-direction: column;
+      }
+
+      .story-card-2 .story-image {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .about-nav-links {
+        display: none;
+      }
+
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .story-card-1,
+      .story-card-2,
+      .story-card-3,
+      .story-card-4 {
+        grid-column: span 1;
+      }
+
+      .impact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .impact-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .about-hero-title {
+        font-size: 2.8rem;
+      }
+    }
+
+    /* ── ANIMATIONS ───────────────────────────────── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .about-hero-text {
+      animation: fadeUp .7s ease both;
+    }
+
+    .about-hero-img {
+      animation: fadeUp .7s .15s ease both;
+    }
   </style>
 </head>
+
 <body>
 
-<div class="page-hero">
-  <h1>🐾 About Us</h1>
-  <p>We believe every dog deserves the best nutrition — crafted with love.</p>
-</div>
+  <!-- NAV -->
+  <nav class="about-nav">
+    <div class="about-nav-inner">
+      <a class="about-nav-logo" href="index.html">Doggy Diet India</a>
+      <ul class="about-nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Shop</a></li>
+        <li><a href="index.html#categories">Categories</a></li>
+        <li><a href="ngo.html">Our Mission</a></li>
+        <li><a href="about.html" class="active">About Us</a></li>
+      </ul>
+    </div>
+  </nav>
 
-<div class="page-content">
-  <a href="index.html" class="back-btn">← Back to Home</a>
+  <main>
 
-  <div class="about-grid">
-    <div class="about-emoji">🐕</div>
-    <div class="about-text">
-      <h2>Our Story</h2>
-      <p>Doggy Diet India was born out of love for dogs and frustration with low-quality pet food in the Indian market. We started in 2022 with one simple mission — give Indian dogs the nutrition they truly deserve.</p>
-      <p>Based in Zirakpur, Mohali, we work with veterinary nutritionists to craft every recipe. No fillers, no artificial preservatives — just real, wholesome ingredients your dog will love.</p>
-      <p>Today, we're proud to serve 50,000+ happy dogs across India! 🎉</p>
-    </div>
-  </div>
-
-  <div class="values-grid">
-    <div class="value-card">
-      <div class="icon">🌿</div>
-      <h3>Natural Ingredients</h3>
-      <p>Only real, whole ingredients — no artificial fillers or preservatives.</p>
-    </div>
-    <div class="value-card">
-      <div class="icon">🔬</div>
-      <h3>Vet Approved</h3>
-      <p>Every recipe is formulated by certified veterinary nutritionists.</p>
-    </div>
-    <div class="value-card">
-      <div class="icon">❤️</div>
-      <h3>Made with Love</h3>
-      <p>We treat every dog like our own — because your pet deserves the best.</p>
-    </div>
-    <div class="value-card">
-      <div class="icon">🇮🇳</div>
-      <h3>Made in India</h3>
-      <p>Proudly Indian — sourcing local ingredients for quality you can trust.</p>
-    </div>
-    <div class="value-card">
-      <div class="icon">♻️</div>
-      <h3>Eco Friendly</h3>
-      <p>Sustainable packaging that's good for dogs and the planet.</p>
-    </div>
-    <div class="value-card">
-      <div class="icon">🚚</div>
-      <h3>Fast Delivery</h3>
-      <p>Pan-India delivery so your pup never runs out of their favorites.</p>
-    </div>
-  </div>
-
-  <div class="team-section">
-    <h2>Meet Our Team</h2>
-    <div class="team-grid">
-      <div class="team-card">
-        <div class="team-avatar">👨‍💼</div>
-        <div class="team-name">Varun Sharma</div>
-        <div class="team-role">Founder & CEO</div>
+    <!-- HERO -->
+    <section class="about-hero">
+      <div class="about-hero-text">
+        <p class="about-hero-label">Our Shared Journey</p>
+        <h1 class="about-hero-title">
+          Nurturing<br><em>the Bond</em>
+        </h1>
+        <p class="about-hero-desc">
+          Beyond the bowl, there is a connection that defines our lives.
+          At Doggy Diet India, we honor the quiet moments of companionship
+          that fuel the soul.
+        </p>
+        <a class="about-hero-link" href="#stories">
+          Explore the narratives
+          <span class="line"></span>
+        </a>
       </div>
-      <div class="team-card">
-        <div class="team-avatar">👩‍⚕️</div>
-        <div class="team-name">Dr. Priya Mehta</div>
-        <div class="team-role">Head Veterinary Nutritionist</div>
+      <div class="about-hero-img">
+        <img class="img-main" src="images/PULLY.jpeg" alt="Dog parent with their happy pet">
+        <!-- Floating Quote -->
+        <div class="about-hero-float">
+          <p>"He isn't just a dog, he's the heartbeat of our home."</p>
+          <span>— Varun & Pulkit</span>
+        </div>
       </div>
-      <div class="team-card">
-        <div class="team-avatar">👨‍🍳</div>
-        <div class="team-name">Yash gaur </div>
-        <div class="team-role"> Product Supplier</div>
+    </section>
+
+    <!-- FOUNDER'S PHILOSOPHY -->
+    <section class="philosophy-section">
+      <div class="philosophy-inner">
+        <div class="philosophy-img-wrap">
+          <img src="images/start.png" alt="Doggy Diet founder with fresh ingredients">
+        </div>
+        <div class="philosophy-text">
+          <h2>The Doggy Diet<br><em>Philosophy</em></h2>
+          <p>
+            At Doggy Diet India, we believe that pets are not just companions — they are family.
+            In Indian homes, choosing the right food is an act of care, and we are here to make that choice easier for
+            you.
+            Our philosophy is simple — to bring only the best, most trusted dog food options to Indian pet parents,
+            so you never have to compromise on your dog’s health and happiness.
+          </p>
+          <p>
+            We carefully select and offer products from reliable brands that meet high standards of nutrition, safety,
+            and quality.
+            Instead of overwhelming you with endless choices, we focus on what truly matters — honest products, clear
+            information,
+            and food that supports your dog’s well-being. Because your dog deserves nothing but the best, every single
+            day.
+          </p>
+          <div class="philosophy-tags">
+            <span class="philosophy-tag">Sustainably Sourced</span>
+            <span class="philosophy-tag">Vet Approved</span>
+            <span class="philosophy-tag">Honest Nutrition</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY STORIES — BENTO GRID -->
+    <section class="stories-section" id="stories">
+      <div class="stories-header">
+        <h2>Heartfelt <em>Echoes</em></h2>
+        <p>Voices from our community that remind us why we do what we do.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Story 1 -->
+        <div class="story-card-1">
+          <img class="story-img" src="images/elderly_woman_with_dog.png" alt="Happy dog with owner">
+          <h3>The Healing Power of Scout</h3>
+          <p class="story-quote">
+            "When I lost my husband, Scout was the only one who could get me out of bed.
+            Doggy Diet India has given him the energy of a puppy again, even at twelve years old."
+          </p>
+          <p class="story-author">— Martha, Punjab</p>
+        </div>
+
+        <!-- Story 2 — Wide Highlight -->
+        <div class="story-card-2">
+          <div class="story-text">
+            <h3>From Rescue to Radiant</h3>
+            <p class="story-body">
+              "Luna came to us with severe allergies and a dull coat. We tried everything
+              until we found Doggy Diet. Within weeks, her coat was shimmering like silk.
+              She's finally the happy, healthy dog she was meant to be."
+            </p>
+            <div class="story-avatar">
+              <img class="avatar-img" src="images/RADHA.jpeg" alt="Sarah & Luna">
+              <div>
+                <p class="avatar-name">Radha Sharma</p>
+                <p class="avatar-sub">Verified Community Member</p>
+              </div>
+            </div>
+          </div>
+          <img class="story-image" src="images/joyful_dog.png" alt="Happy healthy dog running">
+        </div>
+
+        <!-- Story 3 — Quote Card -->
+        <div class="story-card-3">
+          <div class="quote-icon">❝</div>
+          <h3>A Shared Ritual</h3>
+          <p class="story-quote">
+            "Breakfast is our favorite time of day. Knowing I'm giving him ingredients
+            I'd eat myself makes the morning walk feel even better. It's respect in a bowl."
+          </p>
+          <p class="story-author">— Chloe & Barnaby, Delhi</p>
+          <span class="bg-paw">🐾</span>
+        </div>
+
+        <!-- Story 4 — Image Overlay Card -->
+        <div class="story-card-4">
+          <img src="images/ngoimage2.png" alt="Adventure with dog">
+          <div class="overlay"></div>
+          <div class="overlay-text">
+            <h3>Adventure Awaits</h3>
+            <p>How the right nutrition powers miles of exploration and mountains of memories.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT / DONATION SECTION -->
+    <section class="impact-section">
+      <div class="impact-inner">
+        <div class="impact-top">
+          <div class="impact-top-text">
+            <p class="impact-label">The Impact Fund</p>
+            <h2 class="impact-title">From the <em>Field</em></h2>
+            <p class="impact-desc">
+              Every bag of Doggy Diet purchased contributes to our "Field Feed" program,
+              providing nutrient-dense meals to local shelters and stray dog sanctuaries
+              across Punjab, Haryana, and Delhi NCR.
+            </p>
+          </div>
+          <a href="ngo.html" class="impact-btn">View Impact Report</a>
+        </div>
+
+        <div class="impact-grid">
+          <div class="impact-card">
+            <img class="impact-img" src="images/donation.png" alt="Feeding stray dogs">
+            <h4>12,000+ Meals Donated</h4>
+            <p>This quarter, we reached a milestone ensuring no stray goes to sleep on an empty stomach.</p>
+          </div>
+          <div class="impact-card">
+            <img class="impact-img" src="images/ngoimage2.png" alt="Senior dog care">
+            <h4>The Senior Dog Initiative</h4>
+            <p>Specialized nutrition for older rescues to help them transition into loving homes with strength and
+              dignity.</p>
+          </div>
+          <div class="impact-card">
+            <img class="impact-img" src="images/girl_feeding_puppies.png" alt="Puppies getting care">
+            <h4>The Puppy Prologue</h4>
+            <p>Building the foundation for a lifetime of health from day one for pups in foster care across three
+              states.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="about-cta">
+      <h2>Begin your own story.</h2>
+      <p>
+        Join a community dedicated to the art of nurturing and the science of
+        nature. Your dog's best chapter starts here.
+      </p>
+      <div class="about-cta-btns">
+        <a href="product.html"><button class="cta-btn-primary">Shop the Collection</button></a>
+        <a href="index.html"><button class="cta-btn-secondary">Back to Home</button></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="about-footer">
+    <div class="about-footer-inner">
+      <div>
+        <p class="footer-brand-name">🐾 Doggy Diet India</p>
+        <p class="footer-copy">© 2026 Doggy Diet India. Nurturing with Nature.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="product.html">Shop</a>
+        <a href="ngo.html">NGO Partners</a>
+        <a href="about.html">About Us</a>
       </div>
     </div>
-  </div>
-</div>
+  </footer>
 
 </body>
+
 </html>

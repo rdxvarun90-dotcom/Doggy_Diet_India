@@ -1960,3 +1960,120 @@ toast {
   background: #ccc;
   cursor: not-allowed;
 }
+
+/* ── REVIEWS LAYOUT ─────────────────────────────────── */
+
+.reviews-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.reviews-left {
+  position: relative;
+}
+
+.rev_img {
+  position: relative;
+  background-image: url("./images/review.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(74, 44, 23, .15);
+  overflow: visible;
+}
+
+/* OVERLAY CARD */
+.overlay-card {
+  position: absolute;
+  bottom: -30px;
+  left: -20px;
+  background: #f07c4a;
+  color: white;
+  padding: 1.5rem;
+  border-radius: 18px;
+  width: 280px;
+  box-shadow: 0 12px 30px rgba(240, 124, 74, .35);
+  z-index: 2;
+}
+
+.overlay-stars {
+  font-size: 1.1rem;
+  margin-bottom: .6rem;
+  letter-spacing: 2px;
+}
+
+.overlay-card p {
+  font-size: .9rem;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: .6rem;
+  opacity: .95;
+}
+
+.overlay-card span {
+  font-size: .82rem;
+  font-weight: 700;
+  opacity: .9;
+  display: block;
+}
+
+/* RIGHT: TESTIMONIAL CARDS */
+.reviews-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.testimonial-card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 2rem 2.2rem;
+  box-shadow: 0 4px 20px rgba(74, 44, 23, .08);
+  border: 1px solid rgba(196, 154, 108, .12);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(74, 44, 23, .12);
+}
+
+.testimonial-text {
+  font-size: 1.05rem;
+  color: var(--brown);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  font-family: 'Playfair Display', serif;
+}
+
+.testimonial-author {
+  font-size: .92rem;
+  font-weight: 700;
+  color: var(--orange);
+  font-family: 'DM Sans', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .reviews-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .rev_img {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .overlay-card {
+    left: 10px;
+    bottom: -20px;
+    width: 240px;
+  }
+}

@@ -11,6 +11,7 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
   <style>
     /* ── SECTION LABEL ─────────────────────────────── */
     .section-label {
@@ -369,7 +370,7 @@
 
   <!-- TOP BAR -->
   <div class="topbar">
-    🎁 Free shipping on orders over <span>₹49</span> —
+    🎁 Free shipping on orders over <span>₹499</span> —
     Use code <span>PAWSOME</span> at checkout!
   </div>
 
@@ -650,6 +651,7 @@
   </div>
 
   <!-- REVIEWS -->
+
   <section class="section" id="reviews">
     <div class="section-header">
       <span class="section-label">Happy Customers</span>
@@ -658,9 +660,45 @@
         Hear from the real experts: the dogs (via their humans).
       </p>
     </div>
-    <div class="reviews-grid" id="reviewsGrid"></div>
-  </section>
 
+    <div class="reviews-layout">
+      <!-- Left: Image with overlay card -->
+      <div class="reviews-left">
+        <div class="rev_img">
+          <!-- Overlay Card -->
+          <div class="overlay-card">
+            <div class="overlay-stars">★★★★★</div>
+            <p>
+              "Finally a brand that cares as much about the quality of the soil
+              as the health of my dog."
+            </p>
+            <span>— Elena V., Professional Trainer</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Testimonial cards -->
+      <div class="reviews-right">
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "The subscription model is a lifesaver. No more last-minute
+            runs to the store, and Bruno has never looked better. His coat
+            is so shiny!"
+          </p>
+          <span class="testimonial-author">— Marcus T.</span>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "The ingredient transparency is unmatched. I know exactly
+            where the protein comes from, and my vet was very
+            impressed with the nutrient profile."
+          </p>
+          <span class="testimonial-author">— Sarah K.</span>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- PAYMENT MODAL -->
   <div class="modal-overlay" id="paymentOverlay">
     <div class="modal-box" id="paymentModal">
@@ -780,8 +818,8 @@
       </div>
       <div class="footer-col footer-contact">
         <h4>Contact Us</h4>
-        <p><span class="ic">📍</span>241/A Shiwalik Vihar, Zirakpur, Mohali</p>
-        <p><span class="ic">📞</span>9465840017</p>
+        <p><span class="ic">📍</span> Shiwalik Vihar, Zirakpur, Mohali</p>
+        <p><span class="ic">📞</span>+911762291930</p>
         <p><span class="ic">✉️</span>doggydietindia.com</p>
         <p><span class="ic">🕐</span>Mon–Fri, 9am–6pm IST</p>
         <div class="newsletter">
@@ -871,6 +909,7 @@
 
     // Re-run on load so mobile button is correct from the start
     document.addEventListener("DOMContentLoaded", checkAuth);
+
   </script>
 </body>
 

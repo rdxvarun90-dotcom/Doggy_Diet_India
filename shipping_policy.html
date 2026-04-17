@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Shipping &amp; Returns Policy | Doggy Diet India</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#32302d",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-secondary-container": "#7a553d",
+                        "surface-container-high": "#ece7e2",
+                        "on-primary-fixed": "#331200",
+                        "primary-fixed-dim": "#ffb68e",
+                        "on-primary-fixed-variant": "#773300",
+                        "surface-container-highest": "#e6e2dd",
+                        "secondary": "#7b563e",
+                        "surface-variant": "#e6e2dd",
+                        "outline-variant": "#ddc1b3",
+                        "surface-container": "#f2ede8",
+                        "secondary-fixed-dim": "#edbd9f",
+                        "surface": "#fef8f3",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1d1b19",
+                        "outline": "#8a7266",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f8f3ee",
+                        "on-secondary-fixed-variant": "#603f29",
+                        "surface-dim": "#ded9d4",
+                        "surface-tint": "#9c4500",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fef8f3",
+                        "tertiary-container": "#e08c62",
+                        "on-tertiary-fixed": "#341000",
+                        "on-surface-variant": "#564338",
+                        "primary-container": "#f4823a",
+                        "inverse-on-surface": "#f5f0eb",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#904c27",
+                        "on-tertiary-fixed-variant": "#733512",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbca",
+                        "on-surface": "#1d1b19",
+                        "background": "#fef8f3",
+                        "on-primary-container": "#5f2700",
+                        "on-secondary-fixed": "#2e1503",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-container": "#ffcdaf",
+                        "on-tertiary-container": "#5f2604",
+                        "secondary-fixed": "#ffdcc7",
+                        "on-secondary": "#ffffff",
+                        "primary": "#9c4500",
+                        "inverse-primary": "#ffb68e",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Plus Jakarta Sans"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fef8f3;
+            color: #1d1b19;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif', serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(254, 248, 243, 0.9) 0%, rgba(254, 248, 243, 0.4) 100%);
+        }
+
+        /* Hero image placeholder */
+        .hero-img-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #e6e2dd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a7266;
+            font-size: 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+
+<body class="bg-surface selection:bg-primary-container selection:text-on-primary-container">
+
+    <!-- NAV -->
+    <nav id="mainNav">
+        <a href="#" class="nav-logo">
+            <div class="paw">🐾</div>
+            <div class="brand">Doggy<em> Diet</em> India</div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="product.html">Shop</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+        </ul>
+        <div class="nav-actions">
+            <span id="navUsername" style="
+      font-size:.85rem;
+      font-weight:600;
+      color:#4A2C17;
+      display:none;
+      margin-right:.5rem;">
+            </span>
+            <button class="btn-login" id="authBtn">Login</button>
+            <button class="btn-cart" id="cartBtn" aria-label="Open cart">
+                🛒
+                <span class="cart-badge" id="cartCount">0</span>
+            </button>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-close" id="mobileClose">✕</button>
+        <a href="index.html" onclick="closeMobile()">Home</a>
+        <a href="product.html" onclick="closeMobile()">Shop</a>
+        <a href="about.html" onclick="closeMobile()">About Us</a>
+        <a href="faq.html" onclick="closeMobile()">FAQ</a>
+        <div class="mobile-menu-divider"></div>
+        <div id="mobileUsername" class="mobile-username" style="display:none;"></div>
+        <button class="mobile-auth-btn" id="mobileAuthBtn" onclick="mobileAuthAction()">
+            🔑 Login
+        </button>
+    </div>
+
+    <main class="pt-16">
+
+        <!-- Hero Section -->
+        <section class="relative min-h-[614px] flex items-center px-6 py-20 overflow-hidden">
+            <div class="absolute inset-0 z-0">
+
+                <div class="hero-img-placeholder">
+                    <img alt="..." class="w-full h-full object-cover" src="faq_images/ship.png" />
+                </div>
+                <div class="absolute inset-0 hero-gradient"></div>
+            </div>
+            <div class="relative z-10 max-w-7xl mx-auto w-full">
+                <div class="max-w-2xl">
+                    <span class="label-sm uppercase tracking-widest text-primary font-bold mb-4 block">Trust &amp;
+                        Care</span>
+                    <h1 class="font-serif text-6xl md:text-7xl text-on-surface leading-tight tracking-tight mb-6">
+                        Shipping &amp; <br />Returns Policy</h1>
+                    <p class="text-xl text-secondary font-medium leading-relaxed">Fast, safe, and transparent delivery
+                        for your pet's nutrition. We treat every order with the same care you give your agrarian
+                        companion.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Canvas -->
+        <div class="max-w-7xl mx-auto px-6 -mt-20 relative z-20 pb-24">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                <!-- Section 1: Shipping Policy Card -->
+                <div class="lg:col-span-8">
+                    <div
+                        class="bg-surface-container-lowest rounded-xl p-8 md:p-12 shadow-[0_32px_64px_-12px_rgba(29,27,25,0.04)]">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div
+                                class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-3xl">local_shipping</span>
+                            </div>
+                            <h2 class="font-serif text-3xl text-on-surface">Shipping Excellence</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                            <div class="space-y-3">
+                                <div class="text-primary font-bold text-lg">01. Processing</div>
+                                <p class="text-secondary leading-relaxed">Your order is prepared within <strong>1-2
+                                        business days</strong> using climate-controlled methods to ensure nutrient
+                                    integrity.</p>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="text-primary font-bold text-lg">02. Delivery</div>
+                                <p class="text-secondary leading-relaxed">Expected transit time of <strong>3-7 business
+                                        days</strong> depending on your agrarian location across India.</p>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="text-primary font-bold text-lg">03. Tracking</div>
+                                <p class="text-secondary leading-relaxed">A digital <strong>Tracking ID</strong> is
+                                    provided via SMS and email as soon as your package departs our facility.</p>
+                            </div>
+                        </div>
+                        <div class="mt-12 bg-surface-container rounded-lg p-6 flex items-start gap-4">
+                            <img alt="Close-up of a premium eco-friendly delivery box with the Heritage Pet Nutrition wax seal stamp on textured paper"
+                                class="w-24 h-24 rounded-lg object-cover flex-shrink-0"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoep7NDIS7fCcmYSl1rl5O52USp4qo_JrjGqxUVB2Em0PxCDsUmlSY12NNoYCLLaO95W6IdDfmMnMonDlI5wA7Ejpzz5smrsgFyYLdjGH5_eDWhRRZ9mn5U6EWEo3v46a_TuX9YxL2_SU9vEXtF7emygGU17XPlbF53zC_GwgzmInO5RqCz1fw_0RSPEKIqHCY60fix2qUvthX3yNOOOlmUnNK6nmIVvdnQOcyw8ijsnzN0R4qHY8sdVUt3OcDJTaosrSaj5JGgCc" />
+                            <div class="text-sm text-on-surface-variant italic leading-relaxed">
+                                "Our packaging is designed to withstand the elements while maintaining the freshness of
+                                our artisanal blends. We partner with India's most reliable logistics networks to reach
+                                your doorstep."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Return Policy Sidebar -->
+                <div class="lg:col-span-4">
+                    <div class="bg-error-container/40 rounded-xl p-8 border-l-4 border-primary sticky top-28">
+                        <span class="material-symbols-outlined text-primary mb-4 text-4xl"
+                            style="font-variation-settings: 'FILL' 1;">warning</span>
+                        <h3 class="font-serif text-2xl text-on-surface mb-4">Returns &amp; Exchanges</h3>
+                        <p class="text-on-surface-variant font-medium mb-6 leading-relaxed">
+                            Due to the <strong>perishable nature</strong> of our artisanal pet food and to ensure the
+                            safety of all our animal companions, we maintain a strict <strong>No Returns or
+                                Exchanges</strong> policy once a product has left our facility.
+                        </p>
+                        <div class="bg-surface-container-lowest/50 rounded p-4 text-sm italic text-on-surface-variant">
+                            By placing an order, you agree to our No Return &amp; No Exchange policy.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Valid Exceptions -->
+                <div class="lg:col-span-7">
+                    <div class="bg-surface-container-low rounded-xl p-8 md:p-10">
+                        <h3 class="font-serif text-2xl text-on-surface mb-8">Valid Exception Protocol</h3>
+                        <p class="text-secondary mb-8">We stand by the quality of our craftsmanship. Exceptions are made
+                            only in the following verified cases:</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-4 p-4 bg-surface-container-lowest rounded-lg">
+                                <span class="material-symbols-outlined text-primary">inventory_2</span>
+                                <div>
+                                    <div class="font-bold text-on-surface">Damaged Product</div>
+                                    <div class="text-sm text-secondary">The primary seal or packaging is compromised
+                                        during transit.</div>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4 p-4 bg-surface-container-lowest rounded-lg">
+                                <span class="material-symbols-outlined text-primary">wrong_location</span>
+                                <div>
+                                    <div class="font-bold text-on-surface">Wrong Item Received</div>
+                                    <div class="text-sm text-secondary">The contents do not match your order manifest.
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4 p-4 bg-surface-container-lowest rounded-lg">
+                                <span class="material-symbols-outlined text-primary">verified_user</span>
+                                <div>
+                                    <div class="font-bold text-on-surface">Tampered Package</div>
+                                    <div class="text-sm text-secondary">Outer logistics packaging shows signs of
+                                        unauthorized access.</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="mt-8 p-4 border border-outline-variant/30 rounded-lg flex gap-3 items-center">
+                            <span class="material-symbols-outlined text-primary">timer</span>
+                            <span class="text-sm font-semibold text-on-surface">Report within 24 hours of delivery with
+                                photographic proof.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Non-eligible cases -->
+                <div class="lg:col-span-5">
+                    <div class="bg-surface-container-highest rounded-xl p-8 h-full">
+                        <h3 class="font-serif text-2xl text-on-surface mb-6">Non-Eligible Cases</h3>
+                        <ul class="space-y-4 text-secondary">
+                            <li class="flex gap-2 items-center">
+                                <span class="material-symbols-outlined text-xs"
+                                    style="font-variation-settings: 'FILL' 1;">circle</span>
+                                Change of mind after order dispatch.
+                            </li>
+                            <li class="flex gap-2 items-center">
+                                <span class="material-symbols-outlined text-xs"
+                                    style="font-variation-settings: 'FILL' 1;">circle</span>
+                                Pet preference or palatability issues.
+                            </li>
+                            <li class="flex gap-2 items-center">
+                                <span class="material-symbols-outlined text-xs"
+                                    style="font-variation-settings: 'FILL' 1;">circle</span>
+                                Incorrect delivery address provided by the customer.
+                            </li>
+                            <li class="flex gap-2 items-center">
+                                <span class="material-symbols-outlined text-xs"
+                                    style="font-variation-settings: 'FILL' 1;">circle</span>
+                                Package opened or used beyond inspection.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 5: Support CTA -->
+                <div class="lg:col-span-12">
+                    <div
+                        class="bg-primary p-12 rounded-xl text-center flex flex-col items-center justify-center text-on-primary">
+                        <h2 class="font-serif text-4xl mb-4">Need Assistance?</h2>
+                        <p class="max-w-xl mx-auto mb-8 opacity-90">Our concierge team is available to help with
+                            tracking or quality concerns. We aim to respond to all inquiries within 4 business hours.
+                        </p>
+                        <div class="flex flex-col md:flex-row gap-4 items-center">
+                            <div class="text-xl font-medium">support@doggydietindia.com</div>
+                            <a class="bg-surface text-primary px-8 py-4 rounded-full font-bold hover:bg-primary-container hover:text-on-primary-container transition-all active:scale-95"
+                                href="mailto:support@doggydietindia.com">Contact Support</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="lg:col-span-12 mt-12">
+                    <h2 class="font-serif text-4xl text-on-surface text-center mb-12">Frequently Asked Questions</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-8 bg-surface-container-low rounded-xl">
+                            <h4 class="font-bold text-on-surface mb-2">How long will my delivery take?</h4>
+                            <p class="text-secondary leading-relaxed">Most orders reach metro cities within 3-4 days.
+                                Tier 2 and rural areas may take up to 7 business days.</p>
+                        </div>
+                        <div class="p-8 bg-surface-container-low rounded-xl">
+                            <h4 class="font-bold text-on-surface mb-2">Can I return an unopened bag?</h4>
+                            <p class="text-secondary leading-relaxed">To maintain our safety standards and prevent
+                                cross-contamination, we do not accept any returns once the product is shipped.</p>
+                        </div>
+                        <div class="p-8 bg-surface-container-low rounded-xl">
+                            <h4 class="font-bold text-on-surface mb-2">What if the seal is broken?</h4>
+                            <p class="text-secondary leading-relaxed">Please do not accept the delivery. If already
+                                accepted, email us clear photos within 24 hours for a replacement.</p>
+                        </div>
+                        <div class="p-8 bg-surface-container-low rounded-xl">
+                            <h4 class="font-bold text-on-surface mb-2">Do you ship internationally?</h4>
+                            <p class="text-secondary leading-relaxed">Currently, Doggy Diet India ships
+                                exclusively within India to ensure our fresh batches reach pets in peak condition.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#fef8f3] dark:bg-[#1d1b19] w-full border-t border-[#ddc1b3]/20">
+        <div class="max-w-7xl mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="space-y-6">
+                <div class="font-serif text-xl italic text-[#7b563e] dark:text-[#ddc1b3]">Doggy Diet India</div>
+                <p class="text-[#7b563e] dark:text-[#ddc1b3] max-w-sm">Crafted with care for your agrarian companion.
+                    Our recipes honor the bond between human and animal through pure, raw nutrition.</p>
+                <p class="font-sans text-body-sm tracking-wide uppercase text-[#7b563e] dark:text-[#ddc1b3] opacity-80">
+                    © 2024 Doggy Diet India. Crafted with care for your agrarian companion.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <h5 class="font-bold text-[#9c4500]">Guidelines</h5>
+                    <nav class="flex flex-col space-y-2">
+                        <a class="text-[#7b563e] dark:text-[#ddc1b3] hover:text-[#9c4500] transition-colors font-sans text-sm tracking-wide uppercase"
+                            href="index.html">Home</a>
+                        <a class="text-[#7b563e] dark:text-[#ddc1b3] hover:text-[#9c4500] transition-colors font-sans text-sm tracking-wide uppercase"
+                            href="about.html">About Us</a>
+                    </nav>
+                </div>
+                <div class="space-y-4">
+                    <h5 class="font-bold text-[#9c4500]">Business</h5>
+                    <nav class="flex flex-col space-y-2">
+                        <a class="text-[#7b563e] dark:text-[#ddc1b3] hover:text-[#9c4500] transition-colors font-sans text-sm tracking-wide uppercase"
+                            href="affiliate.html">Affiliate Program</a>
+                        <a class="text-[#7b563e] dark:text-[#ddc1b3] hover:text-[#9c4500] transition-colors font-sans text-sm tracking-wide uppercase"
+                            href="contact.html">Contact Us</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CART OVERLAY & PANEL -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-head">
+            <h3>🛒 Your Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItemsList"></div>
+        <div class="cart-footer" id="cartFooter" style="display:none">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span id="cartTotal">₹0.00</span>
+            </div>
+            <button class="btn-checkout" onclick="window.location.href='index.html#shop'">
+                Go to Shop & Checkout →
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
+    <script>
+        function mobileAuthAction() {
+            if (localStorage.getItem("username")) { logout(); }
+            else { window.location.href = "login.html"; }
+        }
+    </script>
+</body>
+
+</html>

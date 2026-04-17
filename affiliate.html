@@ -1,241 +1,1099 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Affiliate Program — Doggy Diet India</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <title>Partner Program — Doggy Diet India</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="style.css">
   <style>
-    .page-hero {
-      background: linear-gradient(135deg, #4A2C17 0%, #F4823A 100%);
-      padding: 5rem 2rem 3rem;
-      text-align: center;
-      color: white;
+    /* ── PARTNER PAGE STYLES ─────────────────────── */
+    .partner-hero {
+      background: linear-gradient(135deg, #4A2C17 0%, #8B4513 50%, #F4823A 100%);
+      padding: 7rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
     }
-    .page-hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      margin-bottom: .5rem;
+
+    .partner-hero::before {
+      content: '🤝';
+      position: absolute;
+      font-size: 20rem;
+      opacity: .06;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
     }
-    .page-hero p { font-size: 1.1rem; opacity: .85; }
-    .page-content {
-      max-width: 900px;
+
+    .partner-hero-inner {
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 4rem 2rem;
-    }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      background: #F4823A;
-      color: white;
-      padding: .7rem 1.5rem;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
-      margin-bottom: 2rem;
-      transition: background .2s;
-    }
-    .back-btn:hover { background: #D96A22; }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin: 2rem 0;
-    }
-    @media(max-width:768px) {
-      .steps-grid { grid-template-columns: 1fr; }
-      .page-hero h1 { font-size: 2rem; }
-    }
-    .step-card {
-      background: #FDF8F3;
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-    }
-    .step-num {
-      width: 40px;
-      height: 40px;
-      background: #F4823A;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      margin: 0 auto 1rem;
-    }
-    .step-card h3 { color: #4A2C17; margin-bottom: .5rem; }
-    .step-card p { color: #888; font-size: .9rem; }
-    .benefits-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-    @media(max-width:768px) {
-      .benefits-grid { grid-template-columns: 1fr; }
-    }
-    .benefit-item {
-      display: flex;
+      gap: 4rem;
       align-items: center;
-      gap: 1rem;
-      background: white;
-      border-radius: 12px;
-      padding: 1rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,.05);
     }
-    .benefit-icon { font-size: 2rem; }
-    .benefit-item h4 { color: #4A2C17; margin-bottom: .2rem; }
-    .benefit-item p { color: #888; font-size: .85rem; }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      color: #4A2C17;
-      font-size: 1.8rem;
+
+    .partner-hero-text {
+      color: white;
+      position: relative;
+      z-index: 1;
+    }
+
+    .partner-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .25);
+      color: #FFE0CC;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: .4rem 1rem;
+      border-radius: 50px;
       margin-bottom: 1.5rem;
     }
-    .apply-box {
-      background: linear-gradient(135deg, #4A2C17, #F4823A);
-      border-radius: 20px;
-      padding: 3rem;
-      text-align: center;
-      color: white;
-      margin-top: 3rem;
-    }
-    .apply-box h2 {
+
+    .partner-hero-text h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      margin-bottom: 1rem;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
     }
-    .apply-box p { opacity: .9; margin-bottom: 1.5rem; }
-    .apply-form {
+
+    .partner-hero-text h1 .accent {
+      color: #FFB68E;
+    }
+
+    .partner-hero-text p {
+      font-size: 1.05rem;
+      opacity: .85;
+      line-height: 1.7;
+      max-width: 440px;
+      margin-bottom: 2rem;
+    }
+
+    .partner-hero-cta {
       display: flex;
-      gap: .8rem;
-      max-width: 400px;
-      margin: 0 auto;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
-    @media(max-width:600px) {
-      .apply-form { flex-direction: column; }
-    }
-    .apply-form input {
-      flex: 1;
-      padding: .8rem 1.2rem;
-      border-radius: 25px;
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      outline: none;
-    }
-    .apply-form button {
-      padding: .8rem 1.5rem;
+
+    .btn-partner-primary {
       background: white;
       color: #F4823A;
       border: none;
-      border-radius: 25px;
+      padding: .9rem 2rem;
+      border-radius: 50px;
+      font-size: .95rem;
       font-weight: 700;
       cursor: pointer;
-      white-space: nowrap;
-      transition: transform .2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+      transition: all .25s;
     }
-    .apply-form button:hover { transform: scale(1.05); }
+
+    .btn-partner-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .2);
+    }
+
+    .btn-partner-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, .4);
+      padding: .9rem 2rem;
+      border-radius: 50px;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .25s;
+    }
+
+    .btn-partner-secondary:hover {
+      border-color: white;
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .partner-hero-img {
+      position: relative;
+    }
+
+    .partner-hero-img img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+    }
+
+    /* ── PROGRAM SECTION ─────────────────────────── */
+    .program-section {
+      background: #F2EEEA;
+      padding: 5rem 2rem;
+    }
+
+    .program-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .program-img {
+      flex: 1;
+    }
+
+    .program-img img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .08);
+    }
+
+    .program-text {
+      flex: 1;
+    }
+
+    .program-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #4A2C17;
+      margin-bottom: 1rem;
+    }
+
+    .program-text p {
+      color: #6B6B6B;
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+
+    .program-quote {
+      padding: 1.2rem 1.5rem;
+      background: white;
+      border-left: 4px solid #F4823A;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .04);
+    }
+
+    .program-quote p {
+      font-weight: 700;
+      color: #F4823A;
+      font-style: italic;
+      font-size: .95rem;
+      margin: 0;
+    }
+
+    /* ── BENEFITS SECTION ────────────────────────── */
+    .benefits-section {
+      padding: 5rem 2rem;
+      background: var(--cream);
+    }
+
+    .benefits-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .benefits-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .benefits-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      color: #4A2C17;
+      margin-bottom: .5rem;
+    }
+
+    .benefits-header .divider {
+      width: 60px;
+      height: 4px;
+      background: #F4823A;
+      border-radius: 2px;
+      margin: 0 auto;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .benefit-card {
+      background: #F2EEEA;
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      transition: transform .3s;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .benefit-card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.15rem;
+      color: #4A2C17;
+      margin-bottom: .6rem;
+      font-weight: 700;
+    }
+
+    .benefit-card p {
+      color: #6B6B6B;
+      font-size: .9rem;
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS ────────────────────────────── */
+    .onboarding-section {
+      background: #2A1A0E;
+      color: white;
+      padding: 5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .onboarding-section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 250px;
+      height: 250px;
+      background: #F4823A;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: .2;
+    }
+
+    .onboarding-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .onboarding-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .onboarding-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .onboarding-step {
+      position: relative;
+    }
+
+    .onboarding-step .step-num {
+      font-size: 4rem;
+      font-weight: 800;
+      opacity: .1;
+      position: absolute;
+      top: -1rem;
+      left: -.5rem;
+      line-height: 1;
+    }
+
+    .onboarding-step h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .onboarding-step p {
+      color: rgba(255, 255, 255, .6);
+      font-size: .9rem;
+      line-height: 1.6;
+    }
+
+    /* ── APPLICATION FORM ────────────────────────── */
+    .apply-section {
+      padding: 5rem 2rem;
+      background: var(--cream);
+    }
+
+    .apply-card {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #F2EEEA;
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      box-shadow: 0 20px 60px rgba(74, 44, 23, .1);
+    }
+
+    .apply-sidebar {
+      width: 38%;
+      background: linear-gradient(135deg, #4A2C17 0%, #F4823A 100%);
+      padding: 3rem 2.5rem;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .apply-sidebar h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .apply-sidebar>p {
+      opacity: .85;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .apply-sidebar-features {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .apply-sidebar-features .feature {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      font-size: .92rem;
+      font-weight: 500;
+    }
+
+    .apply-sidebar-features .feature span {
+      font-size: 1.2rem;
+    }
+
+    .apply-sidebar-note {
+      margin-top: 2rem;
+      background: rgba(255, 255, 255, .1);
+      border-radius: 12px;
+      padding: 1.2rem;
+      font-size: .85rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .apply-form {
+      width: 62%;
+      padding: 3rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #7B4B2A;
+      margin-bottom: .4rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      background: white;
+      border: 1.5px solid transparent;
+      border-radius: 10px;
+      padding: .85rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .92rem;
+      color: #2A1A0E;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #F4823A;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #C49A6C;
+    }
+
+    .btn-apply {
+      width: 100%;
+      background: linear-gradient(135deg, #4A2C17 0%, #F4823A 100%);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .25s;
+      margin-top: .5rem;
+    }
+
+    .btn-apply:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(244, 130, 58, .3);
+    }
+
+    .btn-apply:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-disclaimer {
+      font-size: .68rem;
+      text-align: center;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: .8rem;
+    }
+
+    .form-error {
+      color: #e53935;
+      font-size: .8rem;
+      min-height: 1.2rem;
+      margin-top: .3rem;
+    }
+
+    .form-success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      display: none;
+    }
+
+    .form-success h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: .5rem;
+    }
+
+    /* ── TRUST SECTION ───────────────────────────── */
+    .trust-section {
+      padding: 4rem 2rem;
+    }
+
+    .trust-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .trust-inner h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: #4A2C17;
+      margin-bottom: .5rem;
+    }
+
+    .trust-inner p {
+      color: #6B6B6B;
+      font-size: 1rem;
+    }
+
+    /* ── FAQ SECTION ─────────────────────────────── */
+    .faq-section {
+      padding: 5rem 2rem;
+      background: #F2EEEA;
+    }
+
+    .faq-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .faq-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      text-align: center;
+      color: #4A2C17;
+      margin-bottom: 2.5rem;
+    }
+
+    .faq-item {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
+    }
+
+    .faq-item h4 {
+      font-size: 1rem;
+      color: #4A2C17;
+      margin-bottom: .5rem;
+      font-weight: 700;
+    }
+
+    .faq-item p {
+      color: #6B6B6B;
+      font-size: .9rem;
+      line-height: 1.65;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 768px) {
+      .partner-hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .partner-hero-text p {
+        margin-inline: auto;
+      }
+
+      .partner-hero-cta {
+        justify-content: center;
+      }
+
+      .partner-hero-img {
+        display: none;
+      }
+
+      .program-inner {
+        flex-direction: column;
+      }
+
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .onboarding-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .apply-card {
+        flex-direction: column;
+      }
+
+      .apply-sidebar {
+        width: 100%;
+      }
+
+      .apply-form {
+        width: 100%;
+        padding: 2rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-<div class="page-hero">
-  <h1>💰 Affiliate Program</h1>
-  <p>Earn money by sharing the love for premium dog food!</p>
-</div>
+  <!-- TOP BAR -->
+  <div class="topbar">
+    🎁 Free shipping on orders over <span>₹499</span> —
+    Use code <span>PAWSOME</span> at checkout!
+  </div>
 
-<div class="page-content">
-  <a href="index.html" class="back-btn">← Back to Home</a>
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a href="index.html" class="nav-logo">
+      <div class="paw">🐾</div>
+      <div class="brand">Doggy<em> Diet</em> India</div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="product.html">Shop</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <span id="navUsername" style="
+      font-size:.85rem;
+      font-weight:600;
+      color:#4A2C17;
+      display:none;
+      margin-right:.5rem;">
+      </span>
+      <button class="btn-login" id="authBtn">Login</button>
+      <button class="btn-cart" id="cartBtn" aria-label="Open cart">
+        🛒
+        <span class="cart-badge" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
 
-  <h2 class="section-title">How It Works</h2>
-  <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-num">1</div>
-      <h3>Sign Up</h3>
-      <p>Apply for our affiliate program — it's free and easy to join.</p>
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose">✕</button>
+    <a href="index.html" onclick="closeMobile()">Home</a>
+    <a href="product.html" onclick="closeMobile()">Shop</a>
+    <a href="about.html" onclick="closeMobile()">About Us</a>
+    <a href="faq.html" onclick="closeMobile()">FAQ</a>
+    <div class="mobile-menu-divider"></div>
+    <div id="mobileUsername" class="mobile-username" style="display:none;"></div>
+    <button class="mobile-auth-btn" id="mobileAuthBtn" onclick="mobileAuthAction()">
+      🔑 Login
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="partner-hero">
+    <div class="partner-hero-inner">
+      <div class="partner-hero-text">
+        <div class="partner-badge">🤝 B2B Partner Program</div>
+        <h1>Partner With Us &<br><span class="accent">Earn More</span> 🐶</h1>
+        <p>Get dog food at distributor prices and grow your pet business with India's most trusted nutrition brand.</p>
+        <div class="partner-hero-cta">
+          <a href="#apply" class="btn-partner-primary">Become a Partner →</a>
+          <a href="#benefits" class="btn-partner-secondary">View Benefits</a>
+        </div>
+      </div>
+      <div class="partner-hero-img">
+        <img src="images/adult dog food.png" alt="Premium Dog Food" />
+      </div>
     </div>
-    <div class="step-card">
-      <div class="step-num">2</div>
-      <h3>Share Your Link</h3>
-      <p>Get your unique referral link and share it with dog lovers.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PROGRAM
+  ═══════════════════════════════════════════ -->
+  <section class="program-section">
+    <div class="program-inner">
+      <div class="program-img">
+        <img src="images/puppy_food.png" alt="Doggy Diet Products" />
+      </div>
+      <div class="program-text">
+        <h2>The Doggy Diet Partner Network</h2>
+        <p>
+          We don't just sell pet food — we build ecosystems. Our Partner Program is specifically designed for pet shop
+          owners, resellers, and regional distributors who prioritize quality over mass-market compromises.
+        </p>
+        <div class="program-quote">
+          <p>"Higher profit margins aren't just a promise; they're our foundational B2B policy. By bypassing
+            middle-men, we pass the savings directly to you."</p>
+        </div>
+      </div>
     </div>
-    <div class="step-card">
-      <div class="step-num">3</div>
-      <h3>Earn Commission</h3>
-      <p>Earn up to 15% commission on every sale you refer!</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       BENEFITS
+  ═══════════════════════════════════════════ -->
+  <section class="benefits-section" id="benefits">
+    <div class="benefits-inner">
+      <div class="benefits-header">
+        <h2>Partner Advantages</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="icon">💸</div>
+          <h3>Distributor Rates</h3>
+          <p>Access tiered pricing models that ensure healthy margins of 25-40% on every sale.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="icon">📦</div>
+          <h3>Bulk Stock Priority</h3>
+          <p>Guaranteed priority inventory allocation, even during high-demand seasonal peaks.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="icon">🚚</div>
+          <h3>Reliable Supply Chain</h3>
+          <p>State-wide logistics network ensuring freshness and on-time delivery to your location.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="icon">🤝</div>
+          <h3>Dedicated Support</h3>
+          <p>A personal account manager to help you grow your pet food business segment.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="icon">📊</div>
+          <h3>Marketing Materials</h3>
+          <p>Free banners, product images, and promotional content ready for your shop.</p>
+        </div>
+        <div class="benefit-card">
+          <div class="icon">🎁</div>
+          <h3>Free Samples</h3>
+          <p>Top partners receive free product samples to offer potential customers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       HOW IT WORKS
+  ═══════════════════════════════════════════ -->
+  <section class="onboarding-section">
+    <div class="onboarding-inner">
+      <h2>Seamless Onboarding</h2>
+      <div class="onboarding-grid">
+        <div class="onboarding-step">
+          <div class="step-num">01</div>
+          <h4>Sign Up</h4>
+          <p>Complete the application form below with your business credentials.</p>
+        </div>
+        <div class="onboarding-step">
+          <div class="step-num">02</div>
+          <h4>Review</h4>
+          <p>Our partner success team reviews your business profile and location.</p>
+        </div>
+        <div class="onboarding-step">
+          <div class="step-num">03</div>
+          <h4>Verification</h4>
+          <p>A dedicated manager contacts you within 24 hours to finalize terms.</p>
+        </div>
+        <div class="onboarding-step">
+          <div class="step-num">04</div>
+          <h4>Start Selling</h4>
+          <p>Receive your first stock order and start earning immediately.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       APPLICATION FORM
+  ═══════════════════════════════════════════ -->
+  <section class="apply-section" id="apply">
+    <div class="apply-card">
+      <div class="apply-sidebar">
+        <div>
+          <h2>Let's Grow Together 🐾</h2>
+          <p>Join the network of elite pet retailers who are redefining canine nutrition in India.</p>
+          <div class="apply-sidebar-features">
+            <div class="feature"><span>✅</span> B2B Verification</div>
+            <div class="feature"><span>📞</span> 24/7 Dedicated Support</div>
+            <div class="feature"><span>💰</span> 25-40% Profit Margins</div>
+            <div class="feature"><span>🚀</span> Fast Stock Delivery</div>
+          </div>
+        </div>
+        <div class="apply-sidebar-note">
+          "Our team will contact you within 24 hours of your application submission."
+        </div>
+      </div>
+
+      <div class="apply-form" id="partnerFormContainer">
+        <form id="partnerForm" onsubmit="submitPartnerForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="pFullName" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label>Shop / Business Name</label>
+              <input type="text" id="pShopName" placeholder="Your shop name" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number *</label>
+              <input type="tel" id="pPhone" placeholder="+91 98765 43210" required />
+            </div>
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" id="pEmail" placeholder="you@example.com" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Shop Address</label>
+            <input type="text" id="pAddress" placeholder="Shop No, Street, Area" />
+          </div>
+          <div class="form-group">
+            <label>City / State</label>
+            <input type="text" id="pCityState" placeholder="City, State" />
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="pMessage" rows="3" placeholder="Tell us about your business..."></textarea>
+          </div>
+          <div class="form-error" id="partnerError"></div>
+          <button type="submit" class="btn-apply" id="partnerSubmitBtn">🤝 Apply Now</button>
+          <div class="form-disclaimer">By applying, you agree to our B2B verification terms and conditions.</div>
+        </form>
+
+        <!-- Success State -->
+        <div class="form-success" id="partnerSuccess">
+          <div style="font-size:3rem;margin-bottom:.5rem;">🎉</div>
+          <h3>Application Submitted!</h3>
+          <p>Thank you! Our team will contact you within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TRUST
+  ═══════════════════════════════════════════ -->
+  <section class="trust-section">
+    <div class="trust-inner">
+      <h3>Join 500+ Regional Partners Across India 🇮🇳</h3>
+      <p>Building a healthier future for India's dogs, one partnership at a time.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FAQ
+  ═══════════════════════════════════════════ -->
+  <section class="faq-section">
+    <div class="faq-inner">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h4>Who can join the Partner Program?</h4>
+        <p>We welcome registered pet shops, veterinary clinics, certified resellers, and regional distributors across
+          India. B2B verification is mandatory.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What are the expected profit margins?</h4>
+        <p>Partners typically enjoy 25-40% margins depending on order volume and SKU selection. Detailed tier pricing is
+          provided after approval.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How fast is the delivery?</h4>
+        <p>Metro cities usually receive shipments within 48-72 hours. Tier 2 and Tier 3 cities may take up to 4-5
+          working days.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is there a minimum order quantity?</h4>
+        <p>Yes, we have flexible MOQ tiers starting from as low as 50 units per order. Details are shared during
+          onboarding.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">🐾 Doggy Diet India</div>
+        <p>Premium nutrition crafted with love for your four-legged family.</p>
+        <div class="social-links">
+          <a class="social-btn" href="#" title="Facebook">𝐟</a>
+          <a class="social-btn" href="https://www.instagram.com/doggydietindia?igsh=Z2Q3N3h2NjV0aTZ6"
+            title="Instagram">📸</a>
+          <a class="social-btn" href="#" title="Twitter">𝕏</a>
+          <a class="social-btn" href="https://youtube.com/@varunshamra-u6k?si=izHk07iB0OcBzfzO" title="YouTube">▶</a>
+        </div>
+        <div style="margin-top:1rem;">
+          <a href="ngo.html" style="display:inline-flex;align-items:center;gap:.4rem;
+                  background:#2d6a4f;color:white;padding:.5rem 1rem;
+                  border-radius:20px;text-decoration:none;
+                  font-size:.82rem;font-weight:600;">
+            💚 Support Our NGO
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="product.html">Our Products</a></li>
+          <li><a href="blog.html">Blog & Tips</a></li>
+          <li><a href="affiliate.html">Partner Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="shipping_policy.html">Shipping Policy</a></li>
+          <li><a href="shipping_policy.html">Returns</a></li>
+          <li><a href="track-order.html">Track Order</a></li>
+          <li><a href="about.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Contact Us</h4>
+        <p><span class="ic">📍</span> Shiwalik Vihar, Zirakpur, Mohali</p>
+        <p><span class="ic">📞</span>+91 1762 291930</p>
+        <p><span class="ic">✉️</span>doggydietindia.com</p>
+        <p><span class="ic">🕐</span>Mon–Fri, 9am–6pm IST</p>
+        <div class="newsletter">
+          <div style="font-size:.82rem;font-weight:600;color:#fff;margin-bottom:.3rem;">
+            Get 10% off your first order!
+          </div>
+          <div class="newsletter-form">
+            <input type="email" placeholder="Your email address" id="emailInput" />
+            <button onclick="subscribeEmail()">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Doggy Diet India. All rights reserved. Made with ❤️</div>
+      <div class="pay-icons">
+        <span class="pay-icon">VISA</span>
+        <span class="pay-icon">MC</span>
+        <span class="pay-icon">UPI</span>
+        <span class="pay-icon">PayPal</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART OVERLAY & PANEL -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-panel" id="cartPanel">
+    <div class="cart-head">
+      <h3>🛒 Your Cart</h3>
+      <button class="cart-close" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItemsList"></div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cartTotal">₹0.00</span>
+      </div>
+      <button class="btn-checkout" onclick="window.location.href='index.html#shop'">
+        Go to Shop & Checkout →
+      </button>
     </div>
   </div>
 
-  <h2 class="section-title" style="margin-top:3rem;">Why Join Us?</h2>
-  <div class="benefits-grid">
-    <div class="benefit-item">
-      <div class="benefit-icon">💸</div>
-      <div>
-        <h4>Up to 15% Commission</h4>
-        <p>One of the highest commission rates in pet food industry</p>
-      </div>
-    </div>
-    <div class="benefit-item">
-      <div class="benefit-icon">📊</div>
-      <div>
-        <h4>Real-time Dashboard</h4>
-        <p>Track your clicks, sales and earnings in real time</p>
-      </div>
-    </div>
-    <div class="benefit-item">
-      <div class="benefit-icon">💳</div>
-      <div>
-        <h4>Monthly Payouts</h4>
-        <p>Get paid directly to your bank account every month</p>
-      </div>
-    </div>
-    <div class="benefit-item">
-      <div class="benefit-icon">🎁</div>
-      <div>
-        <h4>Free Products</h4>
-        <p>Top affiliates receive free products to review and promote</p>
-      </div>
-    </div>
-    <div class="benefit-item">
-      <div class="benefit-icon">🤝</div>
-      <div>
-        <h4>Dedicated Support</h4>
-        <p>Our affiliate team is here to help you succeed</p>
-      </div>
-    </div>
-    <div class="benefit-item">
-      <div class="benefit-icon">📱</div>
-      <div>
-        <h4>Ready-made Content</h4>
-        <p>Banners, images and copy ready for you to use</p>
-      </div>
-    </div>
-  </div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
-  <div class="apply-box">
-    <h2>Ready to Start Earning? 🐾</h2>
-    <p>Join 500+ affiliates already earning with Doggy Diet India!</p>
-    <div class="apply-form">
-      <input type="email" placeholder="Your email address" id="affiliateEmail"/>
-      <button onclick="applyAffiliate()">Apply Now →</button>
-    </div>
-  </div>
-</div>
+  <script src="app.js"></script>
+  <script>
+    const BASE = "";
 
-<script>
-function applyAffiliate() {
-  const email = document.getElementById("affiliateEmail").value.trim();
-  if (!email || !email.includes("@")) {
-    alert("Please enter a valid email!");
-    return;
-  }
-  alert(`✅ Thanks for applying! We'll contact you at ${email} within 24 hours.`);
-  document.getElementById("affiliateEmail").value = "";
-}
-</script>
+    function mobileAuthAction() {
+      if (localStorage.getItem("username")) { logout(); }
+      else { window.location.href = "login.html"; }
+    }
+
+    // Show/hide form based on login status
+    function updateFormAuthState() {
+      const isLoggedIn = !!localStorage.getItem("token");
+      const form = document.getElementById("partnerForm");
+      const errEl = document.getElementById("partnerError");
+
+      if (!isLoggedIn && form) {
+        // Disable all inputs and button
+        form.querySelectorAll("input, textarea").forEach(el => {
+          el.disabled = true;
+          el.style.opacity = ".5";
+        });
+        const btn = document.getElementById("partnerSubmitBtn");
+        btn.disabled = true;
+        btn.textContent = "🔒 Login Required to Apply";
+        errEl.innerHTML = '⚠️ You must <a href="login.html" style="color:#F4823A;font-weight:700;text-decoration:underline;">login</a> first to submit an application.';
+      }
+    }
+
+    // Run on page load
+    document.addEventListener("DOMContentLoaded", updateFormAuthState);
+
+    async function submitPartnerForm(e) {
+      e.preventDefault();
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Please login first to apply as a partner!");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const btn = document.getElementById("partnerSubmitBtn");
+      const errEl = document.getElementById("partnerError");
+      errEl.textContent = "";
+
+      const fullName  = document.getElementById("pFullName").value.trim();
+      const shopName  = document.getElementById("pShopName").value.trim();
+      const phone     = document.getElementById("pPhone").value.trim();
+      const email     = document.getElementById("pEmail").value.trim();
+      const address   = document.getElementById("pAddress").value.trim();
+      const cityState = document.getElementById("pCityState").value.trim();
+      const message   = document.getElementById("pMessage").value.trim();
+
+      // Validate
+      if (!fullName || !phone || !email) {
+        errEl.textContent = "⚠️ Name, Phone and Email are required!";
+        return;
+      }
+      if (!/^\d{10}$/.test(phone.replace(/[\s+\-]/g, "").slice(-10))) {
+        errEl.textContent = "⚠️ Please enter a valid 10-digit phone number.";
+        return;
+      }
+      if (!email.includes("@")) {
+        errEl.textContent = "⚠️ Please enter a valid email address.";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Submitting...";
+
+      try {
+        const res = await fetch(`${BASE}/api/partner/apply`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify({
+            fullName, shopName, phone, email,
+            address, cityState, message
+          })
+        });
+
+        if (res.ok) {
+          document.getElementById("partnerForm").style.display = "none";
+          document.getElementById("partnerSuccess").style.display = "block";
+          if (typeof showToast === "function") showToast("🎉 Application submitted successfully!");
+        } else if (res.status === 401 || res.status === 403) {
+          errEl.textContent = "❌ Session expired. Please login again.";
+          btn.disabled = false;
+          btn.textContent = "🤝 Apply Now";
+          setTimeout(() => window.location.href = "login.html", 2000);
+        } else {
+          const data = await res.json();
+          errEl.textContent = "❌ " + (data.error || "Something went wrong. Try again.");
+          btn.disabled = false;
+          btn.textContent = "🤝 Apply Now";
+        }
+      } catch (err) {
+        errEl.textContent = "❌ Server error. Please try again later.";
+        btn.disabled = false;
+        btn.textContent = "🤝 Apply Now";
+      }
+    }
+  </script>
 
 </body>
+
 </html>

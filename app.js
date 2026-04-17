@@ -1,12 +1,12 @@
 /* ════════════════════════════════════════════════
    CONFIG & STATE
 ═══════════════════════════════════════════════ */
-const BASE_URL   = "";
+const BASE_URL = "";
 let activeFilter = 'all';
-let currentPage  = 0;
-let wished       = new Set();
+let currentPage = 0;
+let wished = new Set();
 let toastTimer;
-let currentCart  = null;
+let currentCart = null;
 
 // ✅ Token header helper
 function authHeaders() {
@@ -31,24 +31,36 @@ function showToast(msg) {
 
 /* ── HARDCODED REVIEWS ───────────────────────── */
 const reviews = [
-  { name:"Sarah M.",  dog:"Golden Retriever, 3 yrs",
-    text:"My golden literally runs to her bowl now. Total game changer!",
-    product:"Salmon & Sweet Potato",  stars:5, avatar:"👩" },
-  { name:"James K.",  dog:"Labrador, 5 yrs",
-    text:"Our lab's digestion improved within a week. He loves every bite.",
-    product:"Chicken & Brown Rice",   stars:5, avatar:"👨" },
-  { name:"Priya L.",  dog:"French Bulldog, 2 yrs",
-    text:"Not a single allergy flare-up since switching. Miracle formula!",
-    product:"Wagyu Beef Gourmet",     stars:5, avatar:"👩🏽" },
-  { name:"Tom H.",    dog:"Border Collie Pup, 4 mo",
-    text:"Vet is amazed at his development. Healthy weight, sharp eyes!",
-    product:"Puppy Power Bites",      stars:5, avatar:"👨🏻" },
-  { name:"Maria G.",  dog:"Dachshund, 8 yrs",
-    text:"Senior Vitality Blend made a visible difference in mobility.",
-    product:"Senior Vitality Blend",  stars:4, avatar:"👩🏻" },
-  { name:"Derek W.",  dog:"Siberian Husky, 2 yrs",
-    text:"Our husky finishes every single time. Fast shipping too!",
-    product:"Turkey & Quinoa Bowl",   stars:5, avatar:"🧔" },
+  {
+    name: "Sarah M.", dog: "Golden Retriever, 3 yrs",
+    text: "My golden literally runs to her bowl now. Total game changer!",
+    product: "Salmon & Sweet Potato", stars: 5, avatar: "👩"
+  },
+  {
+    name: "James K.", dog: "Labrador, 5 yrs",
+    text: "Our lab's digestion improved within a week. He loves every bite.",
+    product: "Chicken & Brown Rice", stars: 5, avatar: "👨"
+  },
+  {
+    name: "Priya L.", dog: "French Bulldog, 2 yrs",
+    text: "Not a single allergy flare-up since switching. Miracle formula!",
+    product: "Wagyu Beef Gourmet", stars: 5, avatar: "👩🏽"
+  },
+  {
+    name: "Tom H.", dog: "Border Collie Pup, 4 mo",
+    text: "Vet is amazed at his development. Healthy weight, sharp eyes!",
+    product: "Puppy Power Bites", stars: 5, avatar: "👨🏻"
+  },
+  {
+    name: "Maria G.", dog: "Dachshund, 8 yrs",
+    text: "Senior Vitality Blend made a visible difference in mobility.",
+    product: "Senior Vitality Blend", stars: 4, avatar: "👩🏻"
+  },
+  {
+    name: "Derek W.", dog: "Siberian Husky, 2 yrs",
+    text: "Our husky finishes every single time. Fast shipping too!",
+    product: "Turkey & Quinoa Bowl", stars: 5, avatar: "🧔"
+  },
 ];
 
 /* ════════════════════════════════════════════════
@@ -56,15 +68,15 @@ const reviews = [
 ═══════════════════════════════════════════════ */
 function checkAuth() {
   const username = localStorage.getItem("username");
-  const authBtn  = document.getElementById("authBtn");
-  const nameEl   = document.getElementById("navUsername");
+  const authBtn = document.getElementById("authBtn");
+  const nameEl = document.getElementById("navUsername");
 
   if (username) {
-    authBtn.textContent  = "Logout";
-    nameEl.textContent   = "👋 " + username;
+    authBtn.textContent = "Logout";
+    nameEl.textContent = "👋 " + username;
     nameEl.style.display = "inline";
   } else {
-    authBtn.textContent  = "Login";
+    authBtn.textContent = "Login";
     nameEl.style.display = "none";
   }
 }
@@ -72,11 +84,11 @@ function checkAuth() {
 async function logout() {
   try {
     await fetch(`${BASE_URL}/api/auth/logout`, {
-      method:      "POST",
-      headers:     authHeaders(),
+      method: "POST",
+      headers: authHeaders(),
       credentials: "include"
     });
-  } catch(e) {}
+  } catch (e) { }
 
   localStorage.removeItem("username");
   localStorage.removeItem("email");
@@ -85,22 +97,25 @@ async function logout() {
   location.reload();
 }
 
-document.getElementById("authBtn").addEventListener("click", () => {
-  if (localStorage.getItem("username")) {
-    logout();
-  } else {
-    window.location.href = "login.html";
-  }
-});
+const _authBtn = document.getElementById("authBtn");
+if (_authBtn) {
+  _authBtn.addEventListener("click", () => {
+    if (localStorage.getItem("username")) {
+      logout();
+    } else {
+      window.location.href = "login.html";
+    }
+  });
+}
 
 /* ════════════════════════════════════════════════
    PRODUCTS
 ═══════════════════════════════════════════════ */
 async function fetchProducts(page = 0, size = 8,
-                              sortBy = "productId") {
+  sortBy = "productId") {
   showProductsLoading(true);
   try {
-    const res  = await fetch(
+    const res = await fetch(
       `${BASE_URL}/api/public/products?page=${page}` +
       `&size=${size}&sortBy=${sortBy}`,
       { credentials: "include" }
@@ -109,7 +124,7 @@ async function fetchProducts(page = 0, size = 8,
     renderProducts(data.products);
     renderPagination(data.totalPages, data.pageNumber);
     currentPage = data.pageNumber;
-  } catch(e) {
+  } catch (e) {
     document.getElementById("productsGrid").innerHTML =
       `<div style="text-align:center;color:#999;padding:2rem;">
          ⚠️ Could not load products. Is the server running?
@@ -126,7 +141,7 @@ async function searchProducts(keyword) {
   }
   showProductsLoading(true);
   try {
-    const res  = await fetch(
+    const res = await fetch(
       `${BASE_URL}/api/public/products/search` +
       `?keyword=${keyword}&page=0&size=8`,
       { credentials: "include" }
@@ -134,7 +149,7 @@ async function searchProducts(keyword) {
     const data = await res.json();
     renderProducts(data.products);
     renderPagination(data.totalPages, data.pageNumber);
-  } catch(e) {
+  } catch (e) {
     showToast("⚠️ Search failed!");
   } finally {
     showProductsLoading(false);
@@ -142,20 +157,16 @@ async function searchProducts(keyword) {
 }
 
 function showProductsLoading(show) {
-  const loading = document.getElementById("productsLoading");
-  const grid    = document.getElementById("productsGrid");
-  if (loading) loading.style.display = show ? "block" : "none";
-  if (grid)    grid.style.display    = show ? "none"  : "grid";
+  const pl = document.getElementById("productsLoading");
+  const pg = document.getElementById("productsGrid");
+  if (pl) pl.style.display = show ? "block" : "none";
+  if (pg) pg.style.display = show ? "none" : "grid";
 }
 
 /* ── Render Products ─────────────────────────── */
-function getDiscount(mrp, sp) {
-  if (!mrp || !sp || mrp <= sp) return 0;
-  return Math.round(((mrp - sp) / mrp) * 100);
-}
-
 function renderProducts(products) {
   const grid = document.getElementById("productsGrid");
+  if (!grid) return;
 
   if (!products || products.length === 0) {
     grid.innerHTML = `
@@ -167,25 +178,16 @@ function renderProducts(products) {
     return;
   }
 
-  grid.innerHTML = products.map(p => {
-    const mrp  = p.mrp  || p.price || 0;
-    const sp   = p.specialPrice || p.price || 0;
-    const disc = getDiscount(mrp, sp);
-    return `
-    <div class="product-card" data-id="${p.productId}"
-         style="cursor:pointer;"
-         onclick="window.location.href='product-detail.html?id=${p.productId}'">
-      <div class="product-img" style="position:relative;">
+  grid.innerHTML = products.map(p => `
+    <div class="product-card" data-id="${p.productId}">
+      <div class="product-img">
         <button class="product-wishlist
           ${wished.has(p.productId) ? 'loved' : ''}"
-                onclick="event.stopPropagation();toggleWish(${p.productId}, this)">
+                onclick="toggleWish(${p.productId}, this)">
           ${wished.has(p.productId) ? '❤️' : '🤍'}
         </button>
-        ${disc > 0
-          ? `<span style="position:absolute;top:10px;left:10px;background:#e53935;color:white;font-size:.7rem;font-weight:700;padding:.25rem .6rem;border-radius:20px;z-index:2;">${disc}% OFF</span>`
-          : ''}
         ${p.imageUrl
-          ? `<img
+      ? `<img
                src="${p.imageUrl}"
                alt="${p.name}"
                style="width:100%;height:160px;
@@ -200,12 +202,12 @@ function renderProducts(products) {
                          justify-content:center;">
                🐾
              </div>`
-          : `<div style="font-size:5rem;height:160px;
+      : `<div style="font-size:5rem;height:160px;
                          display:flex;align-items:center;
                          justify-content:center;">
                🐾
              </div>`
-        }
+    }
       </div>
       <div class="product-body">
         <div class="product-meta">
@@ -213,34 +215,30 @@ function renderProducts(products) {
         </div>
         <div class="product-name">${p.name}</div>
         <div style="font-size:.82rem;color:#999;margin:.3rem 0;">
-          ${p.description ? p.description.substring(0,60) + '...' : ''}
+          ${p.description || ''}
         </div>
         <div class="product-price-row">
-          <div>
-            ${disc > 0 ? `
-              <div style="font-size:.78rem;color:#999;text-decoration:line-through;">MRP: ₹${mrp.toFixed(2)}</div>
-              <div class="product-price" style="color:#F4823A;font-size:1.1rem;font-weight:700;">₹${sp.toFixed(2)}</div>
-            ` : `
-              <div class="product-price">₹${sp.toFixed(2)}</div>
-            `}
+          <div class="product-price">
+            ₹${p.price.toFixed(2)}
           </div>
           <button class="btn-add-cart"
                   id="btn-${p.productId}"
-                  onclick="event.stopPropagation();addToCart(${p.productId}, this)"
+                  onclick="addToCart(${p.productId}, this)"
                   ${p.quantity <= 0
-                    ? 'disabled style="opacity:.5;cursor:not-allowed"'
-                    : ''}>
+      ? 'disabled style="opacity:.5;cursor:not-allowed"'
+      : ''}>
             ${p.quantity <= 0 ? 'Out of Stock' : '+ Add'}
           </button>
         </div>
       </div>
     </div>
-  `}).join('');
+  `).join('');
 }
 
 /* ── Pagination ──────────────────────────────── */
 function renderPagination(totalPages, currentPage) {
   const container = document.getElementById("pagination");
+  if (!container) return;
   if (totalPages <= 1) { container.innerHTML = ''; return; }
 
   let html = '';
@@ -251,7 +249,7 @@ function renderPagination(totalPages, currentPage) {
           padding:.4rem .8rem;
           border-radius:8px;
           border:1.5px solid ${i === currentPage
-            ? '#F4823A' : '#e0d5cc'};
+        ? '#F4823A' : '#e0d5cc'};
           background:${i === currentPage ? '#F4823A' : 'white'};
           color:${i === currentPage ? 'white' : '#4A2C17'};
           cursor:pointer;font-weight:600;">
@@ -265,7 +263,7 @@ function renderPagination(totalPages, currentPage) {
 function filterProducts(filter, btn) {
   activeFilter = filter;
   document.querySelectorAll('.filter-btn')
-          .forEach(b => b.classList.remove('active'));
+    .forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
 
   if (filter === 'all') {
@@ -274,8 +272,8 @@ function filterProducts(filter, btn) {
     searchProducts(filter);
   }
 
-  document.getElementById('shop')
-          .scrollIntoView({ behavior: 'smooth' });
+  const shopEl = document.getElementById('shop');
+  if (shopEl) shopEl.scrollIntoView({ behavior: 'smooth' });
 }
 
 /* ════════════════════════════════════════════════
@@ -288,16 +286,15 @@ async function addToCart(productId, btn) {
     return;
   }
 
-  btn.disabled    = true;
+  btn.disabled = true;
   btn.textContent = "Adding...";
 
   try {
     const res = await fetch(
-      // ✅ Correct backend URL: /api/cart/add/{productId}
       `${BASE_URL}/api/cart/add/${productId}`,
       {
-        method:      "POST",
-        headers:     authHeaders(),
+        method: "POST",
+        headers: authHeaders(),
         credentials: "include"
       }
     );
@@ -309,22 +306,22 @@ async function addToCart(productId, btn) {
       btn.textContent = "✓ Added";
       setTimeout(() => {
         btn.textContent = "+ Add";
-        btn.disabled    = false;
+        btn.disabled = false;
       }, 1800);
     } else if (res.status === 401) {
       showToast("⚠️ Please login first!");
       window.location.href = "login.html";
-      btn.disabled    = false;
+      btn.disabled = false;
       btn.textContent = "+ Add";
     } else {
       const text = await res.text();
       showToast("❌ " + (text || "Could not add to cart"));
-      btn.disabled    = false;
+      btn.disabled = false;
       btn.textContent = "+ Add";
     }
-  } catch(e) {
+  } catch (e) {
     showToast("❌ Server error!");
-    btn.disabled    = false;
+    btn.disabled = false;
     btn.textContent = "+ Add";
   }
 }
@@ -332,26 +329,24 @@ async function addToCart(productId, btn) {
 async function fetchCart() {
   if (!localStorage.getItem("username")) return;
   try {
-    // ✅ Correct backend URL: /api/cart
     const res = await fetch(`${BASE_URL}/api/cart`, {
-      headers:     authHeaders(),
+      headers: authHeaders(),
       credentials: "include"
     });
     if (res.ok) {
       const cart = await res.json();
       updateCartUI(cart);
     }
-  } catch(e) {}
+  } catch (e) { }
 }
 
-async function removeFromCart(cartItemId) {
+async function removeFromCart(productId) {
   try {
-    // ✅ Correct: DELETE /api/cart/remove/{cartItemId}
     const res = await fetch(
-      `${BASE_URL}/api/cart/remove/${cartItemId}`,
+      `${BASE_URL}/api/cart/remove/${productId}`,
       {
-        method:      "DELETE",
-        headers:     authHeaders(),
+        method: "DELETE",
+        headers: authHeaders(),
         credentials: "include"
       }
     );
@@ -360,23 +355,19 @@ async function removeFromCart(cartItemId) {
       updateCartUI(cart);
       showToast("🗑️ Removed from cart");
     }
-  } catch(e) {
+  } catch (e) {
     showToast("❌ Could not remove item");
   }
 }
 
-async function updateQuantity(cartItemId, newQty) {
-  if (newQty <= 0) {
-    removeFromCart(cartItemId);
-    return;
-  }
+async function updateQuantity(productId, newQty) {
   try {
-    // ✅ Correct: PUT /api/cart/update/{cartItemId}?quantity=N
     const res = await fetch(
-      `${BASE_URL}/api/cart/update/${cartItemId}?quantity=${newQty}`,
+      `${BASE_URL}/api/cart/update/${productId}` +
+      `?quantity=${newQty}`,
       {
-        method:      "PUT",
-        headers:     authHeaders(),
+        method: "PUT",
+        headers: authHeaders(),
         credentials: "include"
       }
     );
@@ -387,7 +378,7 @@ async function updateQuantity(cartItemId, newQty) {
       const text = await res.text();
       showToast("❌ " + text);
     }
-  } catch(e) {
+  } catch (e) {
     showToast("❌ Could not update quantity");
   }
 }
@@ -396,17 +387,18 @@ async function updateQuantity(cartItemId, newQty) {
 function updateCartUI(cart) {
   currentCart = cart;
 
-  const list   = document.getElementById("cartItemsList");
+  const list = document.getElementById("cartItemsList");
   const footer = document.getElementById("cartFooter");
-  const badge  = document.getElementById("cartCount");
+  const badge = document.getElementById("cartCount");
 
-  // ✅ Backend returns {cartId, products:[...], totalPrice}
-  // products field mein each item: {productId, productName, image, quantity, price}
-  const items = cart.products || cart.items || [];
-  const totalItems = items.reduce((s, i) => s + (i.quantity || 0), 0);
-  badge.textContent = totalItems;
+  const totalItems = cart.items
+    ? cart.items.reduce((s, i) => s + i.quantity, 0)
+    : 0;
 
-  if (items.length === 0) {
+  if (badge) badge.textContent = totalItems;
+  if (!list || !footer) return;
+
+  if (!cart.items || cart.items.length === 0) {
     list.innerHTML = `
       <div class="cart-empty">
         <div class="empty-icon">🛒</div>
@@ -419,40 +411,34 @@ function updateCartUI(cart) {
     return;
   }
 
-  // ✅ Use items[] from above, backend uses 'image' field (not imageUrl)
-  list.innerHTML = items.map(i => {
-    const imgSrc  = i.image || i.imageUrl;
-    const price   = i.price  || 0;
-    const qty     = i.quantity || 1;
-    const subtotal = price * qty;
-    return `
+  list.innerHTML = cart.items.map(i => `
     <div class="cart-item">
       <div class="cart-item-img">
-        ${imgSrc
-          ? `<img src="${imgSrc}"
+        ${i.imageUrl
+      ? `<img src="${i.imageUrl}"
                   alt="${i.productName}"
                   style="width:50px;height:50px;
                          object-fit:cover;border-radius:8px;"
                   onerror="this.style.display='none'"/>`
-          : `<div style="font-size:2rem;">🐾</div>`
-        }
+      : `<div style="font-size:2rem;">🐾</div>`
+    }
       </div>
 
       <div style="flex:1;">
         <div class="cart-item-name">${i.productName}</div>
         <div class="cart-item-price">
-          ₹${subtotal.toFixed(2)}
+          ₹${i.subtotal.toFixed(2)}
         </div>
         <div style="font-size:.8rem;color:#999;
                     margin-bottom:.4rem;">
-          ₹${price.toFixed(2)} each
+          ₹${i.price.toFixed(2)} each
         </div>
 
         <!-- +- Quantity Controls -->
         <div style="display:flex;align-items:center;gap:.5rem;">
           <button
-            onclick="updateQuantity(${i.cartItemId},
-                     ${qty - 1})"
+            onclick="updateQuantity(${i.productId},
+                     ${i.quantity - 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
                    font-size:1rem;cursor:pointer;display:flex;
@@ -469,12 +455,12 @@ function updateCartUI(cart) {
           <span style="font-weight:700;font-size:1rem;
                        color:#4A2C17;min-width:24px;
                        text-align:center;">
-            ${qty}
+            ${i.quantity}
           </span>
 
           <button
-            onclick="updateQuantity(${i.cartItemId},
-                     ${qty + 1})"
+            onclick="updateQuantity(${i.productId},
+                     ${i.quantity + 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
                    font-size:1rem;cursor:pointer;display:flex;
@@ -491,14 +477,13 @@ function updateCartUI(cart) {
       </div>
 
       <button class="cart-item-remove"
-              onclick="removeFromCart(${i.cartItemId})"
+              onclick="removeFromCart(${i.productId})"
               title="Remove item">✕</button>
     </div>
-  `;
-  }).join('');
+  `).join('');
 
   document.getElementById("cartTotal").textContent =
-    `₹${(cart.totalPrice || 0).toFixed(2)}`;
+    `₹${cart.totalPrice.toFixed(2)}`;
   footer.style.display = "block";
 }
 
@@ -512,8 +497,8 @@ function openPaymentModal() {
     return;
   }
 
-  if (!currentCart || !(currentCart.products || currentCart.items)
-      || (currentCart.products || currentCart.items || []).length === 0) {
+  if (!currentCart || !currentCart.items
+    || currentCart.items.length === 0) {
     showToast("⚠️ Your cart is empty!");
     return;
   }
@@ -534,27 +519,27 @@ function openPaymentModal() {
   `;
 
   // ✅ Address fields clear karo
-  ['delName','delPhone','delAddress',
-   'delCity','delState','delPincode'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
+  ['delName', 'delPhone', 'delAddress',
+    'delCity', 'delState', 'delPincode'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
   const errEl = document.getElementById("addressError");
   if (errEl) errEl.textContent = '';
 
   document.getElementById("paymentOverlay")
-          .classList.add("open");
+    .classList.add("open");
   toggleCart();
 }
 
 function closePaymentModal() {
   document.getElementById("paymentOverlay")
-          .classList.remove("open");
+    .classList.remove("open");
 }
 
 function closeSuccessModal() {
   document.getElementById("successOverlay")
-          .classList.remove("open");
+    .classList.remove("open");
   fetchProducts();
 }
 
@@ -567,25 +552,25 @@ async function confirmOrder() {
     'input[name="payMethod"]:checked').value;
 
   // ✅ Address fields read karo
-  const delName    = document.getElementById("delName")
-                             .value.trim();
-  const delPhone   = document.getElementById("delPhone")
-                             .value.trim();
+  const delName = document.getElementById("delName")
+    .value.trim();
+  const delPhone = document.getElementById("delPhone")
+    .value.trim();
   const delAddress = document.getElementById("delAddress")
-                             .value.trim();
-  const delCity    = document.getElementById("delCity")
-                             .value.trim();
-  const delState   = document.getElementById("delState")
-                             .value.trim();
+    .value.trim();
+  const delCity = document.getElementById("delCity")
+    .value.trim();
+  const delState = document.getElementById("delState")
+    .value.trim();
   const delPincode = document.getElementById("delPincode")
-                             .value.trim();
+    .value.trim();
   const addressErr = document.getElementById("addressError");
 
   // ✅ Validate karo
   addressErr.textContent = "";
 
   if (!delName || !delPhone || !delAddress ||
-      !delCity || !delState || !delPincode) {
+    !delCity || !delState || !delPincode) {
     addressErr.textContent =
       "⚠️ Please fill all address fields!";
     return;
@@ -603,7 +588,7 @@ async function confirmOrder() {
     return;
   }
 
-  btn.disabled    = true;
+  btn.disabled = true;
   btn.textContent = "Processing...";
 
   try {
@@ -611,8 +596,8 @@ async function confirmOrder() {
     const orderRes = await fetch(
       `${BASE_URL}/api/payment/create-order`,
       {
-        method:      "POST",
-        headers:     authHeaders(),
+        method: "POST",
+        headers: authHeaders(),
         credentials: "include",
         body: JSON.stringify({
           amount: currentCart.totalPrice
@@ -624,21 +609,21 @@ async function confirmOrder() {
 
     // ✅ Step 2 — Razorpay Checkout
     const options = {
-      key:         orderData.keyId,
-      amount:      orderData.amount,
-      currency:    "INR",
-      name:        "Doggy Diet India 🐾",
+      key: orderData.keyId,
+      amount: orderData.amount,
+      currency: "INR",
+      name: "Doggy Diet India 🐾",
       description: "Premium Dog Food Order",
-      order_id:    orderData.orderId,
+      order_id: orderData.orderId,
 
-      handler: async function(response) {
+      handler: async function (response) {
 
         // ✅ Step 3 — Verify karo
         const verifyRes = await fetch(
           `${BASE_URL}/api/payment/verify`,
           {
-            method:      "POST",
-            headers:     authHeaders(),
+            method: "POST",
+            headers: authHeaders(),
             credentials: "include",
             body: JSON.stringify({
               razorpay_order_id:
@@ -659,16 +644,16 @@ async function confirmOrder() {
           const placeRes = await fetch(
             `${BASE_URL}/api/orders/place`,
             {
-              method:      "POST",
-              headers:     authHeaders(),
+              method: "POST",
+              headers: authHeaders(),
               credentials: "include",
               body: JSON.stringify({
-                paymentMethod:   paymentMethod,
-                deliveryName:    delName,
-                deliveryPhone:   delPhone,
+                paymentMethod: paymentMethod,
+                deliveryName: delName,
+                deliveryPhone: delPhone,
                 deliveryAddress: delAddress,
-                deliveryCity:    delCity,
-                deliveryState:   delState,
+                deliveryCity: delCity,
+                deliveryState: delState,
                 deliveryPincode: delPincode
               })
             }
@@ -699,17 +684,17 @@ async function confirmOrder() {
       },
 
       prefill: {
-        name:    delName,
-        email:   localStorage.getItem("email") || "",
+        name: delName,
+        email: localStorage.getItem("email") || "",
         contact: delPhone
       },
 
       theme: { color: "#F4823A" },
 
       modal: {
-        ondismiss: function() {
+        ondismiss: function () {
           showToast("⚠️ Payment cancelled!");
-          btn.disabled    = false;
+          btn.disabled = false;
           btn.textContent = "🎉 Place Order";
         }
       }
@@ -719,10 +704,10 @@ async function confirmOrder() {
     rzp.open();
     closePaymentModal();
 
-  } catch(e) {
+  } catch (e) {
     console.error("Payment error:", e);
     showToast("❌ Payment failed! Try again.");
-    btn.disabled    = false;
+    btn.disabled = false;
     btn.textContent = "🎉 Place Order";
   }
 }
@@ -748,9 +733,10 @@ function toggleWish(id, btn) {
    REVIEWS
 ═══════════════════════════════════════════════ */
 function renderReviews() {
-  const el = document.getElementById('reviewsGrid');
-  if (!el) return; // not on this page
-  el.innerHTML = reviews.map(r => `
+  const rg = document.getElementById('reviewsGrid');
+  if (!rg) return;
+  rg.innerHTML =
+    reviews.map(r => `
       <div class="review-card">
         <div class="reviewer">
           <div class="reviewer-avatar">${r.avatar}</div>
@@ -774,10 +760,10 @@ function renderReviews() {
    CART TOGGLE
 ═══════════════════════════════════════════════ */
 function toggleCart() {
-  document.getElementById('cartPanel')
-          .classList.toggle('open');
-  document.getElementById('cartOverlay')
-          .classList.toggle('open');
+  const cp = document.getElementById('cartPanel');
+  const co = document.getElementById('cartOverlay');
+  if (cp) cp.classList.toggle('open');
+  if (co) co.classList.toggle('open');
 }
 
 /* ════════════════════════════════════════════════
@@ -785,7 +771,7 @@ function toggleCart() {
 ═══════════════════════════════════════════════ */
 function subscribeEmail() {
   const v = document.getElementById('emailInput')
-                    .value.trim();
+    .value.trim();
   if (!v || !v.includes('@')) {
     showToast('⚠️ Please enter a valid email');
     return;
@@ -798,34 +784,36 @@ function subscribeEmail() {
    MOBILE MENU
 ═══════════════════════════════════════════════ */
 function closeMobile() {
-  document.getElementById('mobileMenu')
-          .classList.remove('open');
+  const mm = document.getElementById('mobileMenu');
+  if (mm) mm.classList.remove('open');
 }
 
 /* ════════════════════════════════════════════════
    EVENT LISTENERS
 ═══════════════════════════════════════════════ */
-document.getElementById('cartBtn')
-        .addEventListener('click', toggleCart);
+const _cartBtn = document.getElementById('cartBtn');
+if (_cartBtn) _cartBtn.addEventListener('click', toggleCart);
 
-document.getElementById('hamburgerBtn')
-        .addEventListener('click', () => {
-          document.getElementById('mobileMenu')
-                  .classList.add('open');
-        });
+const _hamburgerBtn = document.getElementById('hamburgerBtn');
+if (_hamburgerBtn) {
+  _hamburgerBtn.addEventListener('click', () => {
+    const mm = document.getElementById('mobileMenu');
+    if (mm) mm.classList.add('open');
+  });
+}
 
-document.getElementById('mobileClose')
-        .addEventListener('click', closeMobile);
+const _mobileClose = document.getElementById('mobileClose');
+if (_mobileClose) _mobileClose.addEventListener('click', closeMobile);
 
 window.addEventListener('scroll', () => {
-  document.getElementById('mainNav')
-          .classList.toggle('scrolled', scrollY > 30);
+  const nav = document.getElementById('mainNav');
+  if (nav) nav.classList.toggle('scrolled', scrollY > 30);
 });
 
 /* ════════════════════════════════════════════════
-   INIT — only run on pages where elements exist
+   INIT
 ═══════════════════════════════════════════════ */
 checkAuth();
-fetchCart();
 if (document.getElementById('productsGrid')) fetchProducts();
-if (document.getElementById('reviewsGrid'))  renderReviews();
+fetchCart();
+if (document.getElementById('reviewsGrid')) renderReviews();

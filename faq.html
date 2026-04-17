@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Doggy Diet India - Frequently Asked Questions</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fef8f3;
+            color: #1d1b19;
+            min-height: 100vh;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Noto Serif', serif;
+        }
+
+        /* Nav */
+        .nav {
+            background: rgba(254, 248, 243, 0.92);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(221, 193, 179, 0.3);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-brand {
+            font-family: 'Noto Serif', serif;
+            font-style: italic;
+            font-size: 22px;
+            color: #9c4500;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: 'Noto Serif', serif;
+            font-size: 15px;
+            color: #7b563e;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #9c4500;
+        }
+
+        .nav-link.active {
+            color: #9c4500;
+            border-bottom: 2px solid #9c4500;
+            padding-bottom: 2px;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 16px;
+            color: #9c4500;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Main */
+        .main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 56px 24px;
+        }
+
+        /* Hero */
+        .hero-faq {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .hero-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #9c4500;
+            margin-bottom: 12px;
+        }
+
+        .hero-faq h1 {
+            font-size: clamp(36px, 6vw, 60px);
+            color: #1d1b19;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .hero-faq p {
+            font-size: 17px;
+            color: #7b563e;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Bento Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        /* Cards */
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+            border: 1px solid rgba(221, 193, 179, 0.25);
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-light {
+            background: #f8f3ee;
+        }
+
+        .card-mid {
+            background: #f2ede8;
+        }
+
+        .card-white {
+            background: #ffffff;
+        }
+
+        /* Card 1 — large featured */
+        .c1 {
+            grid-column: span 8;
+            display: flex;
+            min-height: 280px;
+        }
+
+        .c1-img {
+            width: 45%;
+            background: #e8dbd5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .c1-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s;
+        }
+
+        .c1:hover .c1-img img {
+            transform: scale(1.05);
+        }
+
+        .c1-body {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .tag-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            color: #9c4500;
+        }
+
+        .tag-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .c1 h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #1d1b19;
+            line-height: 1.3;
+        }
+
+        .c1 p {
+            font-size: 14px;
+            color: #564338;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #9c4500;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .read-more:hover {
+            gap: 10px;
+        }
+
+        /* Card 2 — vertical */
+        .c2 {
+            grid-column: span 4;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .c2-img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            background: #e8dbd5;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .c2-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .c2-icon {
+            color: #9c4500;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .c2 h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #1d1b19;
+            line-height: 1.35;
+        }
+
+        .c2 p {
+            font-size: 13px;
+            color: #564338;
+            line-height: 1.65;
+        }
+
+        /* Card 3 — simple */
+        .c3 {
+            grid-column: span 4;
+            padding: 28px;
+        }
+
+        .c3-icon {
+            width: 44px;
+            height: 44px;
+            background: #ffdcc7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .c3 h3 {
+            font-size: 18px;
+            margin-bottom: 14px;
+            color: #1d1b19;
+        }
+
+        .c3-img {
+            width: 100%;
+            height: 140px;
+            border-radius: 8px;
+            background: #e8dbd5;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .c3-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .c3 p {
+            font-size: 13px;
+            color: #564338;
+            line-height: 1.65;
+        }
+
+        /* Card 4 — wide */
+        .c4 {
+            grid-column: span 8;
+            display: flex;
+            min-height: 220px;
+        }
+
+        .c4-body {
+            padding: 28px;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: #ffdbca;
+            color: #773300;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .c4 h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #1d1b19;
+            line-height: 1.3;
+        }
+
+        .c4 p {
+            font-size: 14px;
+            color: #564338;
+            line-height: 1.65;
+        }
+
+        .c4-img {
+            width: 50%;
+            background: #d5c4ba;
+            overflow: hidden;
+        }
+
+        .c4-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Cards 5 & 6 — split */
+        .c5,
+        .c6 {
+            grid-column: span 6;
+            padding: 28px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #e8dbd5;
+            border: 3px solid #fef8f3;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .c5 h3,
+        .c6 h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+            color: #1d1b19;
+            line-height: 1.35;
+        }
+
+        .c5 p,
+        .c6 p {
+            font-size: 13px;
+            color: #564338;
+            line-height: 1.6;
+        }
+
+        /* Image placeholder (shown when no src) */
+        .img-placeholder {
+            width: 100%;
+            height: 100%;
+            background: #e8dbd5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            text-align: center;
+            min-height: 80px;
+        }
+
+        .img-placeholder span {
+            font-size: 11px;
+            color: #7b563e;
+            font-style: italic;
+            line-height: 1.4;
+            opacity: 0.85;
+        }
+
+        /* CTA */
+        .cta {
+            margin-top: 56px;
+            background: #9c4500;
+            border-radius: 16px;
+            padding: 56px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-bg {
+            position: absolute;
+            top: 12px;
+            right: 24px;
+            font-size: 100px;
+            opacity: 0.1;
+            color: white;
+            pointer-events: none;
+        }
+
+        .cta h2 {
+            font-family: 'Noto Serif', serif;
+            font-size: clamp(26px, 4vw, 36px);
+            color: white;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta p {
+            color: #ffdbca;
+            font-size: 16px;
+            margin-bottom: 32px;
+            max-width: 440px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: #9c4500;
+            padding: 14px 28px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: transform 0.2s;
+            position: relative;
+            z-index: 1;
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.04);
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .c1,
+            .c2,
+            .c3,
+            .c4,
+            .c5,
+            .c6 {
+                grid-column: span 1;
+            }
+
+            .c1,
+            .c4 {
+                flex-direction: column;
+            }
+
+            .c1-img {
+                width: 100%;
+                height: 220px;
+            }
+
+            .c4-img {
+                width: 100%;
+                height: 200px;
+            }
+
+            .c4-body {
+                width: 100%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        🎁 Free shipping on orders over <span>₹499</span> —
+        Use code <span>PAWSOME</span> at checkout!
+    </div>
+
+    <!-- NAV -->
+    <nav id="mainNav">
+        <a href="#" class="nav-logo">
+            <div class="paw">🐾</div>
+            <div class="brand">Doggy<em> Diet</em> India</div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="product.html">Shop</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="about.html">About Us</a></li>
+        </ul>
+        <div class="nav-actions">
+            <span id="navUsername" style="
+      font-size:.85rem;
+      font-weight:600;
+      color:#4A2C17;
+      display:none;
+      margin-right:.5rem;">
+            </span>
+            <button class="btn-login" id="authBtn">Login</button>
+            <button class="btn-cart" id="cartBtn" aria-label="Open cart">
+                🛒
+                <span class="cart-badge" id="cartCount">0</span>
+            </button>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+    <!-- Hero -->
+    <section class="hero-faq">
+        <h1>Frequently Asked Questions 🐶</h1>
+        <p>Everything you need to know about your dog's diet and care, curated for the modern pet parent.</p>
+    </section>
+
+    <main class="main">
+
+        <!-- Bento Grid -->
+        <div class="grid">
+
+            <!-- Card 1: Large featured -->
+            <div class="card card-light c1">
+                <div class="c1-img">
+                    <!-- image path -->
+                    <img src="faq_images/faq1.png"
+                        alt="Close-up of a premium ceramic dog bowl filled with fresh organic vegetables, salmon, and nutritious kibble in warm kitchen light"
+                        onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+                    <div class="img-placeholder" style="display:none;">
+                        <span>Close-up of a premium ceramic dog bowl filled with fresh organic vegetables, salmon,
+                            and
+                            nutritious kibble in warm kitchen light</span>
+                    </div>
+                </div>
+                <div class="c1-body">
+                    <div class="tag-row">
+                        <span>🍴</span>
+                        <span class="tag-label">Nutrition Basics</span>
+                    </div>
+                    <h3>What is the best diet for my dog?</h3>
+                    <p>A balanced mix of high-quality protein, essential fats, and complex carbohydrates tailored to
+                        their breed and activity level.</p>
+                    <button class="read-more">Read the full guide →</button>
+                </div>
+            </div>
+
+            <!-- Card 2: Vertical -->
+            <div class="card card-mid c2">
+                <div class="c2-img">
+                    <!-- image path -->
+                    <img src="faq_images/faq2.png"
+                        alt="Side-by-side comparison of artisanal grain-free nuggets and whole grain-inclusive pet food on a rustic wooden board"
+                        onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+                    <div class="img-placeholder" style="display:none;">
+                        <span>Side-by-side comparison of artisanal grain-free nuggets and whole grain-inclusive pet
+                            food
+                            on a rustic wooden board</span>
+                    </div>
+                </div>
+                <div class="c2-icon">📊</div>
+                <h3>Should I choose grain-free or grain-inclusive food?</h3>
+                <p>It depends on your dog's sensitivities. Many dogs thrive on ancient grains, while others require
+                    grain-free alternatives.</p>
+            </div>
+
+            <!-- Card 3: Simple -->
+            <div class="card card-white c3">
+                <div class="c3-icon">🕐</div>
+                <h3>How often should I feed my dog?</h3>
+                <div class="c3-img">
+                    <!-- image path -->
+                    <img src="faq_images/faq3.png"
+                        alt="Adorable golden retriever puppy sitting patiently in front of an empty bowl in a bright sunlit morning room"
+                        onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+                    <div class="img-placeholder" style="display:none;">
+                        <span>Adorable golden retriever puppy sitting patiently in front of an empty bowl in a
+                            bright
+                            sunlit morning room</span>
+                    </div>
+                </div>
+                <p>Puppies require 3–4 small meals, while adult dogs typically do best with two consistent feedings
+                    per
+                    day.</p>
+            </div>
+
+            <!-- Card 4: Wide -->
+            <div class="card card-light c4">
+                <div class="c4-body">
+                    <span class="pill">Lifestyle</span>
+                    <h3>How much exercise does my dog need?</h3>
+                    <p>Daily exercise is vital for metabolic health. Most breeds need at least 45–60 minutes of
+                        active
+                        engagement.</p>
+                </div>
+                <div class="c4-img">
+                    <!-- image path -->
+                    <img src="faq_images/faq4.png"
+                        alt="Energetic border collie running through a lush green field at sunset with golden light catching its fur"
+                        onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+                    <div class="img-placeholder" style="display:none;">
+                        <span>Energetic border collie running through a lush green field at sunset with golden light
+                            catching its fur</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Split -->
+            <div class="card card-mid c5">
+                <div class="avatar">
+                    <!-- image path -->
+                    <img src="faq_images/faq5.png"
+                        alt="Gentle senior black labrador resting its head on paws next to a bowl of specialized senior health food"
+                        onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+                    <div class="img-placeholder" style="display:none;">
+                        <span style="font-size:9px;">Senior labrador with senior food</span>
+                    </div>
+                </div>
+                <div>
+                    <h3>How should I adjust diet for senior dogs?</h3>
+                    <p>Focus on high digestibility and joint support nutrients like Glucosamine as their metabolism
+                        slows down.</p>
+                </div>
+            </div>
+
+            <!-- Card 6: Split -->
+            <div class="card card-light c6">
+                <div class="avatar">
+                    <!--  image path -->
+                    <img src="faq_images/faq6.png"
+                        alt="Hands of a pet owner carefully preparing a fresh meal of cooked chicken, carrots, and peas for a dog"
+                        onerror="this.style.display='none'; this.parentElement.querySelector('.img-placeholder').style.display='flex';" />
+                    <div class="img-placeholder" style="display:none;">
+                        <span style="font-size:9px;">Hands preparing homemade dog food</span>
+                    </div>
+                </div>
+                <div>
+                    <h3>Can I give homemade food to my dog?</h3>
+                    <p>Yes, but it must be nutritionally complete. Always consult with a veterinary nutritionist
+                        before
+                        switching to home-cooked.</p>
+                </div>
+            </div>
+
+        </div><!-- end .grid -->
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <div class="cta-bg">🐾</div>
+            <h2>Still have questions?</h2>
+            <p>Our nutrition experts are here to help you craft the perfect meal plan for your canine companion.</p>
+            <a href="#" class="cta-btn">Contact us 💬</a>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand-name">🐾 Doggy Diet India</div>
+                <p>Premium nutrition crafted with love for your four-legged family.</p>
+                <div class="social-links">
+                    <a class="social-btn" href="#" title="Facebook">𝐟</a>
+                    <a class="social-btn" href="https://www.instagram.com/doggydietindia?igsh=Z2Q3N3h2NjV0aTZ6"
+                        title="Instagram">📸</a>
+                    <a class="social-btn" href="#" title="Twitter">𝕏</a>
+                    <a class="social-btn" href="https://youtube.com/@varunshamra-u6k?si=izHk07iB0OcBzfzO"
+                        title="YouTube">▶</a>
+                </div>
+                <div style="margin-top:1rem;">
+                    <a href="ngo.html" style="display:inline-flex;align-items:center;gap:.4rem;
+                  background:#2d6a4f;color:white;padding:.5rem 1rem;
+                  border-radius:20px;text-decoration:none;
+                  font-size:.82rem;font-weight:600;">
+                        💚 Support Our NGO
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="product.html">Our Products</a></li>
+                    <li><a href="blog.html">Blog & Tips</a></li>
+                    <li><a href="affiliate.html">Affiliate Program</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Customer Care</h4>
+                <ul>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="shipping_policy.html">Shipping Policy</a></li>
+                    <li><a href="shipping_policy.html">Returns</a></li>
+                    <li><a href="track-order.html">Track Order</a></li>
+                    <li><a href="about.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h4>Contact Us</h4>
+                <p><span class="ic">📍</span> Shiwalik Vihar, Zirakpur, Mohali</p>
+                <p><span class="ic">📞</span>+91 1762 291930</p>
+                <p><span class="ic">✉️</span>doggydietindia.com</p>
+                <p><span class="ic">🕐</span>Mon–Fri, 9am–6pm IST</p>
+                <div class="newsletter">
+                    <div style="font-size:.82rem;font-weight:600;color:#fff;margin-bottom:.3rem;">
+                        Get 10% off your first order!
+                    </div>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address" id="emailInput" />
+                        <button onclick="subscribeEmail()">→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2026 Doggy Diet India. All rights reserved. Made with ❤️</div>
+            <div class="pay-icons">
+                <span class="pay-icon">VISA</span>
+                <span class="pay-icon">MC</span>
+                <span class="pay-icon">UPI</span>
+                <span class="pay-icon">PayPal</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CART OVERLAY & PANEL -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-head">
+            <h3>🛒 Your Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItemsList"></div>
+        <div class="cart-footer" id="cartFooter" style="display:none">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span id="cartTotal">₹0.00</span>
+            </div>
+            <button class="btn-checkout" onclick="window.location.href='index.html#shop'">
+                Go to Shop & Checkout →
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
+    <script>
+        function mobileAuthAction() {
+            if (localStorage.getItem("username")) { logout(); }
+            else { window.location.href = "login.html"; }
+        }
+    </script>
+</body>
+
+</html>

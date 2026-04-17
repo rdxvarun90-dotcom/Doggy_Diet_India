@@ -504,6 +504,92 @@
       margin-bottom: .5rem;
     }
 
+    /* ── LOGIN POPUP ─────────────────────────────── */
+    .login-popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-popup-overlay.show {
+      display: flex;
+    }
+
+    .login-popup {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .2);
+      animation: popIn .3s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .login-popup .popup-icon {
+      font-size: 3.5rem;
+      margin-bottom: .8rem;
+    }
+
+    .login-popup h3 {
+      font-family: 'Playfair Display', serif;
+      color: #4A2C17;
+      font-size: 1.5rem;
+      margin-bottom: .5rem;
+    }
+
+    .login-popup p {
+      color: #6B6B6B;
+      font-size: .92rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-popup .btn-popup-login {
+      display: inline-block;
+      background: linear-gradient(135deg, #4A2C17, #F4823A);
+      color: white;
+      padding: .85rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s;
+    }
+
+    .login-popup .btn-popup-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(244, 130, 58, .3);
+    }
+
+    .login-popup .btn-popup-close {
+      display: block;
+      margin-top: 1rem;
+      background: none;
+      border: none;
+      color: #999;
+      font-size: .85rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .login-popup .btn-popup-close:hover {
+      color: #4A2C17;
+    }
+
     /* ── TRUST SECTION ───────────────────────────── */
     .trust-section {
       padding: 4rem 2rem;
@@ -966,6 +1052,17 @@
     </div>
   </footer>
 
+  <!-- LOGIN POPUP -->
+  <div class="login-popup-overlay" id="loginPopup">
+    <div class="login-popup">
+      <div class="popup-icon">🔐</div>
+      <h3>Login Required</h3>
+      <p>You need to be logged in to apply for our Partner Program. Create an account or login to continue.</p>
+      <a href="login.html" class="btn-popup-login">🔑 Login / Sign Up</a>
+      <button class="btn-popup-close" onclick="closeLoginPopup()">Maybe later</button>
+    </div>
+  </div>
+
   <!-- CART OVERLAY & PANEL -->
   <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
   <div class="cart-panel" id="cartPanel">
@@ -990,8 +1087,6 @@
 
   <script src="app.js"></script>
   <script>
-    const BASE = "";
-
     function mobileAuthAction() {
       if (localStorage.getItem("username")) { logout(); }
       else { window.location.href = "login.html"; }
@@ -1004,7 +1099,6 @@
       const errEl = document.getElementById("partnerError");
 
       if (!isLoggedIn && form) {
-        // Disable all inputs and button
         form.querySelectorAll("input, textarea").forEach(el => {
           el.disabled = true;
           el.style.opacity = ".5";
@@ -1013,10 +1107,34 @@
         btn.disabled = true;
         btn.textContent = "🔒 Login Required to Apply";
         errEl.innerHTML = '⚠️ You must <a href="login.html" style="color:#F4823A;font-weight:700;text-decoration:underline;">login</a> first to submit an application.';
+
+        // Show popup when clicking on the form area
+        document.querySelector('.apply-form').addEventListener('click', function(e) {
+          if (!localStorage.getItem('token')) {
+            e.preventDefault();
+            e.stopPropagation();
+            showLoginPopup();
+          }
+        });
+
+        // Also show popup on page load after a short delay
+        setTimeout(() => showLoginPopup(), 1500);
       }
     }
 
-    // Run on page load
+    function showLoginPopup() {
+      document.getElementById('loginPopup').classList.add('show');
+    }
+
+    function closeLoginPopup() {
+      document.getElementById('loginPopup').classList.remove('show');
+    }
+
+    // Close popup on overlay click
+    document.getElementById('loginPopup').addEventListener('click', function(e) {
+      if (e.target === this) closeLoginPopup();
+    });
+
     document.addEventListener("DOMContentLoaded", updateFormAuthState);
 
     async function submitPartnerForm(e) {
@@ -1041,7 +1159,6 @@
       const cityState = document.getElementById("pCityState").value.trim();
       const message   = document.getElementById("pMessage").value.trim();
 
-      // Validate
       if (!fullName || !phone || !email) {
         errEl.textContent = "⚠️ Name, Phone and Email are required!";
         return;
@@ -1059,12 +1176,10 @@
       btn.textContent = "Submitting...";
 
       try {
-        const res = await fetch(`${BASE}/api/partner/apply`, {
+        const res = await fetch(`${BASE_URL}/api/partner/apply`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-          },
+          headers: authHeaders(),
+          credentials: "include",
           body: JSON.stringify({
             fullName, shopName, phone, email,
             address, cityState, message

@@ -179,11 +179,13 @@ function renderProducts(products) {
   }
 
   grid.innerHTML = products.map(p => `
-    <div class="product-card" data-id="${p.productId}">
+    <div class="product-card" data-id="${p.productId}"
+         onclick="window.location.href='product-detail.html?id=${p.productId}'"
+         style="cursor:pointer;">
       <div class="product-img">
         <button class="product-wishlist
           ${wished.has(p.productId) ? 'loved' : ''}"
-                onclick="toggleWish(${p.productId}, this)">
+                onclick="event.stopPropagation();toggleWish(${p.productId}, this)">
           ${wished.has(p.productId) ? '❤️' : '🤍'}
         </button>
         ${p.imageUrl
@@ -223,7 +225,7 @@ function renderProducts(products) {
           </div>
           <button class="btn-add-cart"
                   id="btn-${p.productId}"
-                  onclick="addToCart(${p.productId}, this)"
+                  onclick="event.stopPropagation();addToCart(${p.productId}, this)"
                   ${p.quantity <= 0
       ? 'disabled style="opacity:.5;cursor:not-allowed"'
       : ''}>

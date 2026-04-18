@@ -303,7 +303,7 @@ async function addToCart(productId, btn) {
 
     if (res.ok) {
       const cart = await res.json();
-      updateCartUI(cart);
+      updateCartUI(normalizeCart(cart));
       showToast("🛒 Added to cart!");
       btn.textContent = "✓ Added";
       setTimeout(() => {
@@ -337,7 +337,7 @@ async function fetchCart() {
     });
     if (res.ok) {
       const cart = await res.json();
-      updateCartUI(cart);
+      updateCartUI(normalizeCart(cart));
     }
   } catch (e) { }
 }
@@ -354,8 +354,10 @@ async function removeFromCart(productId) {
     );
     if (res.ok) {
       const cart = await res.json();
-      updateCartUI(cart);
+      updateCartUI(normalizeCart(cart));
       showToast("🗑️ Removed from cart");
+    } else {
+      showToast("❌ Could not remove item");
     }
   } catch (e) {
     showToast("❌ Could not remove item");
@@ -363,6 +365,12 @@ async function removeFromCart(productId) {
 }
 
 async function updateQuantity(productId, newQty) {
+  // If quantity drops to 0 or below, remove the item instead
+  if (newQty <= 0) {
+    removeFromCart(productId);
+    return;
+  }
+
   try {
     const res = await fetch(
       `${BASE_URL}/api/cart/update/${productId}` +
@@ -375,18 +383,44 @@ async function updateQuantity(productId, newQty) {
     );
     if (res.ok) {
       const cart = await res.json();
-      updateCartUI(cart);
+      updateCartUI(normalizeCart(cart));
     } else {
       const text = await res.text();
-      showToast("❌ " + text);
+      showToast("❌ " + (text || "Could not update quantity"));
     }
   } catch (e) {
     showToast("❌ Could not update quantity");
   }
 }
 
+// ✅ Normalize cart response from API (handles different DTO shapes)
+function normalizeCart(cart) {
+  if (!cart) return { items: [], totalPrice: 0 };
+
+  // Handle items: API may return "items", "cartItems", or "products"
+  let items = cart.items || cart.cartItems || cart.products || [];
+
+  // Normalize each item's field names
+  items = items.map(item => ({
+    productId: item.productId || item.product_id || item.id,
+    productName: item.productName || item.product_name || item.name || "Product",
+    imageUrl: item.imageUrl || item.image_url || item.image || "",
+    quantity: item.quantity || item.qty || 0,
+    price: item.price || item.unitPrice || item.unit_price || 0,
+    subtotal: item.subtotal || item.subTotal || item.sub_total
+              || (item.price || item.unitPrice || 0) * (item.quantity || item.qty || 0),
+  }));
+
+  // Handle total: API may return "totalPrice", "totalAmount", "total"
+  const totalPrice = cart.totalPrice || cart.totalAmount || cart.total || 0;
+
+  return { ...cart, items, totalPrice };
+}
+
 // ✅ SIRF EK updateCartUI
 function updateCartUI(cart) {
+  // Normalize the cart if it hasn't been already
+  cart = normalizeCart(cart);
   currentCart = cart;
 
   const list = document.getElementById("cartItemsList");
@@ -394,7 +428,7 @@ function updateCartUI(cart) {
   const badge = document.getElementById("cartCount");
 
   const totalItems = cart.items
-    ? cart.items.reduce((s, i) => s + i.quantity, 0)
+    ? cart.items.reduce((s, i) => s + (i.quantity || 0), 0)
     : 0;
 
   if (badge) badge.textContent = totalItems;
@@ -413,7 +447,10 @@ function updateCartUI(cart) {
     return;
   }
 
-  list.innerHTML = cart.items.map(i => `
+  list.innerHTML = cart.items.map(i => {
+    const itemPrice = i.price || 0;
+    const itemSubtotal = i.subtotal || (itemPrice * i.quantity);
+    return `
     <div class="cart-item">
       <div class="cart-item-img">
         ${i.imageUrl
@@ -429,17 +466,17 @@ function updateCartUI(cart) {
       <div style="flex:1;">
         <div class="cart-item-name">${i.productName}</div>
         <div class="cart-item-price">
-          ₹${i.subtotal.toFixed(2)}
+          ₹${itemSubtotal.toFixed(2)}
         </div>
         <div style="font-size:.8rem;color:#999;
                     margin-bottom:.4rem;">
-          ₹${i.price.toFixed(2)} each
+          ₹${itemPrice.toFixed(2)} each
         </div>
 
         <!-- +- Quantity Controls -->
         <div style="display:flex;align-items:center;gap:.5rem;">
           <button
-            onclick="updateQuantity(${i.productId},
+            onclick="event.stopPropagation();updateQuantity(${i.productId},
                      ${i.quantity - 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
@@ -461,7 +498,7 @@ function updateCartUI(cart) {
           </span>
 
           <button
-            onclick="updateQuantity(${i.productId},
+            onclick="event.stopPropagation();updateQuantity(${i.productId},
                      ${i.quantity + 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
@@ -479,13 +516,14 @@ function updateCartUI(cart) {
       </div>
 
       <button class="cart-item-remove"
-              onclick="removeFromCart(${i.productId})"
+              onclick="event.stopPropagation();removeFromCart(${i.productId})"
               title="Remove item">✕</button>
     </div>
-  `).join('');
+  `}).join('');
 
+  const displayTotal = cart.totalPrice || 0;
   document.getElementById("cartTotal").textContent =
-    `₹${cart.totalPrice.toFixed(2)}`;
+    `₹${displayTotal.toFixed(2)}`;
   footer.style.display = "block";
 }
 
@@ -511,12 +549,12 @@ function openPaymentModal() {
     ${currentCart.items.map(i => `
       <div class="modal-summary-item">
         <span>${i.productName} × ${i.quantity}</span>
-        <span>₹${i.subtotal.toFixed(2)}</span>
+        <span>₹${(i.subtotal || (i.price || 0) * (i.quantity || 0)).toFixed(2)}</span>
       </div>
     `).join('')}
     <div class="modal-summary-item">
       <span>Total</span>
-      <span>₹${currentCart.totalPrice.toFixed(2)}</span>
+      <span>₹${(currentCart.totalPrice || 0).toFixed(2)}</span>
     </div>
   `;
 

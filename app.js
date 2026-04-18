@@ -342,10 +342,10 @@ async function fetchCart() {
   } catch (e) { }
 }
 
-async function removeFromCart(productId) {
+async function removeFromCart(cartItemId) {
   try {
     const res = await fetch(
-      `${BASE_URL}/api/cart/remove/${productId}`,
+      `${BASE_URL}/api/cart/remove/${cartItemId}`,
       {
         method: "DELETE",
         headers: authHeaders(),
@@ -357,23 +357,24 @@ async function removeFromCart(productId) {
       updateCartUI(normalizeCart(cart));
       showToast("🗑️ Removed from cart");
     } else {
-      showToast("❌ Could not remove item");
+      const text = await res.text();
+      showToast("❌ " + (text || "Could not remove item"));
     }
   } catch (e) {
     showToast("❌ Could not remove item");
   }
 }
 
-async function updateQuantity(productId, newQty) {
+async function updateQuantity(cartItemId, newQty) {
   // If quantity drops to 0 or below, remove the item instead
   if (newQty <= 0) {
-    removeFromCart(productId);
+    removeFromCart(cartItemId);
     return;
   }
 
   try {
     const res = await fetch(
-      `${BASE_URL}/api/cart/update/${productId}` +
+      `${BASE_URL}/api/cart/update/${cartItemId}` +
       `?quantity=${newQty}`,
       {
         method: "PUT",
@@ -402,6 +403,7 @@ function normalizeCart(cart) {
 
   // Normalize each item's field names
   items = items.map(item => ({
+    cartItemId: item.cartItemId || item.cart_item_id,
     productId: item.productId || item.product_id || item.id,
     productName: item.productName || item.product_name || item.name || "Product",
     imageUrl: item.imageUrl || item.image_url || item.image || "",
@@ -476,7 +478,7 @@ function updateCartUI(cart) {
         <!-- +- Quantity Controls -->
         <div style="display:flex;align-items:center;gap:.5rem;">
           <button
-            onclick="event.stopPropagation();updateQuantity(${i.productId},
+            onclick="event.stopPropagation();updateQuantity(${i.cartItemId},
                      ${i.quantity - 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
@@ -498,7 +500,7 @@ function updateCartUI(cart) {
           </span>
 
           <button
-            onclick="event.stopPropagation();updateQuantity(${i.productId},
+            onclick="event.stopPropagation();updateQuantity(${i.cartItemId},
                      ${i.quantity + 1})"
             style="width:28px;height:28px;border-radius:50%;
                    border:1.5px solid #e0d5cc;background:white;
@@ -516,7 +518,7 @@ function updateCartUI(cart) {
       </div>
 
       <button class="cart-item-remove"
-              onclick="event.stopPropagation();removeFromCart(${i.productId})"
+              onclick="event.stopPropagation();removeFromCart(${i.cartItemId})"
               title="Remove item">✕</button>
     </div>
   `}).join('');
